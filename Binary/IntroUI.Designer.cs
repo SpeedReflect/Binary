@@ -61,6 +61,7 @@
 			this.IntroPictureModder.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.IntroPictureModder.TabIndex = 0;
 			this.IntroPictureModder.TabStop = false;
+			this.IntroPictureModder.Click += new System.EventHandler(this.IntroPictureModder_Click);
 			// 
 			// IntroPanelUser
 			// 
@@ -83,6 +84,7 @@
 			this.IntroPictureUser.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.IntroPictureUser.TabIndex = 0;
 			this.IntroPictureUser.TabStop = false;
+			this.IntroPictureUser.Click += new System.EventHandler(this.IntroPictureUser_Click);
 			// 
 			// IntroUI
 			// 
