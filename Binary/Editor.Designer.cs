@@ -32,8 +32,8 @@
 			this.EditorTreeView = new System.Windows.Forms.TreeView();
 			this.EditorMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.EditorMenuStripMain = new System.Windows.Forms.ToolStripMenuItem();
-			this.EditorMenuStripMainLoadFile = new System.Windows.Forms.ToolStripMenuItem();
-			this.EditorMenuStripMainLoadEnd = new System.Windows.Forms.ToolStripMenuItem();
+			this.EMSMainNewLauncher = new System.Windows.Forms.ToolStripMenuItem();
+			this.EMSMainLoadLauncher = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStripEditors = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStripOptions = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStrip.SuspendLayout();
@@ -52,6 +52,7 @@
 			// 
 			this.EditorTreeView.Location = new System.Drawing.Point(14, 65);
 			this.EditorTreeView.Name = "EditorTreeView";
+			this.EditorTreeView.PathSeparator = "|";
 			this.EditorTreeView.Size = new System.Drawing.Size(310, 373);
 			this.EditorTreeView.TabIndex = 1;
 			this.EditorTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.EditorTreeView_AfterSelect);
@@ -71,24 +72,25 @@
 			// EditorMenuStripMain
 			// 
 			this.EditorMenuStripMain.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.EditorMenuStripMainLoadFile,
-            this.EditorMenuStripMainLoadEnd});
+            this.EMSMainNewLauncher,
+            this.EMSMainLoadLauncher});
 			this.EditorMenuStripMain.Name = "EditorMenuStripMain";
 			this.EditorMenuStripMain.Size = new System.Drawing.Size(46, 20);
 			this.EditorMenuStripMain.Text = "Main";
 			// 
-			// EditorMenuStripMainLoadFile
+			// EMSMainNewLauncher
 			// 
-			this.EditorMenuStripMainLoadFile.Name = "EditorMenuStripMainLoadFile";
-			this.EditorMenuStripMainLoadFile.Size = new System.Drawing.Size(144, 22);
-			this.EditorMenuStripMainLoadFile.Text = "Open File";
-			this.EditorMenuStripMainLoadFile.Click += new System.EventHandler(this.EditorMenuStripMainLoadFile_Click);
+			this.EMSMainNewLauncher.Name = "EMSMainNewLauncher";
+			this.EMSMainNewLauncher.Size = new System.Drawing.Size(152, 22);
+			this.EMSMainNewLauncher.Text = "New Launcher";
+			this.EMSMainNewLauncher.Click += new System.EventHandler(this.EMSMainNewLauncher_Click);
 			// 
-			// EditorMenuStripMainLoadEnd
+			// EMSMainLoadLauncher
 			// 
-			this.EditorMenuStripMainLoadEnd.Name = "EditorMenuStripMainLoadEnd";
-			this.EditorMenuStripMainLoadEnd.Size = new System.Drawing.Size(144, 22);
-			this.EditorMenuStripMainLoadEnd.Text = "Open EndFile";
+			this.EMSMainLoadLauncher.Name = "EMSMainLoadLauncher";
+			this.EMSMainLoadLauncher.Size = new System.Drawing.Size(152, 22);
+			this.EMSMainLoadLauncher.Text = "Load Launcher";
+			this.EMSMainLoadLauncher.Click += new System.EventHandler(this.EMSMainLoadLauncher_Click);
 			// 
 			// EditorMenuStripEditors
 			// 
@@ -126,8 +128,8 @@
 		private System.Windows.Forms.TreeView EditorTreeView;
 		private System.Windows.Forms.MenuStrip EditorMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem EditorMenuStripMain;
-		private System.Windows.Forms.ToolStripMenuItem EditorMenuStripMainLoadFile;
-		private System.Windows.Forms.ToolStripMenuItem EditorMenuStripMainLoadEnd;
+		private System.Windows.Forms.ToolStripMenuItem EMSMainLoadLauncher;
+		private System.Windows.Forms.ToolStripMenuItem EMSMainNewLauncher;
 		private System.Windows.Forms.ToolStripMenuItem EditorMenuStripEditors;
 		private System.Windows.Forms.ToolStripMenuItem EditorMenuStripOptions;
 	}

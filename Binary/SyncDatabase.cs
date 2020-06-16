@@ -14,13 +14,13 @@ namespace Binary
 	{
 		public FileBase Database { get; set; }
 
-		public string Filename => Path.GetFileNameWithoutExtension(this.FullPath).ToUpperInvariant();
+		public string Filename { get; }
 
-		public string Folder => Path.GetFileName(Path.GetDirectoryName(this.FullPath)).ToUpperInvariant();
+		public string Folder { get; }
 
-		public string FullPath { get; }
+		public string FullPath => Path.Combine(this.Folder, this.Filename);
 
-		public SyncDatabase(GameINT game, string fullpath)
+		public SyncDatabase(GameINT game, string folder, string file)
 		{
 			this.Database = game switch
 			{
@@ -30,7 +30,8 @@ namespace Binary
 				_ => throw new ArgumentException(nameof(game)),
 			};
 
-			this.FullPath = fullpath;
+			this.Folder = folder;
+			this.Filename = file;
 		}
 
 		public void Load() => this.Database.Load(new Options(this.FullPath));

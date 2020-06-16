@@ -26,19 +26,48 @@ namespace Binary.Endscript
 		{
 			var launch = new Launch()
 			{
+
 				Directory = directory,
+				
 				Files = new List<string>()
 				{
 					@"GLOBAL\GLOBALA.BUN",
-					@"GLOBAL\GLOBALB.LZC",
+					@"GLOBAL\GLOBALB.LZC",				
 				},
+				
 				Links = new List<SubLoader>()
 				{
-					new SubLoader() { File = @"GLOBAL\attributes.bin", LoadType = eLoaderType.Attributes.ToString() },
-					new SubLoader() { File = @"GLOBAL\fe_attrib.bin", LoadType = eLoaderType.FeAttrib.ToString() },
-					new SubLoader() { File = @"LANGUAGES\Labels_Global.bin", LoadType = eLoaderType.Labels.ToString(), },
-					new SubLoader() { File = @"LANGUAGES\Labels.bin", LoadType = eLoaderType.Labels.ToString(), },
+				
+					new SubLoader()
+					{
+						File = @"GLOBAL\attributes.bin",
+						LoadType = eLoaderType.Attributes.ToString(),
+						PathType = ePathType.Absolute.ToString(),
+					},
+					
+					new SubLoader()
+					{
+						File = @"GLOBAL\fe_attrib.bin",
+						LoadType = eLoaderType.FeAttrib.ToString(),
+						PathType = ePathType.Absolute.ToString(),
+					},
+					
+					new SubLoader()
+					{
+						File = @"LANGUAGES\Labels_Global.bin",
+						LoadType = eLoaderType.Labels.ToString(),
+						PathType = ePathType.Absolute.ToString(),
+					},
+					
+					new SubLoader()
+					{
+						File = @"LANGUAGES\Labels.bin",
+						LoadType = eLoaderType.Labels.ToString(),
+						PathType = ePathType.Absolute.ToString(),
+					},
+			
 				},
+			
 			};
 
 			Serialize("launch.end", launch);
@@ -46,39 +75,28 @@ namespace Binary.Endscript
 	
 		public static void Serialize(string filename, Launch launch)
 		{
-			try
-			{
+			var settings = JsonSerializer.Serialize(launch, options);
+			settings = settings.Replace(@"\\", @"\");
 
-				var settings = JsonSerializer.Serialize(launch, options);
-				settings = settings.Replace(@"\\", @"\");
-				File.WriteAllText(filename, settings);
-
-			}
-			catch (Exception e)
-			{
-
-				MessageBox.Show(e.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-			}
+			using var sw = new StreamWriter(File.Open(filename, FileMode.Create));
+			sw.WriteLine("[VERSN1]");
+			sw.WriteLine();
+			sw.Write(settings);
+			sw.WriteLine();
 		}
 
 		public static void Deserialize(string filename, out Launch launch)
 		{
-			try
+			var settings = File.ReadAllText(filename);
+			if (!settings.StartsWith("[VERSN1]"))
 			{
 
-				var settings = File.ReadAllText(filename);
-				settings = settings.Replace(@"\", @"\\");
-				launch = JsonSerializer.Deserialize<Launch>(settings, options);
+				throw new InvalidVersionException(1);
 
 			}
-			catch (Exception e)
-			{
 
-				launch = null;
-				MessageBox.Show(e.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-			}
+			settings = settings[8..].Replace(@"\", @"\\");
+			launch = JsonSerializer.Deserialize<Launch>(settings, options);
 		}
 	}
 }

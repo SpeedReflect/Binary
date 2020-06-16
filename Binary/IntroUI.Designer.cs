@@ -96,7 +96,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.Name = "IntroUI";
-			this.Text = "IntroUI";
+			this.Text = "Binary by MaxHwoy";
 			this.IntroPanelModder.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.IntroPictureModder)).EndInit();
 			this.IntroPanelUser.ResumeLayout(false);

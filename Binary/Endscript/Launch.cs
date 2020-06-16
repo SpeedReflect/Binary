@@ -32,6 +32,17 @@ namespace Binary.Endscript
 			this.Links = new List<SubLoader>();
 		}
 
+		public void CheckEndscript()
+		{
+			string path = Path.Combine(this.ThisDir, this.Endscript);
+			if (!File.Exists(path))
+			{
+
+				throw new FileNotFoundException($"Endscript with path {path} could not be found");
+
+			}
+		}
+
 		public void CheckFiles()
 		{
 			foreach (var file in this.Files)
@@ -53,26 +64,30 @@ namespace Binary.Endscript
 		{
 			foreach (var link in this.Links)
 			{
-				switch (link.Type)
+				var path = link.PType == ePathType.Relative
+					? Path.Combine(this.ThisDir, link.File)
+					: Path.Combine(this.Directory, link.File);
+
+				switch (link.LType)
 				{
 					case eLoaderType.BinKeys:
-						Loader.LoadBinKeys(new string[] { link.File });
+						Loader.LoadBinKeys(new string[] { path });
 						break;
 
 					case eLoaderType.VltKeys:
-						Loader.LoadVltKeys(new string[] { link.File });
+						Loader.LoadVltKeys(new string[] { path });
 						break;
 
 					case eLoaderType.Attributes:
-						Loader.LoadVaultAttributes(link.File);
+						Loader.LoadVaultAttributes(path);
 						break;
 
 					case eLoaderType.FeAttrib:
-						Loader.LoadVaultFEAttribs(link.File);
+						Loader.LoadVaultFEAttribs(path);
 						break;
 
 					case eLoaderType.Labels:
-						Loader.LoadLangLabels(link.File, this.GameID);
+						Loader.LoadLangLabels(path, this.GameID);
 						break;
 
 					default:
