@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,8 @@ using Nikki.Utils;
 using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
 
+using Binary.Endscript;
+
 
 
 namespace Binary
@@ -22,11 +25,12 @@ namespace Binary
 		private readonly List<SyncDatabase> SyncDBs;
 
 
-
+		
 		public Editor()
 		{
 			this.SyncDBs = new List<SyncDatabase>();
 			this.InitializeComponent();
+			if (!File.Exists("launch.end")) Parser.GenerateSample();
 		}
 
 		private void LoadTreeView()
