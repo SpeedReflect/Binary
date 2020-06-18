@@ -171,6 +171,7 @@
 			// 
 			// EMSMainReloadFiles
 			// 
+			this.EMSMainReloadFiles.Enabled = false;
 			this.EMSMainReloadFiles.Name = "EMSMainReloadFiles";
 			this.EMSMainReloadFiles.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
 			this.EMSMainReloadFiles.Size = new System.Drawing.Size(193, 22);
@@ -179,6 +180,7 @@
 			// 
 			// EMSMainSaveFiles
 			// 
+			this.EMSMainSaveFiles.Enabled = false;
 			this.EMSMainSaveFiles.Name = "EMSMainSaveFiles";
 			this.EMSMainSaveFiles.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
 			this.EMSMainSaveFiles.Size = new System.Drawing.Size(193, 22);
@@ -215,6 +217,7 @@
 			// 
 			// EMSDatabaseReloadDB
 			// 
+			this.EMSDatabaseReloadDB.Enabled = false;
 			this.EMSDatabaseReloadDB.Name = "EMSDatabaseReloadDB";
 			this.EMSDatabaseReloadDB.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.R)));
@@ -224,6 +227,7 @@
 			// 
 			// EMSDatabaseSaveDB
 			// 
+			this.EMSDatabaseSaveDB.Enabled = false;
 			this.EMSDatabaseSaveDB.Name = "EMSDatabaseSaveDB";
 			this.EMSDatabaseSaveDB.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
@@ -233,6 +237,7 @@
 			// 
 			// EMSDatabaseCombineDB
 			// 
+			this.EMSDatabaseCombineDB.Enabled = false;
 			this.EMSDatabaseCombineDB.Name = "EMSDatabaseCombineDB";
 			this.EMSDatabaseCombineDB.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
@@ -286,6 +291,7 @@
 			// 
 			// EMSOptionsCreate
 			// 
+			this.EMSOptionsCreate.Enabled = false;
 			this.EMSOptionsCreate.Name = "EMSOptionsCreate";
 			this.EMSOptionsCreate.Size = new System.Drawing.Size(247, 22);
 			this.EMSOptionsCreate.Text = "Create Files Backups";
@@ -293,6 +299,7 @@
 			// 
 			// EMSOptionsRestore
 			// 
+			this.EMSOptionsRestore.Enabled = false;
 			this.EMSOptionsRestore.Name = "EMSOptionsRestore";
 			this.EMSOptionsRestore.Size = new System.Drawing.Size(247, 22);
 			this.EMSOptionsRestore.Text = "Restore Files Backups";
@@ -300,6 +307,7 @@
 			// 
 			// EMSOptionsUnlock
 			// 
+			this.EMSOptionsUnlock.Enabled = false;
 			this.EMSOptionsUnlock.Name = "EMSOptionsUnlock";
 			this.EMSOptionsUnlock.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.U)));
 			this.EMSOptionsUnlock.Size = new System.Drawing.Size(247, 22);
@@ -351,6 +359,7 @@
 			// 
 			// EMSWindowsRun
 			// 
+			this.EMSWindowsRun.Enabled = false;
 			this.EMSWindowsRun.Name = "EMSWindowsRun";
 			this.EMSWindowsRun.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.G)));
@@ -672,8 +681,9 @@
 			this.EditorFindTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.EditorFindTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.EditorFindTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.EditorFindTextBox.Location = new System.Drawing.Point(0, 2);
+			this.EditorFindTextBox.Location = new System.Drawing.Point(0, 4);
 			this.EditorFindTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.EditorFindTextBox.Name = "EditorFindTextBox";
 			this.EditorFindTextBox.Size = new System.Drawing.Size(195, 24);
@@ -740,6 +750,7 @@
 			// 
 			// EditorCommandPrompt
 			// 
+			this.EditorCommandPrompt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.EditorCommandPrompt.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.EditorCommandPrompt.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.EditorCommandPrompt.Location = new System.Drawing.Point(0, 0);
@@ -749,6 +760,7 @@
 			this.EditorCommandPrompt.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.EditorCommandPrompt.Size = new System.Drawing.Size(588, 128);
 			this.EditorCommandPrompt.TabIndex = 0;
+			this.EditorCommandPrompt.WordWrap = false;
 			// 
 			// EditorStatusStrip
 			// 
@@ -757,6 +769,7 @@
 			this.EditorStatusStrip.Location = new System.Drawing.Point(0, 442);
 			this.EditorStatusStrip.Name = "EditorStatusStrip";
 			this.EditorStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+			this.EditorStatusStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
 			this.EditorStatusStrip.Size = new System.Drawing.Size(896, 22);
 			this.EditorStatusStrip.TabIndex = 2;
 			// 

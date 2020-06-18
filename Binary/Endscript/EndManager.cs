@@ -19,17 +19,23 @@ namespace Binary.Endscript
 
 		/*
 		Commands:
-			- update
-			- add synchronize/override
-			- delete synchronize/override
-			- copy synchronize/override
-			- import negate/synchronize/override plain/serialized
-			- export negate/synchronize/override plain/serialized
-			- link
-			- attach
-			- load
-			- unload ?
-			- new (syncdatabase)
+			- update file                        manager collection property      value
+			- update file                        manager collection expand        subpart       property value
+			- static file                        manager property   value
+			- add    negate/synchronize/override file    manager    collection
+			- remove negate/synchronize/override file    manager    collection
+			- copy   negate/synchronize/override file    manager    oldcollection newcollection
+			- import negate/synchronize/override file    manager    collection
+			- export negate/synchronize/override file    manager    collection
+			- link   relative/absolute           type    file
+			- attach file
+			- load   file
+			- save   file
+			- new    file
+			- delete file
+			- move   oldfile                     newfile
+
+
 		*/
 
 		public EndManager() => this.SyncDBs = new List<SyncDatabase>();

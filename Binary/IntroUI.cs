@@ -129,24 +129,10 @@ namespace Binary
 	
 		private void ToggleTheme()
 		{
-			if (Configurations.Default.DarkTheme) this.ToggleDarkTheme();
-			else this.ToggleLightTheme();
-		}
-		
-		private void ToggleLightTheme()
-		{
-			this.BackColor = Theme.Light.MainBackColor;
-			this.ForeColor = Theme.Light.MainForeColor;
-			this.IntroPanelModder.BackColor = Theme.Light.ButtonBackColor;
-			this.IntroPanelUser.BackColor = Theme.Light.ButtonBackColor;
-		}
-
-		private void ToggleDarkTheme()
-		{
-			this.BackColor = Theme.Dark.MainBackColor;
-			this.ForeColor = Theme.Dark.MainForeColor;
-			this.IntroPanelModder.BackColor = Theme.Dark.ButtonBackColor;
-			this.IntroPanelUser.BackColor = Theme.Dark.ButtonBackColor;
+			this.BackColor = Theme.MainBackColor;
+			this.ForeColor = Theme.MainForeColor;
+			this.IntroPanelModder.BackColor = Theme.ButtonBackColor;
+			this.IntroPanelUser.BackColor = Theme.ButtonBackColor;
 		}
 	}
 }

@@ -31,38 +31,17 @@ namespace Binary
 
 		private void ToggleTheme()
 		{
-			if (Configurations.Default.DarkTheme) this.ToggleDarkTheme();
-			else this.ToggleLightTheme();
-		}
-
-		private void ToggleLightTheme()
-		{
-			this.BackColor = Theme.Light.MainBackColor;
-			this.ForeColor = Theme.Light.MainForeColor;
-			this.InputButtonOK.BackColor = Theme.Light.ButtonBackColor;
-			this.InputButtonOK.ForeColor = Theme.Light.ButtonForeColor;
-			this.InputButtonOK.FlatAppearance.BorderColor = Theme.Light.ButtonFlatColor;
-			this.InputButtonCancel.BackColor = Theme.Light.ButtonBackColor;
-			this.InputButtonCancel.ForeColor = Theme.Light.ButtonForeColor;
-			this.InputButtonCancel.FlatAppearance.BorderColor = Theme.Light.ButtonFlatColor;
-			this.InputTextBox.BackColor = Theme.Light.TextBoxBackColor;
-			this.InputTextBox.ForeColor = Theme.Light.TextBoxForeColor;
-			this.InputLabel.ForeColor = Theme.Light.LabelTextColor;
-		}
-
-		private void ToggleDarkTheme()
-		{
-			this.BackColor = Theme.Dark.MainBackColor;
-			this.ForeColor = Theme.Dark.MainForeColor;
-			this.InputButtonOK.BackColor = Theme.Dark.ButtonBackColor;
-			this.InputButtonOK.ForeColor = Theme.Dark.ButtonForeColor;
-			this.InputButtonOK.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.InputButtonCancel.BackColor = Theme.Dark.ButtonBackColor;
-			this.InputButtonCancel.ForeColor = Theme.Dark.ButtonForeColor;
-			this.InputButtonCancel.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.InputTextBox.BackColor = Theme.Dark.TextBoxBackColor;
-			this.InputTextBox.ForeColor = Theme.Dark.TextBoxForeColor;
-			this.InputLabel.ForeColor = Theme.Dark.LabelTextColor;
+			this.BackColor = Theme.MainBackColor;
+			this.ForeColor = Theme.MainForeColor;
+			this.InputButtonOK.BackColor = Theme.ButtonBackColor;
+			this.InputButtonOK.ForeColor = Theme.ButtonForeColor;
+			this.InputButtonOK.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.InputButtonCancel.BackColor = Theme.ButtonBackColor;
+			this.InputButtonCancel.ForeColor = Theme.ButtonForeColor;
+			this.InputButtonCancel.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.InputTextBox.BackColor = Theme.TextBoxBackColor;
+			this.InputTextBox.ForeColor = Theme.TextBoxForeColor;
+			this.InputLabel.ForeColor = Theme.LabelTextColor;
 		}
 
 		private void InputButtonOK_Click(object sender, EventArgs e)

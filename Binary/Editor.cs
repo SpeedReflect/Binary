@@ -20,6 +20,9 @@ using Nikki.Support.Shared.Class;
 using Nikki.Reflection.Interface;
 using CoreExtensions.Management;
 using Nikki.Reflection.Abstract;
+using System.Net.PeerToPeer.Collaboration;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Binary
 {
@@ -38,46 +41,106 @@ namespace Binary
 
 		private void ToggleTheme()
 		{
-			if (Configurations.Default.DarkTheme) this.ToggleDarkTheme();
-			else this.ToggleLightTheme();
-		}
+			// Renderers
+			this.EditorStatusStrip.Renderer = new Theme.StatStripRenderer();
+			this.EditorMenuStrip.Renderer = new Theme.MenuStripRenderer();
 
-		private void ToggleLightTheme()
-		{
-			this.BackColor = Theme.Light.MainBackColor;
-			this.ForeColor = Theme.Light.MainForeColor;
+			// Primary colors and controls
+			this.BackColor = Theme.MainBackColor;
+			this.ForeColor = Theme.MainForeColor;
+			this.EditorTreeView.BackColor = Theme.PrimBackColor;
+			this.EditorTreeView.ForeColor = Theme.PrimForeColor;
 
-		}
+			// Property grid
+			this.EditorPropertyGrid.BackColor = Theme.PrimBackColor;
+			this.EditorPropertyGrid.CategorySplitterColor = Theme.ButtonBackColor;
+			this.EditorPropertyGrid.CategoryForeColor = Theme.TextBoxForeColor;
+			this.EditorPropertyGrid.CommandsBackColor = Theme.PrimBackColor;
+			this.EditorPropertyGrid.CommandsForeColor = Theme.PrimForeColor;
+			this.EditorPropertyGrid.CommandsBorderColor = Theme.PrimBackColor;
+			this.EditorPropertyGrid.DisabledItemForeColor = Theme.LabelTextColor;
+			this.EditorPropertyGrid.LineColor = Theme.ButtonBackColor;
+			this.EditorPropertyGrid.SelectedItemWithFocusBackColor = Theme.FocusedBackColor;
+			this.EditorPropertyGrid.SelectedItemWithFocusForeColor = Theme.FocusedForeColor;
+			this.EditorPropertyGrid.ViewBorderColor = Theme.RegBorderColor;
+			this.EditorPropertyGrid.ViewBackColor = Theme.PrimBackColor;
+			this.EditorPropertyGrid.ViewForeColor = Theme.PrimForeColor;
 
-		private void ToggleDarkTheme()
-		{
-			this.BackColor = Theme.Dark.MainBackColor;
-			this.ForeColor = Theme.Dark.MainForeColor;
-			this.EditorTreeView.BackColor = Theme.Dark.PrimBackColor;
-			this.EditorTreeView.ForeColor = Theme.Dark.PrimForeColor;
-			this.EditorPropertyGrid.ViewBackColor = Theme.Dark.PrimBackColor;
-			this.EditorPropertyGrid.ViewForeColor = Theme.Dark.PrimForeColor;
+			// Menu strip and menu items
+			this.EditorMenuStrip.ForeColor = Theme.LabelTextColor;
+			this.EMSMainNewLauncher.BackColor = Theme.MenuItemBackColor;
+			this.EMSMainNewLauncher.ForeColor = Theme.MenuItemForeColor;
+			this.EMSMainLoadFiles.BackColor = Theme.MenuItemBackColor;
+			this.EMSMainLoadFiles.ForeColor = Theme.MenuItemForeColor;
+			this.EMSMainReloadFiles.BackColor = Theme.MenuItemBackColor;
+			this.EMSMainReloadFiles.ForeColor = Theme.MenuItemForeColor;
+			this.EMSMainSaveFiles.BackColor = Theme.MenuItemBackColor;
+			this.EMSMainSaveFiles.ForeColor = Theme.MenuItemForeColor;
+			this.EMSMainExit.BackColor = Theme.MenuItemBackColor;
+			this.EMSMainExit.ForeColor = Theme.MenuItemForeColor;
+			this.EMSDatabaseLoadDB.BackColor = Theme.MenuItemBackColor;
+			this.EMSDatabaseLoadDB.ForeColor = Theme.MenuItemForeColor;
+			this.EMSDatabaseReloadDB.BackColor = Theme.MenuItemBackColor;
+			this.EMSDatabaseReloadDB.ForeColor = Theme.MenuItemForeColor;
+			this.EMSDatabaseSaveDB.BackColor = Theme.MenuItemBackColor;
+			this.EMSDatabaseSaveDB.ForeColor = Theme.MenuItemForeColor;
+			this.EMSDatabaseCombineDB.BackColor = Theme.MenuItemBackColor;
+			this.EMSDatabaseCombineDB.ForeColor = Theme.MenuItemForeColor;
+			this.EMSToolsHasher.BackColor = Theme.MenuItemBackColor;
+			this.EMSToolsHasher.ForeColor = Theme.MenuItemForeColor;
+			this.EMSToolsRaider.BackColor = Theme.MenuItemBackColor;
+			this.EMSToolsRaider.ForeColor = Theme.MenuItemForeColor;
+			this.EMSToolsSwatcher.BackColor = Theme.MenuItemBackColor;
+			this.EMSToolsSwatcher.ForeColor = Theme.MenuItemForeColor;
+			this.EMSOptionsCreate.BackColor = Theme.MenuItemBackColor;
+			this.EMSOptionsCreate.ForeColor = Theme.MenuItemForeColor;
+			this.EMSOptionsRestore.BackColor = Theme.MenuItemBackColor;
+			this.EMSOptionsRestore.ForeColor = Theme.MenuItemForeColor;
+			this.EMSOptionsUnlock.BackColor = Theme.MenuItemBackColor;
+			this.EMSOptionsUnlock.ForeColor = Theme.MenuItemForeColor;
+			this.EMSScriptingProcess.BackColor = Theme.MenuItemBackColor;
+			this.EMSScriptingProcess.ForeColor = Theme.MenuItemForeColor;
+			this.EMSScriptingGenerate.BackColor = Theme.MenuItemBackColor;
+			this.EMSScriptingGenerate.ForeColor = Theme.MenuItemForeColor;
+			this.EMSScriptingClear.BackColor = Theme.MenuItemBackColor;
+			this.EMSScriptingClear.ForeColor = Theme.MenuItemForeColor;
+			this.EMSWindowsRun.BackColor = Theme.MenuItemBackColor;
+			this.EMSWindowsRun.ForeColor = Theme.MenuItemForeColor;
+			this.EMSWindowsNew.BackColor = Theme.MenuItemBackColor;
+			this.EMSWindowsNew.ForeColor = Theme.MenuItemForeColor;
+			this.EMSHelpAbout.BackColor = Theme.MenuItemBackColor;
+			this.EMSHelpAbout.ForeColor = Theme.MenuItemForeColor;
+			this.EMSHelpTutorials.BackColor = Theme.MenuItemBackColor;
+			this.EMSHelpTutorials.ForeColor = Theme.MenuItemForeColor;
 
+			// Buttons
+			this.EditorButtonOpenEditor.BackColor = Theme.ButtonBackColor;
+			this.EditorButtonOpenEditor.ForeColor = Theme.ButtonForeColor;
+			this.EditorButtonOpenEditor.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.EditorButtonAddNode.BackColor = Theme.ButtonBackColor;
+			this.EditorButtonAddNode.ForeColor = Theme.ButtonForeColor;
+			this.EditorButtonAddNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.EditorButtonDeleteNode.BackColor = Theme.ButtonBackColor;
+			this.EditorButtonDeleteNode.ForeColor = Theme.ButtonForeColor;
+			this.EditorButtonDeleteNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.EditorButtonCopyNode.BackColor = Theme.ButtonBackColor;
+			this.EditorButtonCopyNode.ForeColor = Theme.ButtonForeColor;
+			this.EditorButtonCopyNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.EditorButtonExportNode.BackColor = Theme.ButtonBackColor;
+			this.EditorButtonExportNode.ForeColor = Theme.ButtonForeColor;
+			this.EditorButtonExportNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.EditorButtonImportNode.BackColor = Theme.ButtonBackColor;
+			this.EditorButtonImportNode.ForeColor = Theme.ButtonForeColor;
+			this.EditorButtonImportNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.EditorButtonFindNode.BackColor = Theme.ButtonBackColor;
+			this.EditorButtonFindNode.ForeColor = Theme.ButtonForeColor;
+			this.EditorButtonFindNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
 
-
-			this.EditorButtonOpenEditor.BackColor = Theme.Dark.ButtonBackColor;
-			this.EditorButtonOpenEditor.ForeColor = Theme.Dark.ButtonForeColor;
-			this.EditorButtonOpenEditor.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.EditorButtonAddNode.BackColor = Theme.Dark.ButtonBackColor;
-			this.EditorButtonAddNode.ForeColor = Theme.Dark.ButtonForeColor;
-			this.EditorButtonAddNode.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.EditorButtonDeleteNode.BackColor = Theme.Dark.ButtonBackColor;
-			this.EditorButtonDeleteNode.ForeColor = Theme.Dark.ButtonForeColor;
-			this.EditorButtonDeleteNode.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.EditorButtonCopyNode.BackColor = Theme.Dark.ButtonBackColor;
-			this.EditorButtonCopyNode.ForeColor = Theme.Dark.ButtonForeColor;
-			this.EditorButtonCopyNode.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.EditorButtonExportNode.BackColor = Theme.Dark.ButtonBackColor;
-			this.EditorButtonExportNode.ForeColor = Theme.Dark.ButtonForeColor;
-			this.EditorButtonExportNode.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.EditorButtonImportNode.BackColor = Theme.Dark.ButtonBackColor;
-			this.EditorButtonImportNode.ForeColor = Theme.Dark.ButtonForeColor;
-			this.EditorButtonImportNode.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
+			// Textboxes
+			this.EditorCommandPrompt.BackColor = Theme.PrimBackColor;
+			this.EditorCommandPrompt.ForeColor = Theme.PrimForeColor;
+			this.EditorFindTextBox.BackColor = Theme.TextBoxBackColor;
+			this.EditorFindTextBox.ForeColor = Theme.TextBoxForeColor;
 		}
 
 		#endregion
@@ -112,7 +175,7 @@ namespace Binary
 				return;
 
 			}
-			
+
 			var manager = sdb.Database.GetManager(node.Text);
 			this.EditorButtonAddNode.Enabled = manager != null && !manager.IsReadOnly;
 		}
@@ -128,7 +191,7 @@ namespace Binary
 			}
 
 			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Parent.Text);
-			
+
 			if (sdb == null)
 			{
 
@@ -136,7 +199,7 @@ namespace Binary
 				return;
 
 			}
-			
+
 			var manager = sdb.Database.GetManager(node.Parent.Text);
 			this.EditorButtonDeleteNode.Enabled = manager != null && !manager.IsReadOnly;
 		}
@@ -152,7 +215,7 @@ namespace Binary
 			}
 
 			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Parent.Text);
-			
+
 			if (sdb == null)
 			{
 
@@ -176,7 +239,7 @@ namespace Binary
 			}
 
 			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Parent.Text);
-			
+
 			if (sdb == null)
 			{
 
@@ -317,7 +380,7 @@ namespace Binary
 
 		private void EMSScriptingClear_Click(object sender, EventArgs e)
 		{
-
+			this.EditorCommandPrompt.Text = String.Empty;
 		}
 
 		private void EMSWindowsRun_Click(object sender, EventArgs e)
@@ -327,7 +390,8 @@ namespace Binary
 
 		private void EMSWindowsNew_Click(object sender, EventArgs e)
 		{
-
+			var path = Process.GetCurrentProcess().MainModule.FileName;
+			Process.Start(new ProcessStartInfo() { FileName = path });
 		}
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
@@ -376,6 +440,24 @@ namespace Binary
 
 		private void EditorButtonFindNode_Click(object sender, EventArgs e)
 		{
+			this.RecursiveTreeHiglight(this.EditorFindTextBox.Text, this.EditorTreeView.Nodes);
+		}
+
+		private void RecursiveTreeHiglight(string match, TreeNodeCollection nodes)
+		{
+
+			foreach (TreeNode node in nodes)
+			{
+
+				node.BackColor = String.IsNullOrEmpty(match) || !node.Text.Contains(match)
+					? this.EditorTreeView.BackColor
+					: Configurations.Default.DarkTheme
+						? Color.FromArgb(160, 20, 30)
+						: Color.FromArgb(60, 255, 60);
+
+				if (node.Nodes.Count > 0) this.RecursiveTreeHiglight(match, node.Nodes);
+
+			}
 
 		}
 
@@ -478,7 +560,7 @@ namespace Binary
 
 		#endregion
 
-		#region TreeView Manage
+		#region TreeView Controls
 
 		private void EditorTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
 		{
@@ -519,9 +601,56 @@ namespace Binary
 
 		#endregion
 
+		#region PropertyGrid Controls
+
+		private void WriteLineToEndCommandPrompt(string line)
+		{
+			if (String.IsNullOrEmpty(this.EditorCommandPrompt.Text) ||
+				this.EditorCommandPrompt.Text.EndsWith(Environment.NewLine))
+			{
+
+				this.EditorCommandPrompt.Text += line + Environment.NewLine;
+
+			}
+			else
+			{
+
+				this.EditorCommandPrompt.Text += Environment.NewLine + line + Environment.NewLine;
+
+			}
+		}
+
+		private void InjectEndCommand(eCommandType type, string nodepath)
+		{
+			const string space = " ";
+			var line = type.ToString() + space;
+			var splits = nodepath.Split(this.EditorTreeView.PathSeparator);
+
+			for (int loop = 0; loop < splits.Length - 1; ++loop) line += splits[loop] + space;
+
+			line += splits[^1];
+			this.WriteLineToEndCommandPrompt(line);
+		}
+
+		private void InjectEndCommand(eCommandType type, string nodepath, params string[] args)
+		{
+			const string space = " ";
+			var line = type.ToString() + space;
+			var splits = nodepath.Split(this.EditorTreeView.PathSeparator);
+
+			foreach (var split in splits) line += split + space;
+
+			for (int loop = 0; loop < args.Length - 1; ++loop) line += args[loop] + space;
+
+			line += args[^1];
+			this.WriteLineToEndCommandPrompt(line);
+		}
 
 		private void EditorPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 		{
+			this.InjectEndCommand(eCommandType.update, this.EditorTreeView.SelectedNode.FullPath,
+				e.ChangedItem.Label, e.ChangedItem.Value.ToString());
+
 			if (e.ChangedItem.Label == "CollectionName")
 			{
 
@@ -530,6 +659,8 @@ namespace Binary
 
 			}
 		}
+
+		#endregion
 
 		private void Editor_FormClosing(object sender, FormClosingEventArgs e)
 		{

@@ -20,42 +20,19 @@ namespace Binary
 
 		private void ToggleTheme()
 		{
-			if (Configurations.Default.DarkTheme) this.ToggleDarkTheme();
-			else this.ToggleLightTheme();
-		}
-
-		private void ToggleLightTheme()
-		{
-			this.BackColor = Theme.Light.MainBackColor;
-			this.ForeColor = Theme.Light.MainForeColor;
-			this.LanMakerGame.BackColor = Theme.Light.TextBoxBackColor;
-			this.LanMakerGame.ForeColor = Theme.Light.TextBoxForeColor;
-			this.LanMakerUsage.BackColor = Theme.Light.TextBoxBackColor;
-			this.LanMakerUsage.ForeColor = Theme.Light.TextBoxForeColor;
-			this.LanMakerLabelDir.ForeColor = Theme.Light.LabelTextColor;
-			this.LanMakerButtonDir.BackColor = Theme.Light.ButtonBackColor;
-			this.LanMakerButtonDir.ForeColor = Theme.Light.ButtonForeColor;
-			this.LanMakerButtonDir.FlatAppearance.BorderColor = Theme.Light.ButtonFlatColor;
-			this.LanMakerButtonSave.BackColor = Theme.Light.ButtonBackColor;
-			this.LanMakerButtonSave.ForeColor = Theme.Light.ButtonForeColor;
-			this.LanMakerButtonSave.FlatAppearance.BorderColor = Theme.Light.ButtonFlatColor;
-		}
-
-		private void ToggleDarkTheme()
-		{
-			this.BackColor = Theme.Dark.MainBackColor;
-			this.ForeColor = Theme.Dark.MainForeColor;
-			this.LanMakerGame.BackColor = Theme.Dark.TextBoxBackColor;
-			this.LanMakerGame.ForeColor = Theme.Dark.TextBoxForeColor;
-			this.LanMakerUsage.BackColor = Theme.Dark.TextBoxBackColor;
-			this.LanMakerUsage.ForeColor = Theme.Dark.TextBoxForeColor;
-			this.LanMakerLabelDir.ForeColor = Theme.Dark.LabelTextColor;
-			this.LanMakerButtonDir.BackColor = Theme.Dark.ButtonBackColor;
-			this.LanMakerButtonDir.ForeColor = Theme.Dark.ButtonForeColor;
-			this.LanMakerButtonDir.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.LanMakerButtonSave.BackColor = Theme.Dark.ButtonBackColor;
-			this.LanMakerButtonSave.ForeColor = Theme.Dark.ButtonForeColor;
-			this.LanMakerButtonSave.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
+			this.BackColor = Theme.MainBackColor;
+			this.ForeColor = Theme.MainForeColor;
+			this.LanMakerGame.BackColor = Theme.TextBoxBackColor;
+			this.LanMakerGame.ForeColor = Theme.TextBoxForeColor;
+			this.LanMakerUsage.BackColor = Theme.TextBoxBackColor;
+			this.LanMakerUsage.ForeColor = Theme.TextBoxForeColor;
+			this.LanMakerLabelDir.ForeColor = Theme.LabelTextColor;
+			this.LanMakerButtonDir.BackColor = Theme.ButtonBackColor;
+			this.LanMakerButtonDir.ForeColor = Theme.ButtonForeColor;
+			this.LanMakerButtonDir.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.LanMakerButtonSave.BackColor = Theme.ButtonBackColor;
+			this.LanMakerButtonSave.ForeColor = Theme.ButtonForeColor;
+			this.LanMakerButtonSave.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
 		}
 
 		private void ChangeSaveButtonEnabledState()

@@ -28,40 +28,18 @@ namespace Binary
 
 		private void ToggleTheme()
 		{
-			if (Configurations.Default.DarkTheme) this.ToggleDarkTheme();
-			else this.ToggleLightTheme();
-		}
-
-		private void ToggleLightTheme()
-		{
-			this.BackColor = Theme.Light.MainBackColor;
-			this.ForeColor = Theme.Light.MainForeColor;
-			this.ModderPassButtonConfirm.BackColor = Theme.Light.ButtonBackColor;
-			this.ModderPassButtonConfirm.ForeColor = Theme.Light.ButtonForeColor;
-			this.ModderPassButtonConfirm.FlatAppearance.BorderColor = Theme.Light.ButtonFlatColor;
-			this.ModderPassButtonExit.BackColor = Theme.Light.ButtonBackColor;
-			this.ModderPassButtonExit.ForeColor = Theme.Light.ButtonForeColor;
-			this.ModderPassButtonExit.FlatAppearance.BorderColor = Theme.Light.ButtonFlatColor;
-			this.ModderPassLabel.ForeColor = Theme.Light.LabelTextColor;
-			this.ModderPassPictureBox.BackColor = Theme.Light.MainBackColor;
-			this.ModderPassTextBox.BackColor = Theme.Light.TextBoxBackColor;
-			this.ModderPassTextBox.ForeColor = Theme.Light.TextBoxForeColor;
-		}
-
-		private void ToggleDarkTheme()
-		{
-			this.BackColor = Theme.Dark.MainBackColor;
-			this.ForeColor = Theme.Dark.MainForeColor;
-			this.ModderPassButtonConfirm.BackColor = Theme.Dark.ButtonBackColor;
-			this.ModderPassButtonConfirm.ForeColor = Theme.Dark.ButtonForeColor;
-			this.ModderPassButtonConfirm.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.ModderPassButtonExit.BackColor = Theme.Dark.ButtonBackColor;
-			this.ModderPassButtonExit.ForeColor = Theme.Dark.ButtonForeColor;
-			this.ModderPassButtonExit.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
-			this.ModderPassLabel.ForeColor = Theme.Dark.LabelTextColor;
-			this.ModderPassPictureBox.BackColor = Theme.Dark.MainBackColor;
-			this.ModderPassTextBox.BackColor = Theme.Dark.TextBoxBackColor;
-			this.ModderPassTextBox.ForeColor = Theme.Dark.TextBoxForeColor;
+			this.BackColor = Theme.MainBackColor;
+			this.ForeColor = Theme.MainForeColor;
+			this.ModderPassButtonConfirm.BackColor = Theme.ButtonBackColor;
+			this.ModderPassButtonConfirm.ForeColor = Theme.ButtonForeColor;
+			this.ModderPassButtonConfirm.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.ModderPassButtonExit.BackColor = Theme.ButtonBackColor;
+			this.ModderPassButtonExit.ForeColor = Theme.ButtonForeColor;
+			this.ModderPassButtonExit.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.ModderPassLabel.ForeColor = Theme.LabelTextColor;
+			this.ModderPassPictureBox.BackColor = Theme.MainBackColor;
+			this.ModderPassTextBox.BackColor = Theme.TextBoxBackColor;
+			this.ModderPassTextBox.ForeColor = Theme.TextBoxForeColor;
 		}
 
 		private void ModderPassButtonConfirm_Click(object sender, EventArgs e)
