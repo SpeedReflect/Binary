@@ -74,7 +74,7 @@
 			// ModderPassButtonConfirm
 			// 
 			this.ModderPassButtonConfirm.AutoSize = true;
-			this.ModderPassButtonConfirm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.ModderPassButtonConfirm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.ModderPassButtonConfirm.Location = new System.Drawing.Point(39, 150);
 			this.ModderPassButtonConfirm.Name = "ModderPassButtonConfirm";
 			this.ModderPassButtonConfirm.Size = new System.Drawing.Size(200, 35);
@@ -86,7 +86,7 @@
 			// ModderPassButtonExit
 			// 
 			this.ModderPassButtonExit.AutoSize = true;
-			this.ModderPassButtonExit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.ModderPassButtonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.ModderPassButtonExit.Location = new System.Drawing.Point(245, 150);
 			this.ModderPassButtonExit.Name = "ModderPassButtonExit";
 			this.ModderPassButtonExit.Size = new System.Drawing.Size(200, 35);

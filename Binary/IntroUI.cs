@@ -50,7 +50,7 @@ namespace Binary
 			// If password check was not done yet
 			if (!Configurations.Default.PassPassed)
 			{
-				var form = new ModderPass();
+				using var form = new ModderPass();
 				
 				if (form.ShowDialog() != DialogResult.OK)
 				{
@@ -62,11 +62,12 @@ namespace Binary
 			}
 
 			this.ModderInteract();
+			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
 		}
 
 		private void UserInteract()
 		{
-			var dialog = new OpenFileDialog()
+			using var dialog = new OpenFileDialog()
 			{
 				CheckFileExists = true,
 				Filter = "Endscript Files|*.end",
@@ -92,7 +93,7 @@ namespace Binary
 
 			}
 
-			var browser = new FolderBrowserDialog()
+			using var browser = new FolderBrowserDialog()
 			{
 				Description = $"Select Need for Speed: {launch.Game} directory to modify.",
 				RootFolder = Environment.SpecialFolder.MyComputer,
@@ -114,10 +115,15 @@ namespace Binary
 	
 		private void ModderInteract()
 		{
-			var editor = new Editor();
-
 			this.Hide();
-			editor.ShowDialog();
+
+			using (var editor = new Editor())
+			{
+
+				editor.ShowDialog();
+			
+			}
+
 			this.Show();
 		}
 	

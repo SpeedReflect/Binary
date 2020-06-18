@@ -26,6 +26,44 @@ namespace Binary
 			this.ModderPassPictureBox.Image = Resources.Discord;
 		}
 
+		private void ToggleTheme()
+		{
+			if (Configurations.Default.DarkTheme) this.ToggleDarkTheme();
+			else this.ToggleLightTheme();
+		}
+
+		private void ToggleLightTheme()
+		{
+			this.BackColor = Theme.Light.MainBackColor;
+			this.ForeColor = Theme.Light.MainForeColor;
+			this.ModderPassButtonConfirm.BackColor = Theme.Light.ButtonBackColor;
+			this.ModderPassButtonConfirm.ForeColor = Theme.Light.ButtonForeColor;
+			this.ModderPassButtonConfirm.FlatAppearance.BorderColor = Theme.Light.ButtonFlatColor;
+			this.ModderPassButtonExit.BackColor = Theme.Light.ButtonBackColor;
+			this.ModderPassButtonExit.ForeColor = Theme.Light.ButtonForeColor;
+			this.ModderPassButtonExit.FlatAppearance.BorderColor = Theme.Light.ButtonFlatColor;
+			this.ModderPassLabel.ForeColor = Theme.Light.LabelTextColor;
+			this.ModderPassPictureBox.BackColor = Theme.Light.MainBackColor;
+			this.ModderPassTextBox.BackColor = Theme.Light.TextBoxBackColor;
+			this.ModderPassTextBox.ForeColor = Theme.Light.TextBoxForeColor;
+		}
+
+		private void ToggleDarkTheme()
+		{
+			this.BackColor = Theme.Dark.MainBackColor;
+			this.ForeColor = Theme.Dark.MainForeColor;
+			this.ModderPassButtonConfirm.BackColor = Theme.Dark.ButtonBackColor;
+			this.ModderPassButtonConfirm.ForeColor = Theme.Dark.ButtonForeColor;
+			this.ModderPassButtonConfirm.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
+			this.ModderPassButtonExit.BackColor = Theme.Dark.ButtonBackColor;
+			this.ModderPassButtonExit.ForeColor = Theme.Dark.ButtonForeColor;
+			this.ModderPassButtonExit.FlatAppearance.BorderColor = Theme.Dark.ButtonFlatColor;
+			this.ModderPassLabel.ForeColor = Theme.Dark.LabelTextColor;
+			this.ModderPassPictureBox.BackColor = Theme.Dark.MainBackColor;
+			this.ModderPassTextBox.BackColor = Theme.Dark.TextBoxBackColor;
+			this.ModderPassTextBox.ForeColor = Theme.Dark.TextBoxForeColor;
+		}
+
 		private void ModderPassButtonConfirm_Click(object sender, EventArgs e)
 		{
 			var checkpass = Encoding.UTF8.GetString(Interop.Decompress(password));
@@ -55,40 +93,6 @@ namespace Binary
 		private void ModderPassPictureBox_Click(object sender, EventArgs e)
 		{
 			Utils.OpenBrowser("https://discord.gg/jzksXXn");
-		}
-
-		private void ToggleTheme()
-		{
-			if (Configurations.Default.DarkTheme) this.ToggleDarkTheme();
-			else this.ToggleLightTheme();
-		}
-
-		private void ToggleLightTheme()
-		{
-			this.BackColor = Theme.Light.MainBackColor;
-			this.ForeColor = Theme.Light.MainForeColor;
-			this.ModderPassButtonConfirm.BackColor = Theme.Light.ButtonBackColor;
-			this.ModderPassButtonConfirm.ForeColor = Theme.Light.ButtonForeColor;
-			this.ModderPassButtonExit.BackColor = Theme.Light.ButtonBackColor;
-			this.ModderPassButtonExit.ForeColor = Theme.Light.ButtonForeColor;
-			this.ModderPassLabel.ForeColor = Theme.Light.LabelTextColor;
-			this.ModderPassPictureBox.BackColor = Theme.Light.MainBackColor;
-			this.ModderPassTextBox.BackColor = Theme.Light.TextBoxBackColor;
-			this.ModderPassTextBox.ForeColor = Theme.Light.TextBoxForeColor;
-		}
-
-		private void ToggleDarkTheme()
-		{
-			this.BackColor = Theme.Dark.MainBackColor;
-			this.ForeColor = Theme.Dark.MainForeColor;
-			this.ModderPassButtonConfirm.BackColor = Theme.Dark.ButtonBackColor;
-			this.ModderPassButtonConfirm.ForeColor = Theme.Dark.ButtonForeColor;
-			this.ModderPassButtonExit.BackColor = Theme.Dark.ButtonBackColor;
-			this.ModderPassButtonExit.ForeColor = Theme.Dark.ButtonForeColor;
-			this.ModderPassLabel.ForeColor = Theme.Dark.LabelTextColor;
-			this.ModderPassPictureBox.BackColor = Theme.Dark.MainBackColor;
-			this.ModderPassTextBox.BackColor = Theme.Dark.TextBoxBackColor;
-			this.ModderPassTextBox.ForeColor = Theme.Dark.TextBoxForeColor;
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace Binary
 {
 	internal static class Utils
 	{
-		public static IReflective GetReflective(string path, string separator, List<SyncDatabase> SyncDBs)
+        public static IReflective GetReflective(string path, string separator, List<SyncDatabase> SyncDBs)
 		{
 			var splits = path.Split(separator);
 
@@ -80,5 +80,10 @@ namespace Binary
             
             }
         }
+    
+        public static bool IsNullOrComment(this string value)
+		{
+            return String.IsNullOrWhiteSpace(value) || value.StartsWith("//") || value.StartsWith("#");
+		}
     }
 }

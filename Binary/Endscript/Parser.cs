@@ -5,8 +5,8 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using Binary.Enums;
 using CoreExtensions.Management;
-
-
+using System.Runtime.CompilerServices;
+using Nikki.Core;
 
 namespace Binary.Endscript
 {
@@ -20,59 +20,65 @@ namespace Binary.Endscript
 			WriteIndented = true,
 		};
 
-		public static void GenerateSample() => GenerateSample(String.Empty);
+		public static Launch GenerateSample() =>
+			GenerateSample(String.Empty, GameINT.None.ToString(), eUsage.Invalid.ToString());
 
-		public static void GenerateSample(string directory)
+		public static Launch GenerateSample(string directory) =>
+			GenerateSample(directory, GameINT.None.ToString(), eUsage.Invalid.ToString());
+	
+		public static Launch GenerateSample(string directory, string game, string usage)
 		{
 			var launch = new Launch()
 			{
 
+				Game = game,
+				Usage = usage,
 				Directory = directory,
-				
+
 				Files = new List<string>()
 				{
 					@"GLOBAL\GLOBALA.BUN",
-					@"GLOBAL\GLOBALB.LZC",				
+					@"GLOBAL\GLOBALB.LZC",
 				},
-				
+
 				Links = new List<SubLoader>()
 				{
-				
+
 					new SubLoader()
 					{
 						File = @"GLOBAL\attributes.bin",
 						LoadType = eLoaderType.Attributes.ToString(),
 						PathType = ePathType.Absolute.ToString(),
 					},
-					
+
 					new SubLoader()
 					{
 						File = @"GLOBAL\fe_attrib.bin",
 						LoadType = eLoaderType.FeAttrib.ToString(),
 						PathType = ePathType.Absolute.ToString(),
 					},
-					
+
 					new SubLoader()
 					{
 						File = @"LANGUAGES\Labels_Global.bin",
 						LoadType = eLoaderType.Labels.ToString(),
 						PathType = ePathType.Absolute.ToString(),
 					},
-					
+
 					new SubLoader()
 					{
 						File = @"LANGUAGES\Labels.bin",
 						LoadType = eLoaderType.Labels.ToString(),
 						PathType = ePathType.Absolute.ToString(),
 					},
-			
+
 				},
-			
+
 			};
 
-			Serialize("launch.end", launch);
+			return launch;
 		}
-	
+
 		public static void Serialize(string filename, Launch launch)
 		{
 			var settings = JsonSerializer.Serialize(launch, options);

@@ -15,6 +15,7 @@ namespace Binary
 			public static Color MainForeColor = SystemColors.ControlText;
 			public static Color ButtonBackColor = Color.FromArgb(175, 175, 200);
 			public static Color ButtonForeColor = SystemColors.ControlText;
+			public static Color ButtonFlatColor = SystemColors.ButtonShadow;
 			public static Color TextBoxBackColor = Color.FromArgb(180, 180, 200);
 			public static Color TextBoxForeColor = SystemColors.ControlText;
 			public static Color PrimBackColor = Color.FromArgb(190, 190, 210);
@@ -28,6 +29,7 @@ namespace Binary
 			public static Color MainForeColor = SystemColors.Info;
 			public static Color ButtonBackColor = Color.FromArgb(51, 50, 68);
 			public static Color ButtonForeColor = SystemColors.Info;
+			public static Color ButtonFlatColor = SystemColors.ControlDarkDark;
 			public static Color TextBoxBackColor = Color.FromArgb(60, 65, 72);
 			public static Color TextBoxForeColor = SystemColors.Info;
 			public static Color PrimBackColor = Color.FromArgb(30, 30, 45);
