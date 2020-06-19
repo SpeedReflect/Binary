@@ -28,6 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
 			this.EditorMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.EditorMenuStripMain = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSMainNewLauncher = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,6 +78,7 @@
 			this.EditorFindTextBox = new System.Windows.Forms.TextBox();
 			this.EditorButtonFindNode = new System.Windows.Forms.Button();
 			this.EditorTreeView = new System.Windows.Forms.TreeView();
+			this.EditorImageList = new System.Windows.Forms.ImageList(this.components);
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.EditorPropertyGrid = new System.Windows.Forms.PropertyGrid();
 			this.EditorCommandPrompt = new System.Windows.Forms.TextBox();
@@ -706,14 +709,27 @@
 			// EditorTreeView
 			// 
 			this.EditorTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.EditorTreeView.ImageIndex = 0;
+			this.EditorTreeView.ImageList = this.EditorImageList;
 			this.EditorTreeView.Location = new System.Drawing.Point(0, 0);
 			this.EditorTreeView.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.EditorTreeView.Name = "EditorTreeView";
 			this.EditorTreeView.PathSeparator = "|";
+			this.EditorTreeView.SelectedImageIndex = 2;
 			this.EditorTreeView.Size = new System.Drawing.Size(296, 297);
 			this.EditorTreeView.TabIndex = 0;
 			this.EditorTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.EditorTreeView_BeforeSelect);
 			this.EditorTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.EditorTreeView_AfterSelect);
+			// 
+			// EditorImageList
+			// 
+			this.EditorImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+			this.EditorImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("EditorImageList.ImageStream")));
+			this.EditorImageList.TransparentColor = System.Drawing.Color.Transparent;
+			this.EditorImageList.Images.SetKeyName(0, "Collection_Black.png");
+			this.EditorImageList.Images.SetKeyName(1, "Collection_White.png");
+			this.EditorImageList.Images.SetKeyName(2, "Selection_Black.png");
+			this.EditorImageList.Images.SetKeyName(3, "Selection_White.png");
 			// 
 			// splitContainer3
 			// 
@@ -901,6 +917,7 @@
 		private System.Windows.Forms.ToolStripMenuItem EMSScriptingClear;
 		private System.Windows.Forms.ToolStripMenuItem EMSWindowsNew;
 		private System.Windows.Forms.TextBox EditorCommandPrompt;
+		private System.Windows.Forms.ImageList EditorImageList;
 	}
 }
 

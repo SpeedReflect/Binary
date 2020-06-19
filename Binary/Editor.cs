@@ -48,8 +48,12 @@ namespace Binary
 			// Primary colors and controls
 			this.BackColor = Theme.MainBackColor;
 			this.ForeColor = Theme.MainForeColor;
+
+			// Tree view
 			this.EditorTreeView.BackColor = Theme.PrimBackColor;
 			this.EditorTreeView.ForeColor = Theme.PrimForeColor;
+			this.EditorTreeView.SelectedImageIndex = Configurations.Default.DarkTheme ? 3 : 2;
+			this.EditorTreeView.ImageIndex = Configurations.Default.DarkTheme ? 1 : 0;
 
 			// Property grid
 			this.EditorPropertyGrid.BackColor = Theme.PrimBackColor;
