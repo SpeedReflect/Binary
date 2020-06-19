@@ -15,7 +15,7 @@ namespace Binary.Endscript
 {
 	class EndManager
 	{
-		private List<SyncDatabase> SyncDBs;
+		private List<SynchronizedDatabase> SyncDBs;
 
 		/*
 		Commands:
@@ -38,14 +38,14 @@ namespace Binary.Endscript
 
 		*/
 
-		public EndManager() => this.SyncDBs = new List<SyncDatabase>();
+		public EndManager() => this.SyncDBs = new List<SynchronizedDatabase>();
 
 		public EndManager(Launch launch) : this()
 		{
 
 		}
 
-		public EndManager(List<SyncDatabase> sdbs)
+		public EndManager(List<SynchronizedDatabase> sdbs)
 		{
 			this.SyncDBs = sdbs;
 		}

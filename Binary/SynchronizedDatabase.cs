@@ -1,16 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Text;
+using System.Windows.Forms;
+using Binary.Properties;
 using Nikki.Core;
 using Nikki.Reflection.Abstract;
-using Nikki.Reflection.Attributes;
-using System.Windows.Forms;
-using System.Reflection.Metadata;
+
+
 
 namespace Binary
 {
-	public class SyncDatabase
+	public class SynchronizedDatabase
 	{
 		public FileBase Database { get; set; }
 
@@ -20,7 +19,11 @@ namespace Binary
 
 		public string FullPath => Path.Combine(this.Folder, this.Filename);
 
-		public SyncDatabase(GameINT game, string folder, string file)
+		private Options LoadingOpts { get; }
+
+		private Options SavingOpts { get; }
+
+		public SynchronizedDatabase(GameINT game, string folder, string file)
 		{
 			this.Database = game switch
 			{
@@ -32,11 +35,13 @@ namespace Binary
 
 			this.Folder = folder;
 			this.Filename = file;
+			this.LoadingOpts = new Options(this.FullPath);
+			this.SavingOpts = new Options(this.FullPath, Configurations.Default.Watermark);
 		}
 
-		public void Load() => this.Database.Load(new Options(this.FullPath));
+		public void Load() => this.Database.Load(this.LoadingOpts);
 
-		public void Save() => this.Database.Save(new Options(this.FullPath));
+		public void Save() => this.Database.Save(this.SavingOpts);
 
 		public TreeNode GetTreeNodes()
 		{

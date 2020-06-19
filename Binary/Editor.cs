@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -28,11 +29,11 @@ namespace Binary
 {
 	public partial class Editor : Form
 	{
-		private List<SyncDatabase> SyncDBs;
+		private List<SynchronizedDatabase> SyncDBs;
 
 		public Editor()
 		{
-			this.SyncDBs = new List<SyncDatabase>();
+			this.SyncDBs = new List<SynchronizedDatabase>();
 			this.InitializeComponent();
 			this.ToggleTheme();
 		}
@@ -150,6 +151,19 @@ namespace Binary
 		#endregion
 
 		#region Manage Controls
+
+		private void ToggleControlsAfterLoad(bool enable)
+		{
+			this.EMSMainReloadFiles.Enabled = enable;
+			this.EMSMainSaveFiles.Enabled = enable;
+			this.EMSDatabaseReloadDB.Enabled = enable;
+			this.EMSDatabaseSaveDB.Enabled = enable;
+			this.EMSDatabaseCombineDB.Enabled = enable;
+			this.EMSOptionsCreate.Enabled = enable;
+			this.EMSOptionsRestore.Enabled = enable;
+			this.EMSOptionsUnlock.Enabled = enable;
+			this.EMSWindowsRun.Enabled = enable;
+		}
 
 		private void ManageButtonOpenEditor(IReflective reflective)
 		{
@@ -309,17 +323,50 @@ namespace Binary
 
 		private void EMSMainReloadFiles_Click(object sender, EventArgs e)
 		{
+			var file = Configurations.Default.LaunchFile;
 
+			if (File.Exists(file))
+			{
+
+				this.LoadSynchronizedDatabases(file, true);
+
+			}
+			else
+			{
+
+				MessageBox.Show($"Launch file {file} does not exist or was moved.", "Warning", 
+					MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+			}
 		}
 
 		private void EMSMainSaveFiles_Click(object sender, EventArgs e)
 		{
+			try
+			{
 
+				var watch = new Stopwatch();
+				watch.Start();
+
+				foreach (var sdb in this.SyncDBs) sdb.Save();
+
+				watch.Stop();
+				var filename = Configurations.Default.LaunchFile;
+				this.EditorStatusLabel.Text = $"Files: {this.SyncDBs.Count} | Saving Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
 		}
 
 		private void EMSMainExit_Click(object sender, EventArgs e)
 		{
-
+			this.Editor_FormClosing(this, null);
+			this.Close();
 		}
 
 		private void EMSDatabaseLoadDB_Click(object sender, EventArgs e)
@@ -379,7 +426,22 @@ namespace Binary
 
 		private void EMSScriptingGenerate_Click(object sender, EventArgs e)
 		{
+			if (this.EditorPropertyGrid.SelectedObject != null &&
+				this.EditorPropertyGrid.SelectedGridItem.GridItemType == GridItemType.Property)
+			{
 
+				var path = this.EditorTreeView.SelectedNode.FullPath;
+				var property = this.EditorPropertyGrid.SelectedGridItem.Label;
+				var value = this.EditorPropertyGrid.SelectedGridItem.Value;
+				var type = value.GetType();
+
+				if (this.EditorPropertyGrid.SelectedGridItem.PropertyDescriptor.IsReadOnly) return;
+
+				if (type != typeof(string) && typeof(IEnumerable).IsAssignableFrom(type)) return;
+
+				this.InjectEndCommand(eCommandType.update, path, property, value.ToString());
+
+			}
 		}
 
 		private void EMSScriptingClear_Click(object sender, EventArgs e)
@@ -389,7 +451,45 @@ namespace Binary
 
 		private void EMSWindowsRun_Click(object sender, EventArgs e)
 		{
+			try
+			{
 
+				// Considering at least ONE file is currently open
+				if (this.SyncDBs.Count > 0)
+				{
+
+					var path = this.SyncDBs[0].Folder;
+					var game = this.SyncDBs[0].Database.GameINT;
+					var exe = path;
+
+					exe += game switch
+					{
+						GameINT.Carbon => @"\NFSC.EXE",
+						GameINT.MostWanted => @"\SPEED.EXE",
+						GameINT.Prostreet => @"\NFS.EXE",
+						GameINT.Undercover => @"\NFS.EXE",
+						GameINT.Underground1 => @"\SPEED.EXE",
+						GameINT.Underground2 => @"\SPEED2.EXE",
+						_ => throw new Exception($"Game {game} is an invalid game type")
+					};
+
+					Process.Start(new ProcessStartInfo(exe) { WorkingDirectory = path });
+
+				}
+				else
+				{
+
+					throw new Exception("No files are open and directory is not chosen");
+
+				}
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
 		}
 
 		private void EMSWindowsNew_Click(object sender, EventArgs e)
@@ -400,7 +500,7 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-
+			
 		}
 
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)
@@ -507,21 +607,24 @@ namespace Binary
 				launch.CheckFiles();
 				launch.LoadLinks();
 
+				this.SyncDBs.Clear();
+
 				var watch = new Stopwatch();
 				watch.Start();
 
 				foreach (var file in launch.Files)
 				{
 
-					var sdb = new SyncDatabase(launch.GameID, launch.Directory, file);
+					var sdb = new SynchronizedDatabase(launch.GameID, launch.Directory, file);
 					sdb.Load();
 					this.SyncDBs.Add(sdb);
 
 				}
 
 				watch.Stop();
-				this.EditorStatusLabel.Text = $"Files: {launch.Files.Count} | Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
+				this.EditorStatusLabel.Text = $"Files: {launch.Files.Count} | Loading Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
 				this.LoadTreeView();
+				this.ToggleControlsAfterLoad(true);
 				Configurations.Default.LaunchFile = filename;
 				Configurations.Default.Save();
 
@@ -535,6 +638,8 @@ namespace Binary
 					MessageBox.Show(e.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 				}
+
+				this.ToggleControlsAfterLoad(false);
 
 			}
 		}

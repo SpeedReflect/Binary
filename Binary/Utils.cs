@@ -11,7 +11,7 @@ namespace Binary
 {
 	internal static class Utils
 	{
-        public static IReflective GetReflective(string path, string separator, List<SyncDatabase> SyncDBs)
+        public static IReflective GetReflective(string path, string separator, List<SynchronizedDatabase> SyncDBs)
 		{
 			var splits = path.Split(separator);
 
