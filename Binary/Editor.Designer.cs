@@ -67,7 +67,7 @@
 			this.splitContainer6 = new System.Windows.Forms.SplitContainer();
 			this.EditorButtonAddNode = new System.Windows.Forms.Button();
 			this.splitContainer7 = new System.Windows.Forms.SplitContainer();
-			this.EditorButtonDeleteNode = new System.Windows.Forms.Button();
+			this.EditorButtonRemoveNode = new System.Windows.Forms.Button();
 			this.EditorButtonCopyNode = new System.Windows.Forms.Button();
 			this.splitContainer8 = new System.Windows.Forms.SplitContainer();
 			this.EditorButtonOpenEditor = new System.Windows.Forms.Button();
@@ -539,7 +539,7 @@
 			// 
 			// splitContainer7.Panel1
 			// 
-			this.splitContainer7.Panel1.Controls.Add(this.EditorButtonDeleteNode);
+			this.splitContainer7.Panel1.Controls.Add(this.EditorButtonRemoveNode);
 			// 
 			// splitContainer7.Panel2
 			// 
@@ -549,19 +549,19 @@
 			this.splitContainer7.SplitterWidth = 1;
 			this.splitContainer7.TabIndex = 0;
 			// 
-			// EditorButtonDeleteNode
+			// EditorButtonRemoveNode
 			// 
-			this.EditorButtonDeleteNode.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.EditorButtonDeleteNode.Enabled = false;
-			this.EditorButtonDeleteNode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.EditorButtonDeleteNode.Location = new System.Drawing.Point(0, 0);
-			this.EditorButtonDeleteNode.Margin = new System.Windows.Forms.Padding(0);
-			this.EditorButtonDeleteNode.Name = "EditorButtonDeleteNode";
-			this.EditorButtonDeleteNode.Size = new System.Drawing.Size(98, 30);
-			this.EditorButtonDeleteNode.TabIndex = 1;
-			this.EditorButtonDeleteNode.Text = "Delete Node";
-			this.EditorButtonDeleteNode.UseVisualStyleBackColor = false;
-			this.EditorButtonDeleteNode.Click += new System.EventHandler(this.EditorButtonDeleteNode_Click);
+			this.EditorButtonRemoveNode.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.EditorButtonRemoveNode.Enabled = false;
+			this.EditorButtonRemoveNode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.EditorButtonRemoveNode.Location = new System.Drawing.Point(0, 0);
+			this.EditorButtonRemoveNode.Margin = new System.Windows.Forms.Padding(0);
+			this.EditorButtonRemoveNode.Name = "EditorButtonRemoveNode";
+			this.EditorButtonRemoveNode.Size = new System.Drawing.Size(98, 30);
+			this.EditorButtonRemoveNode.TabIndex = 1;
+			this.EditorButtonRemoveNode.Text = "Remove Node";
+			this.EditorButtonRemoveNode.UseVisualStyleBackColor = false;
+			this.EditorButtonRemoveNode.Click += new System.EventHandler(this.EditorButtonRemoveNode_Click);
 			// 
 			// EditorButtonCopyNode
 			// 
@@ -882,7 +882,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer6;
 		private System.Windows.Forms.Button EditorButtonAddNode;
 		private System.Windows.Forms.SplitContainer splitContainer7;
-		private System.Windows.Forms.Button EditorButtonDeleteNode;
+		private System.Windows.Forms.Button EditorButtonRemoveNode;
 		private System.Windows.Forms.Button EditorButtonCopyNode;
 		private System.Windows.Forms.SplitContainer splitContainer8;
 		private System.Windows.Forms.Button EditorButtonOpenEditor;

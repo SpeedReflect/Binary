@@ -70,5 +70,17 @@ namespace Binary.Properties {
                 this["Watermark"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoBackups {
+            get {
+                return ((bool)(this["AutoBackups"]));
+            }
+            set {
+                this["AutoBackups"] = value;
+            }
+        }
     }
 }

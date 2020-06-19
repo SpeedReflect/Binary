@@ -36,6 +36,7 @@
 			// 
 			// InputTextBox
 			// 
+			this.InputTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.InputTextBox.Location = new System.Drawing.Point(12, 32);
 			this.InputTextBox.Name = "InputTextBox";
 			this.InputTextBox.Size = new System.Drawing.Size(325, 23);
@@ -54,9 +55,10 @@
 			// 
 			this.InputButtonOK.AutoSize = true;
 			this.InputButtonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.InputButtonOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.InputButtonOK.Location = new System.Drawing.Point(143, 61);
 			this.InputButtonOK.Name = "InputButtonOK";
-			this.InputButtonOK.Size = new System.Drawing.Size(94, 25);
+			this.InputButtonOK.Size = new System.Drawing.Size(94, 27);
 			this.InputButtonOK.TabIndex = 2;
 			this.InputButtonOK.Text = "OK";
 			this.InputButtonOK.UseVisualStyleBackColor = true;
@@ -66,9 +68,10 @@
 			// 
 			this.InputButtonCancel.AutoSize = true;
 			this.InputButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.InputButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.InputButtonCancel.Location = new System.Drawing.Point(243, 61);
 			this.InputButtonCancel.Name = "InputButtonCancel";
-			this.InputButtonCancel.Size = new System.Drawing.Size(94, 25);
+			this.InputButtonCancel.Size = new System.Drawing.Size(94, 27);
 			this.InputButtonCancel.TabIndex = 2;
 			this.InputButtonCancel.Text = "Cancel";
 			this.InputButtonCancel.UseVisualStyleBackColor = true;

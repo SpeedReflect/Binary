@@ -88,6 +88,5 @@ namespace Binary
 
 			return result;
 		}
-
 	}
 }

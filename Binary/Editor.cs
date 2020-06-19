@@ -125,9 +125,9 @@ namespace Binary
 			this.EditorButtonAddNode.BackColor = Theme.ButtonBackColor;
 			this.EditorButtonAddNode.ForeColor = Theme.ButtonForeColor;
 			this.EditorButtonAddNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
-			this.EditorButtonDeleteNode.BackColor = Theme.ButtonBackColor;
-			this.EditorButtonDeleteNode.ForeColor = Theme.ButtonForeColor;
-			this.EditorButtonDeleteNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.EditorButtonRemoveNode.BackColor = Theme.ButtonBackColor;
+			this.EditorButtonRemoveNode.ForeColor = Theme.ButtonForeColor;
+			this.EditorButtonRemoveNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
 			this.EditorButtonCopyNode.BackColor = Theme.ButtonBackColor;
 			this.EditorButtonCopyNode.ForeColor = Theme.ButtonForeColor;
 			this.EditorButtonCopyNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
@@ -151,6 +151,59 @@ namespace Binary
 		#endregion
 
 		#region Manage Controls
+
+		private void CreateBackupsForFiles(bool forced)
+		{
+			try
+			{
+
+				if (this.SyncDBs.Count > 0)
+				{
+
+					foreach (var sdb in this.SyncDBs)
+					{
+
+						var from = sdb.FullPath;
+						var to = $"{sdb.FullPath}.bacc";
+
+						if (forced || (!forced && !File.Exists(to)))
+						{
+
+							File.Copy(from, to, true);
+
+						}
+
+					}
+
+					if (forced)
+					{
+
+						MessageBox.Show("All files have been successfully backed up.", "Success",
+							MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					}
+
+				}
+				else
+				{
+
+					throw new Exception("No files are open and directory is not chosen");
+
+				}
+
+			}
+			catch (Exception ex)
+			{
+
+				if (forced)
+				{
+
+					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+
+			}
+		}
 
 		private void ToggleControlsAfterLoad(bool enable)
 		{
@@ -198,12 +251,12 @@ namespace Binary
 			this.EditorButtonAddNode.Enabled = manager != null && !manager.IsReadOnly;
 		}
 
-		private void ManageButtonDeleteNode(TreeNode node)
+		private void ManageButtonRemoveNode(TreeNode node)
 		{
 			if (node == null || node.Level != 2)
 			{
 
-				this.EditorButtonDeleteNode.Enabled = false;
+				this.EditorButtonRemoveNode.Enabled = false;
 				return;
 
 			}
@@ -219,7 +272,7 @@ namespace Binary
 			}
 
 			var manager = sdb.Database.GetManager(node.Parent.Text);
-			this.EditorButtonDeleteNode.Enabled = manager != null && !manager.IsReadOnly;
+			this.EditorButtonRemoveNode.Enabled = manager != null && !manager.IsReadOnly;
 		}
 
 		private void ManageButtonCopyNode(TreeNode node)
@@ -406,7 +459,7 @@ namespace Binary
 
 		private void EMSOptionsCreate_Click(object sender, EventArgs e)
 		{
-
+			this.CreateBackupsForFiles(true);
 		}
 
 		private void EMSOptionsRestore_Click(object sender, EventArgs e)
@@ -416,7 +469,37 @@ namespace Binary
 
 		private void EMSOptionsUnlock_Click(object sender, EventArgs e)
 		{
+			try
+			{
 
+				if (this.SyncDBs.Count > 0)
+				{
+
+					var path = this.SyncDBs[0].Folder;
+
+					MemoryUnlock.FastUnlock(path + @"\GLOBAL\CARHEADERSMEMORYFILE.BIN");
+					MemoryUnlock.FastUnlock(path + @"\GLOBAL\FRONTENDMEMORYFILE.BIN");
+					MemoryUnlock.FastUnlock(path + @"\GLOBAL\INGAMEMEMORYFILE.BIN");
+					MemoryUnlock.FastUnlock(path + @"\GLOBAL\PERMANENTMEMORYFILE.BIN");
+					MemoryUnlock.LongUnlock(path + @"\GLOBAL\GLOBALMEMORYFILE.BIN");
+
+					MessageBox.Show("Memory files were successfully unlocked for modding.", "Success");
+
+				}
+				else
+				{
+
+					throw new Exception("No files are open and directory is not chosen");
+
+				}
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
 		}
 
 		private void EMSScriptingProcess_Click(object sender, EventArgs e)
@@ -500,12 +583,12 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-			
+			MessageBox.Show("Binary by MaxHwoy v2.0.0.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
-
+		
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		#endregion
@@ -514,40 +597,171 @@ namespace Binary
 
 		private void EditorButtonAddNode_Click(object sender, EventArgs e)
 		{
+			// This button is enabled only in managers, so it is 
+			// safe to assume that we are in a manager TreeNode
 
+			var fname = this.EditorTreeView.SelectedNode.Parent.Text;
+			var mname = this.EditorTreeView.SelectedNode.Text;
+
+			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var manager = sdb.Database.GetManager(mname);
+
+			using var input = new Input("Enter name of the new collection");
+
+			while (true) // use loop instead of recursion to prevent stack overflow
+			{
+
+				if (input.ShowDialog() == DialogResult.OK)
+				{
+
+					try
+					{
+
+						manager.Add(input.Value);
+						var path = this.EditorTreeView.SelectedNode.FullPath;
+						this.InjectEndCommand(eCommandType.add, path, input.Value);
+						this.LoadTreeView(path);
+						break;
+
+					}
+					catch (Exception ex)
+					{
+
+						MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+					}
+
+				}
+				else
+				{
+
+					break;
+
+				}
+
+			}
 		}
 
-		private void EditorButtonDeleteNode_Click(object sender, EventArgs e)
+		private void EditorButtonRemoveNode_Click(object sender, EventArgs e)
 		{
+			// This button is enabled only in collections, so it is 
+			// safe to assume that we are in a collection TreeNode
 
+			var fname = this.EditorTreeView.SelectedNode.Parent.Parent.Text;
+			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
+			var cname = this.EditorTreeView.SelectedNode.Text;
+
+			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var manager = sdb.Database.GetManager(mname);
+			
+			try
+			{
+
+				this.EditorPropertyGrid.SelectedObject = null;
+				manager.Remove(cname);
+				this.InjectEndCommand(eCommandType.remove, this.EditorTreeView.SelectedNode.FullPath);
+				this.LoadTreeView(this.EditorTreeView.SelectedNode.Parent.FullPath);
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
 		}
 
 		private void EditorButtonCopyNode_Click(object sender, EventArgs e)
 		{
+			// This button is enabled only in collections, so it is 
+			// safe to assume that we are in a collection TreeNode
 
+			var fname = this.EditorTreeView.SelectedNode.Parent.Parent.Text;
+			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
+			var cname = this.EditorTreeView.SelectedNode.Text;
+
+			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var manager = sdb.Database.GetManager(mname);
+
+			using var input = new Input("Enter name of the new collection");
+
+			while (true) // use loop instead of recursion to prevent stack overflow
+			{
+
+				if (input.ShowDialog() == DialogResult.OK)
+				{
+
+					try
+					{
+
+						manager.Clone(input.Value, cname);
+						var path = this.EditorTreeView.SelectedNode.FullPath;
+						this.InjectEndCommand(eCommandType.copy, path, input.Value);
+						this.LoadTreeView(path);
+						break;
+
+					}
+					catch (Exception ex)
+					{
+
+						MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+					}
+
+				}
+				else
+				{
+
+					break;
+
+				}
+
+			}
 		}
 
 		private void EditorButtonOpenEditor_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void EditorButtonExportNode_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void EditorButtonImportNode_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void EditorButtonFindNode_Click(object sender, EventArgs e)
 		{
-			this.RecursiveTreeHiglight(this.EditorFindTextBox.Text, this.EditorTreeView.Nodes);
+			this.RecursiveTreeHiglights(this.EditorFindTextBox.Text, this.EditorTreeView.Nodes);
 		}
 
-		private void RecursiveTreeHiglight(string match, TreeNodeCollection nodes)
+		private void RecursiveNodeSelection(string path, TreeNodeCollection nodes)
+		{
+			foreach (TreeNode node in nodes)
+			{
+
+				if (node.FullPath == path)
+				{
+
+					this.EditorTreeView.SelectedNode = node;
+					return;
+
+				}
+				else
+				{
+
+					this.RecursiveNodeSelection(path, node.Nodes);
+
+				}
+
+			}
+		}
+
+		private void RecursiveTreeHiglights(string match, TreeNodeCollection nodes)
 		{
 
 			foreach (TreeNode node in nodes)
@@ -559,7 +773,7 @@ namespace Binary
 						? Color.FromArgb(160, 20, 30)
 						: Color.FromArgb(60, 255, 60);
 
-				if (node.Nodes.Count > 0) this.RecursiveTreeHiglight(match, node.Nodes);
+				if (node.Nodes.Count > 0) this.RecursiveTreeHiglights(match, node.Nodes);
 
 			}
 
@@ -625,6 +839,9 @@ namespace Binary
 				this.EditorStatusLabel.Text = $"Files: {launch.Files.Count} | Loading Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
 				this.LoadTreeView();
 				this.ToggleControlsAfterLoad(true);
+
+				if (Configurations.Default.AutoBackups) this.CreateBackupsForFiles(false);
+
 				Configurations.Default.LaunchFile = filename;
 				Configurations.Default.Save();
 
@@ -644,7 +861,7 @@ namespace Binary
 			}
 		}
 
-		private void LoadTreeView()
+		private void LoadTreeView(string selected = null)
 		{
 			this.EditorTreeView.Nodes.Clear();
 			this.SyncDBs.Sort((x, y) => x.Filename.CompareTo(y.Filename));
@@ -657,6 +874,13 @@ namespace Binary
 			}
 
 			this.EditorButtonFindNode.Enabled = true;
+
+			if (!String.IsNullOrEmpty(selected))
+			{
+
+				this.RecursiveNodeSelection(selected, this.EditorTreeView.Nodes);
+
+			}
 
 		}
 
@@ -700,7 +924,7 @@ namespace Binary
 
 			this.ManageButtonOpenEditor(selected);
 			this.ManageButtonAddNode(e.Node);
-			this.ManageButtonDeleteNode(e.Node);
+			this.ManageButtonRemoveNode(e.Node);
 			this.ManageButtonCopyNode(e.Node);
 			this.ManageButtonExportNode(e.Node);
 			this.ManageButtonImportNode(e.Node);
