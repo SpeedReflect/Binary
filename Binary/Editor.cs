@@ -3,27 +3,19 @@ using System.IO;
 using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Binary.Enums;
 using Binary.Endscript;
 using Binary.Properties;
-
 using Nikki.Core;
 using Nikki.Utils;
 using Nikki.Support.Shared.Class;
 using Nikki.Reflection.Interface;
 using CoreExtensions.Management;
-using Nikki.Reflection.Abstract;
-using System.Net.PeerToPeer.Collaboration;
-using System.Reflection;
-using System.Runtime.InteropServices;
+
+
 
 namespace Binary
 {
@@ -320,7 +312,7 @@ namespace Binary
 			}
 
 			var manager = sdb.Database.GetManager(node.Parent.Text);
-			this.EditorButtonExportNode.Enabled = manager != null && !manager.IsReadOnly;
+			this.EditorButtonExportNode.Enabled = manager != null;
 		}
 
 		private void ManageButtonImportNode(TreeNode node)
@@ -344,7 +336,7 @@ namespace Binary
 			}
 
 			var manager = sdb.Database.GetManager(node.Text);
-			this.EditorButtonImportNode.Enabled = manager != null && !manager.IsReadOnly;
+			this.EditorButtonImportNode.Enabled = manager != null;
 		}
 
 		#endregion
@@ -361,9 +353,12 @@ namespace Binary
 		{
 			using var browser = new OpenFileDialog()
 			{
+				AutoUpgradeEnabled = true,
 				CheckFileExists = true,
+				CheckPathExists = true,
 				Filter = "Endscript Files | *.end",
 				Multiselect = false,
+				Title = "Select Version 1 .end launcher to load",
 			};
 
 			if (browser.ShowDialog() == DialogResult.OK)
@@ -726,12 +721,116 @@ namespace Binary
 
 		private void EditorButtonExportNode_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			// This button is enabled only in collections, so it is 
+			// safe to assume that we are in a collection TreeNode
+
+			var fname = this.EditorTreeView.SelectedNode.Parent.Parent.Text;
+			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
+			var cname = this.EditorTreeView.SelectedNode.Text;
+
+			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var manager = sdb.Database.GetManager(mname);
+
+			using var exporter = new Exporter(manager.AllowsNoSerialization)
+			{
+				StartPosition = FormStartPosition.CenterScreen
+			};
+
+			if (exporter.ShowDialog() == DialogResult.OK)
+			{
+
+				using var dialog = new SaveFileDialog()
+				{
+					AddExtension = true,
+					AutoUpgradeEnabled = true,
+					CheckPathExists = true,
+					DefaultExt = ".bin",
+					Filter = "Binary Files|*.bin|Any Files|*.*",
+					OverwritePrompt = true,
+					SupportMultiDottedExtensions = true,
+					Title = "Select filename where collection should be exported",
+				};
+
+				if (dialog.ShowDialog() == DialogResult.OK)
+				{
+
+					try
+					{
+
+						using var bw = new BinaryWriter(File.Open(dialog.FileName, FileMode.Create));
+						manager.Export(cname, bw, exporter.Serialized);
+						MessageBox.Show($"Collection {cname} has been exported to path {dialog.FileName}", "Info",
+							MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					}
+					catch (Exception ex)
+					{
+
+						MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+
+					}
+
+				}
+
+			}
 		}
 
 		private void EditorButtonImportNode_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			// This button is enabled only in managers, so it is 
+			// safe to assume that we are in a manager TreeNode
+
+			var fname = this.EditorTreeView.SelectedNode.Parent.Text;
+			var mname = this.EditorTreeView.SelectedNode.Text;
+
+			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var manager = sdb.Database.GetManager(mname);
+
+			using var importer = new Importer()
+			{
+				StartPosition = FormStartPosition.CenterScreen
+			};
+
+			if (importer.ShowDialog() == DialogResult.OK)
+			{
+
+				using var dialog = new OpenFileDialog()
+				{
+					AutoUpgradeEnabled = true,
+					CheckFileExists = true,
+					CheckPathExists = true,
+					Filter = "Binary Files|*.bin|All Files|*.*",
+					Multiselect = false,
+					SupportMultiDottedExtensions = true,
+					Title = "Select file with collection to import"
+				};
+
+				if (dialog.ShowDialog() == DialogResult.OK)
+				{
+
+					try
+					{
+
+						var type = (Nikki.Reflection.Enum.eSerializeType)importer.SerializationIndex;
+						using var br = new BinaryReader(File.Open(dialog.FileName, FileMode.Open));
+						manager.Import(type, br);
+						MessageBox.Show($"File {dialog.FileName} has been imported with type {type}", "Info",
+							MessageBoxButtons.OK, MessageBoxIcon.Information);
+						this.LoadTreeView(this.EditorTreeView.SelectedNode.FullPath);
+
+					}
+					catch (Exception ex)
+					{
+
+						MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+
+					}
+
+				}
+
+			}
 		}
 
 		private void EditorButtonFindNode_Click(object sender, EventArgs e)
@@ -848,16 +947,16 @@ namespace Binary
 			}
 			catch (Exception e)
 			{
-
+			
 				if (showerrors)
 				{
-
+			
 					MessageBox.Show(e.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+			
 				}
-
+			
 				this.ToggleControlsAfterLoad(false);
-
+			
 			}
 		}
 

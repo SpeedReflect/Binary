@@ -10,7 +10,7 @@ namespace Binary
 {
 	public partial class LanMaker : Form
 	{
-		private bool IsValidDirectoryChosen => Directory.Exists(this.LanMakerLabelDir.Text);
+		private bool IsValidDirectoryChosen => Directory.Exists(this.LanMakerTextBoxDir.Text);
 
 		public LanMaker()
 		{
@@ -26,13 +26,17 @@ namespace Binary
 			this.LanMakerGame.ForeColor = Theme.TextBoxForeColor;
 			this.LanMakerUsage.BackColor = Theme.TextBoxBackColor;
 			this.LanMakerUsage.ForeColor = Theme.TextBoxForeColor;
-			this.LanMakerLabelDir.ForeColor = Theme.LabelTextColor;
+			this.LanMakerTextBoxDir.BackColor = Theme.TextBoxBackColor;
+			this.LanMakerTextBoxDir.ForeColor = Theme.TextBoxForeColor;
 			this.LanMakerButtonDir.BackColor = Theme.ButtonBackColor;
 			this.LanMakerButtonDir.ForeColor = Theme.ButtonForeColor;
 			this.LanMakerButtonDir.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
 			this.LanMakerButtonSave.BackColor = Theme.ButtonBackColor;
 			this.LanMakerButtonSave.ForeColor = Theme.ButtonForeColor;
 			this.LanMakerButtonSave.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.LanMakerButtonHelp.BackColor = Theme.ButtonBackColor;
+			this.LanMakerButtonHelp.ForeColor = Theme.ButtonForeColor;
+			this.LanMakerButtonHelp.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
 		}
 
 		private void ChangeSaveButtonEnabledState()
@@ -54,7 +58,7 @@ namespace Binary
 			if (browser.ShowDialog() == DialogResult.OK)
 			{
 
-				this.LanMakerLabelDir.Text = browser.SelectedPath;
+				this.LanMakerTextBoxDir.Text = browser.SelectedPath;
 				this.LanMakerButtonSave.Enabled = true;
 
 			}
@@ -79,7 +83,7 @@ namespace Binary
 			if (dialog.ShowDialog() == DialogResult.OK)
 			{
 
-				var directory = this.LanMakerLabelDir.Text;
+				var directory = this.LanMakerTextBoxDir.Text;
 				var game = this.LanMakerGame.Text;
 				var usage = this.LanMakerUsage.Text;
 				var launch = Parser.GenerateSample(directory, game, usage);
@@ -96,6 +100,17 @@ namespace Binary
 		}
 
 		private void LanMakerGame_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			this.ChangeSaveButtonEnabledState();
+		}
+
+		private void LanMakerButtonHelp_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Launcher is a Version 1 .end file that is used for loading game files, " +
+				"linked files, main endscript and game selection.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void LanMakerTextBoxDir_TextChanged(object sender, EventArgs e)
 		{
 			this.ChangeSaveButtonEnabledState();
 		}

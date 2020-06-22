@@ -5,8 +5,7 @@ using System.Windows.Forms;
 using System.Security.Principal;
 using Nikki.Core;
 using CoreExtensions.Native;
-
-
+using Nikki.Utils;
 
 namespace Binary
 {
@@ -19,23 +18,23 @@ namespace Binary
 		static void Main()
 		{
 			// Skip administator check if in the debug mode
-			//if (!System.Diagnostics.Debugger.IsAttached)
-			//{
-			//
-			//	// Check if the program is run as administator, exit if not
-			//	using var identity = WindowsIdentity.GetCurrent();
-			//	var principal = new WindowsPrincipal(identity);
-			//	
-			//	if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
-			//	{
-			//	
-			//		MessageBox.Show("Run Binary in Administrator mode!", "Warning",
-			//			MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			//		return;
-			//	
-			//	}
-			//
-			//}
+			if (!System.Diagnostics.Debugger.IsAttached)
+			{
+			
+				// Check if the program is run as administator, exit if not
+				using var identity = WindowsIdentity.GetCurrent();
+				var principal = new WindowsPrincipal(identity);
+				
+				if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
+				{
+				
+					MessageBox.Show("Run Binary in Administrator mode!", "Warning",
+						MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				
+				}
+			
+			}
 
 			NativeCallerX.AllocConsole();
 			Application.SetHighDpiMode(HighDpiMode.SystemAware);
