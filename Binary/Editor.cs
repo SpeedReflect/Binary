@@ -716,7 +716,43 @@ namespace Binary
 
 		private void EditorButtonOpenEditor_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			// This button is enabled only in collections, so it is 
+			// safe to assume that we are in a collection TreeNode
+
+			var fname = this.EditorTreeView.SelectedNode.Parent.Parent.Text;
+			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
+			var cname = this.EditorTreeView.SelectedNode.Text;
+
+			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var manager = sdb.Database.GetManager(mname);
+
+			var collection = manager[manager.FindIndex(cname)];
+
+			if (collection is DBModelPart model)
+			{
+
+				using var editor = new CarPartsEditor(model);
+				editor.ShowDialog();
+
+			}
+			else if (collection is FNGroup fng)
+			{
+
+
+
+			}
+			else if (collection is TPKBlock tpk)
+			{
+
+
+
+			}
+			else if (collection is STRBlock str)
+			{
+
+
+
+			}
 		}
 
 		private void EditorButtonExportNode_Click(object sender, EventArgs e)
@@ -980,7 +1016,6 @@ namespace Binary
 				this.RecursiveNodeSelection(selected, this.EditorTreeView.Nodes);
 
 			}
-
 		}
 
 		private void Editor_Load(object sender, EventArgs e)
