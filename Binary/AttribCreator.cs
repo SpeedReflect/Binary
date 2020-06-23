@@ -29,7 +29,28 @@ namespace Binary
 		public AttribCreator(GameINT game)
 		{
 			this.InitializeComponent();
+			this.ToggleTheme();
 			this.PopulateAttribTypesBasedOnGame(game);
+		}
+
+		private void ToggleTheme()
+		{
+			this.BackColor = Theme.MainBackColor;
+			this.ForeColor = Theme.MainForeColor;
+			this.AttribTypeComboBox.BackColor = Theme.TextBoxBackColor;
+			this.AttribTypeComboBox.ForeColor = Theme.TextBoxForeColor;
+			this.AttribKeyComboBox.BackColor = Theme.TextBoxBackColor;
+			this.AttribKeyComboBox.ForeColor = Theme.TextBoxForeColor;
+			this.AttribButtonCreate.BackColor = Theme.ButtonBackColor;
+			this.AttribButtonCreate.ForeColor = Theme.ButtonForeColor;
+			this.AttribButtonCreate.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.AttribButtonHelp.BackColor = Theme.ButtonBackColor;
+			this.AttribButtonHelp.ForeColor = Theme.ButtonForeColor;
+			this.AttribButtonHelp.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.label1.BackColor = Theme.MainBackColor;
+			this.label1.ForeColor = Theme.LabelTextColor;
+			this.label2.BackColor = Theme.MainBackColor;
+			this.label2.ForeColor = Theme.LabelTextColor;
 		}
 
 		private void PopulateAttribTypesBasedOnGame(GameINT game)
@@ -144,7 +165,7 @@ namespace Binary
 		{
 			MessageBox.Show("Choose attribute type that is going to be applied to a car part. " +
 				"Then, based on the type chosen, select attribute key that describes what " +
-				"attribute is for", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				"attribute is for", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void AttribButtonCreate_Click(object sender, EventArgs e)

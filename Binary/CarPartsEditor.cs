@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using Binary.Properties;
 using Nikki.Support.Shared.Class;
@@ -15,7 +11,7 @@ namespace Binary
 {
 	public partial class CarPartsEditor : Form
 	{
-		private DBModelPart Model { get; set; }
+		private DBModelPart Model { get; }
 
 		public CarPartsEditor(DBModelPart model)
 		{
@@ -27,12 +23,76 @@ namespace Binary
 			this.ToggleMenuStripControls(null);
 		}
 
+		#region Theme
+
 		private void ToggleTheme()
 		{
+			// Renderers
+			this.CarPartsEditorMenuStrip.Renderer = new Theme.MenuStripRenderer();
 
+			// Primary colors and controls
+			this.BackColor = Theme.MainBackColor;
+			this.ForeColor = Theme.MainForeColor;
 
+			// Tree view
+			this.CarPartsTreeView.BackColor = Theme.PrimBackColor;
+			this.CarPartsTreeView.ForeColor = Theme.PrimForeColor;
 
+			// Property grid
+			this.CarPartsPropertyGrid.BackColor = Theme.PrimBackColor;
+			this.CarPartsPropertyGrid.CategorySplitterColor = Theme.ButtonBackColor;
+			this.CarPartsPropertyGrid.CategoryForeColor = Theme.TextBoxForeColor;
+			this.CarPartsPropertyGrid.CommandsBackColor = Theme.PrimBackColor;
+			this.CarPartsPropertyGrid.CommandsForeColor = Theme.PrimForeColor;
+			this.CarPartsPropertyGrid.CommandsBorderColor = Theme.PrimBackColor;
+			this.CarPartsPropertyGrid.DisabledItemForeColor = Theme.LabelTextColor;
+			this.CarPartsPropertyGrid.LineColor = Theme.ButtonBackColor;
+			this.CarPartsPropertyGrid.SelectedItemWithFocusBackColor = Theme.FocusedBackColor;
+			this.CarPartsPropertyGrid.SelectedItemWithFocusForeColor = Theme.FocusedForeColor;
+			this.CarPartsPropertyGrid.ViewBorderColor = Theme.RegBorderColor;
+			this.CarPartsPropertyGrid.ViewBackColor = Theme.PrimBackColor;
+			this.CarPartsPropertyGrid.ViewForeColor = Theme.PrimForeColor;
+			this.CarPartsPropertyGrid.HelpBackColor = Theme.PrimBackColor;
+			this.CarPartsPropertyGrid.HelpForeColor = Theme.PrimForeColor;
+			this.CarPartsPropertyGrid.HelpBorderColor = Theme.RegBorderColor;
+
+			// Menu strip and menu items
+			this.CarPartsEditorMenuStrip.ForeColor = Theme.LabelTextColor;
+			this.AddPartToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.AddPartToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.RemovePartToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.RemovePartToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.CopyPartToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.CopyPartToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.MoveUpPartsToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.MoveUpPartsToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.MoveDownPartsToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.MoveDownPartsToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.ReversePartsToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.ReversePartsToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.SortPartsByNameToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.SortPartsByNameToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.AddAttributeToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.AddAttributeToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.RemoveAttributeToolStripMenuItem.BackColor = Theme.MenuItemBackColor;			
+			this.RemoveAttributeToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.MoveUpAttributesToolStripMenuItem.BackColor = Theme.MenuItemBackColor;			
+			this.MoveUpAttributesToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.MoveDownAttributesToolStripMenuItem.BackColor = Theme.MenuItemBackColor;			
+			this.MoveDownAttributesToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.ReverseAttributesToolStripMenuItem.BackColor = Theme.MenuItemBackColor;			
+			this.ReverseAttributesToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.SortAttributesByKeyToolStripMenuItem.BackColor = Theme.MenuItemBackColor;			
+			this.SortAttributesByKeyToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.HasherToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.HasherToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.RaiderToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.RaiderToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 		}
+
+		#endregion
+
+		#region Methods
 
 		private object GetSelectedObject(TreeNode node)
 		{
@@ -61,7 +121,7 @@ namespace Binary
 		private void LoadTreeView(string selected = null)
 		{
 			this.CarPartsTreeView.Nodes.Clear();
-			var nodes = new TreeNode[this.Model.Length];
+			var nodes = new TreeNode[this.Model.CarPartsCount];
 			int count = 0;
 
 			foreach (var realpart in this.Model.ModelCarParts)
@@ -139,12 +199,12 @@ namespace Binary
 				this.AddPartToolStripMenuItem.Enabled = true;
 				this.RemovePartToolStripMenuItem.Enabled = false;
 				this.CopyPartToolStripMenuItem.Enabled = false;
-				this.SwitchPartsToolStripMenuItem.Enabled = false;
+				this.MoveUpPartsToolStripMenuItem.Enabled = false;
 				this.ReversePartsToolStripMenuItem.Enabled = false;
 				this.SortPartsByNameToolStripMenuItem.Enabled = false;
 				this.AddAttributeToolStripMenuItem.Enabled = false;
 				this.RemoveAttributeToolStripMenuItem.Enabled = false;
-				this.SwitchAttributesToolStripMenuItem.Enabled = false;
+				this.MoveUpAttributesToolStripMenuItem.Enabled = false;
 				this.ReverseAttributesToolStripMenuItem.Enabled = false;
 				this.SortAttributesByKeyToolStripMenuItem.Enabled = false;
 
@@ -155,17 +215,23 @@ namespace Binary
 				this.AddPartToolStripMenuItem.Enabled = node.Level == 0;
 				this.RemovePartToolStripMenuItem.Enabled = node.Level == 0;
 				this.CopyPartToolStripMenuItem.Enabled = node.Level == 0;
-				this.SwitchPartsToolStripMenuItem.Enabled = node.Level == 0;
+				this.MoveUpPartsToolStripMenuItem.Enabled = node.Level == 0;
+				this.MoveDownPartsToolStripMenuItem.Enabled = node.Level == 0;
 				this.ReversePartsToolStripMenuItem.Enabled = node.Level == 0;
 				this.SortPartsByNameToolStripMenuItem.Enabled = node.Level == 0;
 				this.AddAttributeToolStripMenuItem.Enabled = node.Level == 0;
-				this.RemoveAttributeToolStripMenuItem.Enabled = node.Level == 0;
-				this.SwitchAttributesToolStripMenuItem.Enabled = node.Level == 0;
+				this.RemoveAttributeToolStripMenuItem.Enabled = node.Level == 1;
+				this.MoveUpAttributesToolStripMenuItem.Enabled = node.Level == 1;
+				this.MoveDownAttributesToolStripMenuItem.Enabled = node.Level == 1;
 				this.ReverseAttributesToolStripMenuItem.Enabled = node.Level == 0;
 				this.SortAttributesByKeyToolStripMenuItem.Enabled = node.Level == 0;
 
 			}
 		}
+
+		#endregion
+
+		#region Menu Strip Controls
 
 		private void AddPartToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -207,9 +273,54 @@ namespace Binary
 			this.CarPartsTreeView.Nodes.Add(level0);
 		}
 
-		private void SwitchPartsToolStripMenuItem_Click(object sender, EventArgs e)
+		private void MoveUpPartsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			// Assuming we are in a real car part node
 
+			var path = this.CarPartsTreeView.SelectedNode.FullPath;
+			var index1 = this.CarPartsTreeView.SelectedNode.Index;
+			var index2 = index1 - 1;
+
+			if (index2 < 0)
+			{
+
+				MessageBox.Show("Unable to move up because selected node is the up most node",
+					"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			// Switch parts
+			var temp = this.Model.ModelCarParts[index1];
+			this.Model.ModelCarParts[index1] = this.Model.ModelCarParts[index2];
+			this.Model.ModelCarParts[index2] = temp;
+
+			this.LoadTreeView(path);
+		}
+
+		private void MoveDownPartsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// Assuming we are in a real car part node
+
+			var path = this.CarPartsTreeView.SelectedNode.FullPath;
+			var index1 = this.CarPartsTreeView.SelectedNode.Index;
+			var index2 = index1 + 1;
+
+			if (index2 >= this.Model.CarPartsCount)
+			{
+
+				MessageBox.Show("Unable to move down because selected node is the down most node",
+					"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			// Switch parts
+			var temp = this.Model.ModelCarParts[index1];
+			this.Model.ModelCarParts[index1] = this.Model.ModelCarParts[index2];
+			this.Model.ModelCarParts[index2] = temp;
+
+			this.LoadTreeView(path);
 		}
 
 		private void ReversePartsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -226,6 +337,8 @@ namespace Binary
 
 		private void AddAttributeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			// Assuming we are in a real car part node
+
 			using var creator = new AttribCreator(this.Model.GameINT)
 			{
 				StartPosition = FormStartPosition.CenterScreen
@@ -234,28 +347,110 @@ namespace Binary
 			if (creator.ShowDialog() == DialogResult.OK)
 			{
 
-				
+				var node = this.CarPartsTreeView.SelectedNode;
+				var realpart = this.Model.GetRealPart(node.Index);
+				realpart.AddAttribute(creator.KeyChosen);
+				var attribute = realpart.Attributes[^1];
+				node.Nodes.Add(attribute.ToString());
 
 			}
 		}
 
 		private void RemoveAttributeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			// Assuming we are in an attribute node
 
+			var node = this.CarPartsTreeView.SelectedNode;
+			var realpart = this.Model.GetRealPart(node.Parent.Index);
+			realpart.Attributes.RemoveAt(node.Index);
+			this.CarPartsTreeView.SelectedNode = node.Parent;
+			node.Parent.Nodes.RemoveAt(node.Index);
 		}
 
-		private void SwitchAttributesToolStripMenuItem_Click(object sender, EventArgs e)
+		private void MoveUpAttributesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			// Assuming we are in an attribute node
 
+			var path = this.CarPartsTreeView.SelectedNode.FullPath;
+			var index1 = this.CarPartsTreeView.SelectedNode.Index;
+			var index2 = index1 - 1;
+			var realpart = this.Model.GetRealPart(this.CarPartsTreeView.SelectedNode.Parent.Index);
+
+			if (index2 < 0)
+			{
+
+				MessageBox.Show("Unable to move up because selected node is the up most node",
+					"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			// Switch attributes
+			var temp = realpart.Attributes[index1];
+			realpart.Attributes[index1] = realpart.Attributes[index2];
+			realpart.Attributes[index2] = temp;
+
+			this.LoadTreeView(path);
+		}
+
+		private void MoveDownAttributesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// Assuming we are in an attribute node
+
+			var path = this.CarPartsTreeView.SelectedNode.FullPath;
+			var index1 = this.CarPartsTreeView.SelectedNode.Index;
+			var index2 = index1 + 1;
+			var realpart = this.Model.GetRealPart(this.CarPartsTreeView.SelectedNode.Parent.Index);
+
+			if (index2 >= realpart.Length)
+			{
+
+				MessageBox.Show("Unable to move up because selected node is the up most node",
+					"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			// Switch attributes
+			var temp = realpart.Attributes[index1];
+			realpart.Attributes[index1] = realpart.Attributes[index2];
+			realpart.Attributes[index2] = temp;
+
+			this.LoadTreeView(path);
 		}
 
 		private void ReverseAttributesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			this.Model.GetRealPart(this.CarPartsTreeView.SelectedNode.Index).Attributes.Reverse();
+			this.LoadTreeView(this.CarPartsTreeView.SelectedNode.FullPath);
 		}
 
 		private void SortAttributesByKeyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			var realpart = this.Model.GetRealPart(this.CarPartsTreeView.SelectedNode.Index);
+
+			// I have no idea why List.Sort does not work, so just do our own
+			for (int i = 0; i < realpart.Length - 1; i++)
+			{
+
+				for (int j = 0; j < realpart.Length - i - 1; j++)
+				{
+
+					if (realpart.Attributes[j].Key > realpart.Attributes[j + 1].Key)
+					{
+					
+						// swap temp and arr[i] 
+						var temp = realpart.Attributes[j];
+						realpart.Attributes[j] = realpart.Attributes[j + 1];
+						realpart.Attributes[j + 1] = temp;
+				
+					}
+				
+				}
+
+			}
+
+			this.LoadTreeView(this.CarPartsTreeView.SelectedNode.FullPath);
 		}
 
 		private void HasherToolStripMenuItem_Click(object sender, EventArgs e)
@@ -267,6 +462,10 @@ namespace Binary
 		{
 
 		}
+
+		#endregion
+
+		#region TreeView and Grid
 
 		private void CarPartsTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
 		{
@@ -303,5 +502,7 @@ namespace Binary
 			this.CarPartsTreeView.SelectedNode.Text = this.CarPartsPropertyGrid.SelectedObject.ToString();
 			this.CarPartsPropertyGrid.Refresh();
 		}
+
+		#endregion
 	}
 }
