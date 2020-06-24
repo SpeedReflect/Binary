@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Drawing;
 using Binary.Enums;
@@ -390,25 +390,7 @@ namespace Binary
 
 		private void EMSMainSaveFiles_Click(object sender, EventArgs e)
 		{
-			try
-			{
-
-				var watch = new Stopwatch();
-				watch.Start();
-
-				foreach (var sdb in this.SyncDBs) sdb.Save();
-
-				watch.Stop();
-				var filename = Configurations.Default.LaunchFile;
-				this.EditorStatusLabel.Text = $"Files: {this.SyncDBs.Count} | Saving Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
-
-			}
-			catch (Exception ex)
-			{
-
-				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-			}
+			this.SaveSynchronizedDatabases();
 		}
 
 		private void EMSMainExit_Click(object sender, EventArgs e)
@@ -961,14 +943,7 @@ namespace Binary
 				var watch = new Stopwatch();
 				watch.Start();
 
-				foreach (var file in launch.Files)
-				{
-
-					var sdb = new SynchronizedDatabase(launch.GameID, launch.Directory, file);
-					sdb.Load();
-					this.SyncDBs.Add(sdb);
-
-				}
+				this.LoadAllDB(launch);
 
 				watch.Stop();
 				this.EditorStatusLabel.Text = $"Files: {launch.Files.Count} | Loading Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
@@ -1018,11 +993,73 @@ namespace Binary
 			}
 		}
 
-		private void Editor_Load(object sender, EventArgs e)
+		private async void LoadAllDB(Launch launch)
 		{
-			var file = Configurations.Default.LaunchFile;
-			if (!File.Exists(file)) return;
-			else this.LoadSynchronizedDatabases(file, false);
+			var tasks = new List<Task>(launch.Files.Count);
+
+			foreach (var file in launch.Files)
+			{
+
+				var sdb = new SynchronizedDatabase(launch.GameID, launch.Directory, file);
+				this.SyncDBs.Add(sdb);
+				tasks.Add(this.LoadOneDB(sdb));
+
+			}
+
+			await Task.WhenAll(tasks);
+		}
+
+		private Task LoadOneDB(SynchronizedDatabase sdb)
+		{
+			sdb.Load();
+			return Task.CompletedTask;
+		}
+
+		#endregion
+
+		#region Saving
+
+		private void SaveSynchronizedDatabases()
+		{
+			try
+			{
+
+				var watch = new Stopwatch();
+				watch.Start();
+
+				this.SaveAllDB();
+
+				watch.Stop();
+				var filename = Configurations.Default.LaunchFile;
+				this.EditorStatusLabel.Text = $"Files: {this.SyncDBs.Count} | Saving Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
+		}
+
+		private async void SaveAllDB()
+		{
+			var tasks = new List<Task>(this.SyncDBs.Count);
+
+			foreach (var sdb in this.SyncDBs)
+			{
+
+				tasks.Add(this.SaveOneDB(sdb));
+
+			}
+
+			await Task.WhenAll(tasks);
+		}
+
+		private Task SaveOneDB(SynchronizedDatabase sdb)
+		{
+			sdb.Save();
+			return Task.CompletedTask;
 		}
 
 		#endregion
@@ -1129,10 +1166,20 @@ namespace Binary
 
 		#endregion
 
+		#region Editor Main
+
+		private void Editor_Load(object sender, EventArgs e)
+		{
+			var file = Configurations.Default.LaunchFile;
+			if (!File.Exists(file)) return;
+			else this.LoadSynchronizedDatabases(file, false);
+		}
+
 		private void Editor_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			this.SyncDBs = null;
 		}
 
+		#endregion
 	}
 }
