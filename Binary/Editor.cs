@@ -726,7 +726,8 @@ namespace Binary
 			else if (collection is TPKBlock tpk)
 			{
 
-
+				using var editor = new TextureEditor(tpk);
+				editor.ShowDialog();
 
 			}
 			else if (collection is STRBlock str)

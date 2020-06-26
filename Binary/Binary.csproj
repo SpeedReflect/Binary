@@ -8,9 +8,11 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ILWrapper\ILWrapper\ILWrapper.csproj" />
     <ProjectReference Include="..\..\Nikki\Nikki\Nikki.csproj" />
   </ItemGroup>
 

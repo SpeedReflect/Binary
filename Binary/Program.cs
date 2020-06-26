@@ -36,7 +36,10 @@ namespace Binary
 			
 			}
 
+			#if DEBUG
 			NativeCallerX.AllocConsole();
+			#endif
+
 			Application.SetHighDpiMode(HighDpiMode.SystemAware);
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
@@ -50,7 +53,9 @@ namespace Binary
 			Loader.LoadBinKeys(new string[] { "keys.txt" });
 			Application.Run(new IntroUI());
 
+			#if DEBUG
 			NativeCallerX.FreeConsole();
+			#endif
 		}
 	}
 }

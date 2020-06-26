@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binary", "Binary\Binary.csproj", "{94A62F05-0ABF-4FBD-BBC5-B3D0E355F35A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binary", "Binary\Binary.csproj", "{94A62F05-0ABF-4FBD-BBC5-B3D0E355F35A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nikki", "..\Nikki\Nikki\Nikki.csproj", "{C1D4FF24-1928-494E-B167-52E64E143761}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ILWrapper", "..\ILWrapper\ILWrapper\ILWrapper.csproj", "{4E1478F8-4624-48B3-BB01-2E686F7F9A2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C1D4FF24-1928-494E-B167-52E64E143761}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1D4FF24-1928-494E-B167-52E64E143761}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1D4FF24-1928-494E-B167-52E64E143761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E1478F8-4624-48B3-BB01-2E686F7F9A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E1478F8-4624-48B3-BB01-2E686F7F9A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E1478F8-4624-48B3-BB01-2E686F7F9A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E1478F8-4624-48B3-BB01-2E686F7F9A2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
