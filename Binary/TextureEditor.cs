@@ -214,6 +214,12 @@ namespace Binary
 						}
 
 					}
+					else
+					{
+
+						break;
+
+					}
 
 				}
 

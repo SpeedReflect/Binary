@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-
+using Nikki.Core;
 using CoreExtensions.Native;
 using CoreExtensions.Text;
-
-using Nikki.Core;
 
 
 
@@ -91,17 +89,17 @@ namespace Binary
 
         private void CopyBinHash_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.BinHashInput.Text);
+            Clipboard.SetText(this.BinHashInput?.Text ?? String.Empty);
         }
 
         private void CopyBinFile_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.BinFileInput.Text);
+            Clipboard.SetText(this.BinFileInput?.Text ?? String.Empty);
         }
 
         private void CopyString_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.StringGuessed.Text);
+            Clipboard.SetText(this.StringGuessed?.Text ?? String.Empty);
         }
     }
 }

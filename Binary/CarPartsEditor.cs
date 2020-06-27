@@ -517,6 +517,14 @@ namespace Binary
 		{
 			this.CarPartsTreeView.SelectedNode.Text = this.CarPartsPropertyGrid.SelectedObject.ToString();
 			this.CarPartsPropertyGrid.Refresh();
+
+			if (this.CarPartsTreeView.SelectedNode.Level == 1)
+			{
+
+				var index = this.CarPartsTreeView.SelectedNode.Parent.Index;
+				this.CarPartsTreeView.SelectedNode.Parent.Text = this.Model.ModelCarParts[index].ToString();
+
+			}
 		}
 
 		#endregion

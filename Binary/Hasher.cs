@@ -79,27 +79,27 @@ namespace Binary
 
         private void CopyString_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.StringTextbox.Text);
+            Clipboard.SetText(this.StringTextbox?.Text ?? String.Empty);
         }
 
         private void CopyBinHash_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.BinHashTextbox.Text);
+            Clipboard.SetText(this.BinHashTextbox?.Text ?? String.Empty);
         }
 
         private void CopyBinFile_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.BinFileTextbox.Text);
+            Clipboard.SetText(this.BinFileTextbox?.Text ?? String.Empty);
         }
 
         private void CopyVltHash_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.VltHashTextbox.Text);
+            Clipboard.SetText(this.VltHashTextbox?.Text ?? String.Empty);
         }
 
         private void CopyVltFile_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.VltFileTextbox.Text);
+            Clipboard.SetText(this.VltFileTextbox?.Text ?? String.Empty);
         }
     }
 }

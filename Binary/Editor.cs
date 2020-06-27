@@ -1,18 +1,19 @@
 ﻿using System;
 using System.IO;
+using System.Drawing;
 using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Drawing;
 using Binary.Enums;
 using Binary.Endscript;
 using Binary.Properties;
 using Nikki.Core;
 using Nikki.Utils;
-using Nikki.Support.Shared.Class;
+using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
+using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
 
 
@@ -404,6 +405,7 @@ namespace Binary
 		}
 
 		private void EMSDatabaseLoadDB_Click(object sender, EventArgs e)
+
 		{
 			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
@@ -1202,6 +1204,50 @@ namespace Binary
 
 				try { form.Close(); }
 				catch { }
+
+			}
+		}
+
+		#endregion
+
+		#region Exception
+
+		internal void EmergencySaveDatabase()
+		{
+			var date = DateTime.Now.ToString("MM_dd_yyyy_HH_mm_ss");
+			string backup = $"DB_{date}";
+
+
+			Directory.CreateDirectory(backup);
+
+			foreach (var sdb in this.SyncDBs)
+			{
+
+				var filepath = $"{backup}\\{sdb.Filename.Replace('\\', '_')}";
+				Directory.CreateDirectory(filepath);
+
+				foreach (var manager in sdb.Database.Managers)
+				{
+
+					var managedpath = $"{filepath}\\{manager.Name}";
+					Directory.CreateDirectory(managedpath);
+
+					foreach (Collectable collection in manager)
+					{
+
+						if (collection is IAssembly asm)
+						{
+
+							var cpath = $"{managedpath}\\{collection.CollectionName}.bin";
+
+							using var bw = new BinaryWriter(File.Open(cpath, FileMode.Create));
+							asm.Serialize(bw);
+
+						}
+
+					}
+
+				}
 
 			}
 		}
