@@ -31,11 +31,10 @@ namespace Binary
 			this._openforms = new List<Form>();
 			this.Commands = new List<string>();
 			this.Text = $"{this.TPK.CollectionName} Editor";
-			this.TexEditorPreview.SizeMode = PictureBoxSizeMode.StretchImage;
-			this.TexEditorPreview.Controls.Add(this.TexEditorImage);
-			this.TexEditorImage.Location = new Point(0, 0);
 			this.TexEditorImage.BackColor = Color.FromArgb(0, 0, 0, 0);
 			this.TexEditorImage.BorderStyle = BorderStyle.FixedSingle;
+			this.TexEditorImage.Width = this.panel1.Width;
+			this.TexEditorImage.Height = this.panel1.Height;
 			this.TexEditorListView.Columns[^1].Width = -2;
 			this.ToggleTheme();
 			this.LoadListView();
@@ -55,7 +54,7 @@ namespace Binary
 			this.ForeColor = Theme.MainForeColor;
 
 			// Image
-			this.TexEditorPreview.Image = Configurations.Default.DarkTheme
+			this.panel1.BackgroundImage = Configurations.Default.DarkTheme
 				? Resources.DarkTransparent : Resources.LightTransparent;
 
 			// List view
@@ -131,6 +130,7 @@ namespace Binary
 			this.TexEditorListView.Items[index].Selected = true;
 			this.TexEditorListView.Select();
 			this.TexEditorListView.HideSelection = false;
+			this.TexEditorListView.Items[index].EnsureVisible();
 		}
 
 		private void ToggleMenuStripControls()
@@ -341,8 +341,9 @@ namespace Binary
 
 				this.TexEditorPropertyGrid.SelectedObject = null;
 				this.DisposeImage();
-				this.TexEditorImage.Width = this.TexEditorPreview.Width;
-				this.TexEditorImage.Height = this.TexEditorPreview.Height;
+				this.panel1.AutoScroll = false;
+				this.TexEditorImage.Width = this.panel1.Width;
+				this.TexEditorImage.Height = this.panel1.Height;
 				this.ToggleMenuStripControls();
 				return;
 
@@ -367,8 +368,8 @@ namespace Binary
 
 			this.TexEditorImage.BorderStyle = BorderStyle.None;
 			this.TexEditorImage.Image = Image.FromStream(ms);
-			this.TexEditorImage.Bounds = new Rectangle(0, 0, texture.Width, texture.Height);
 			this.TexEditorImage.BorderStyle = BorderStyle.FixedSingle;
+			this.panel1.AutoScroll = true;
 			this.ToggleMenuStripControls();
 		}
 
@@ -388,6 +389,46 @@ namespace Binary
 		private void TexEditorListView_DrawItem(object sender, DrawListViewItemEventArgs e)
 		{
 			e.DrawDefault = true;
+		}
+
+		private void TexEditorListView_ColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			uint key;
+			int index;
+
+			if (this.TexEditorPropertyGrid.SelectedObject is null)
+			{
+
+				key = 0xFFFFFFFF;
+				index = -1;
+
+			}
+			else
+			{
+
+				key = ((Texture)this.TexEditorPropertyGrid.SelectedObject).BinKey;
+				index = 0;
+
+			}
+
+			switch (e.Column)
+			{
+				case 1: // BinKey
+					this.TPK.SortTexturesByType(false);
+					if (index == 0) index = this.TPK.GetTextureIndex(key, eKeyType.BINKEY);
+					this.LoadListView(index);
+					break;
+
+				case 2: // CollectionName
+					this.TPK.SortTexturesByType(true);
+					if (index == 0) index = this.TPK.GetTextureIndex(key, eKeyType.BINKEY);
+					this.LoadListView(index);
+					break;
+
+				default:
+					break;
+
+			}
 		}
 
 		#endregion
@@ -451,10 +492,6 @@ namespace Binary
 
 		private void TextureEditor_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var disposer = this.TexEditorPreview.Image;
-			this.TexEditorPreview.Image = null;
-			if (disposer != null) disposer.Dispose();
-
 			this.DisposeImage();
 
 			foreach (var form in this._openforms)
