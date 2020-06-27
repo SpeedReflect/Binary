@@ -109,7 +109,8 @@ namespace Binary
 			launch.CheckFiles();
 			launch.LoadLinks();
 
-			MessageBox.Show("Is this Peng?", "Yeah");
+			MessageBox.Show("User-oriented launcher is valid, parsing is coming soon TM", "Validation",
+				MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 		}
 	

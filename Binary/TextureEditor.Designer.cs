@@ -51,6 +51,8 @@
 			this.TexEditorPropertyGrid = new System.Windows.Forms.PropertyGrid();
 			this.TexEditorPreview = new System.Windows.Forms.PictureBox();
 			this.TexEditorImage = new System.Windows.Forms.PictureBox();
+			this.AddTextureDialog = new System.Windows.Forms.OpenFileDialog();
+			this.ReplaceTextureDialog = new System.Windows.Forms.OpenFileDialog();
 			this.TexEditorMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -183,6 +185,8 @@
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.splitContainer1.IsSplitterFixed = true;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
 			this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.splitContainer1.Name = "splitContainer1";
@@ -236,23 +240,25 @@
             this.ColumnCollectionName,
             this.ColumnCompression});
 			this.TexEditorListView.FullRowSelect = true;
-			this.TexEditorListView.GridLines = true;
 			this.TexEditorListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.TexEditorListView.HideSelection = false;
 			this.TexEditorListView.Location = new System.Drawing.Point(12, 3);
 			this.TexEditorListView.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.TexEditorListView.MultiSelect = false;
 			this.TexEditorListView.Name = "TexEditorListView";
+			this.TexEditorListView.OwnerDraw = true;
 			this.TexEditorListView.Size = new System.Drawing.Size(514, 261);
 			this.TexEditorListView.TabIndex = 0;
 			this.TexEditorListView.UseCompatibleStateImageBehavior = false;
 			this.TexEditorListView.View = System.Windows.Forms.View.Details;
+			this.TexEditorListView.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.TexEditorListView_ColumnWidthChanging);
+			this.TexEditorListView.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.TexEditorListView_DrawColumnHeader);
+			this.TexEditorListView.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.TexEditorListView_DrawItem);
 			this.TexEditorListView.SelectedIndexChanged += new System.EventHandler(this.TexEditorListView_SelectedIndexChanged);
 			// 
 			// ColumnIndex
 			// 
 			this.ColumnIndex.Text = "Index";
-			this.ColumnIndex.Width = 50;
 			// 
 			// ColumnKey
 			// 
@@ -262,7 +268,7 @@
 			// ColumnCollectionName
 			// 
 			this.ColumnCollectionName.Text = "CollectionName";
-			this.ColumnCollectionName.Width = 265;
+			this.ColumnCollectionName.Width = 260;
 			// 
 			// ColumnCompression
 			// 
@@ -278,7 +284,7 @@
 			this.TexEditorPropertyGrid.Location = new System.Drawing.Point(14, 3);
 			this.TexEditorPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.TexEditorPropertyGrid.Name = "TexEditorPropertyGrid";
-			this.TexEditorPropertyGrid.Size = new System.Drawing.Size(512, 312);
+			this.TexEditorPropertyGrid.Size = new System.Drawing.Size(512, 294);
 			this.TexEditorPropertyGrid.TabIndex = 0;
 			this.TexEditorPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.TexEditorPropertyGrid_PropertyValueChanged);
 			// 
@@ -291,7 +297,7 @@
 			this.TexEditorPreview.Location = new System.Drawing.Point(6, 3);
 			this.TexEditorPreview.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.TexEditorPreview.Name = "TexEditorPreview";
-			this.TexEditorPreview.Size = new System.Drawing.Size(590, 594);
+			this.TexEditorPreview.Size = new System.Drawing.Size(572, 594);
 			this.TexEditorPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.TexEditorPreview.TabIndex = 0;
 			this.TexEditorPreview.TabStop = false;
@@ -305,9 +311,19 @@
 			this.TexEditorImage.Location = new System.Drawing.Point(6, 3);
 			this.TexEditorImage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.TexEditorImage.Name = "TexEditorImage";
-			this.TexEditorImage.Size = new System.Drawing.Size(590, 594);
+			this.TexEditorImage.Size = new System.Drawing.Size(572, 594);
 			this.TexEditorImage.TabIndex = 0;
 			this.TexEditorImage.TabStop = false;
+			// 
+			// AddTextureDialog
+			// 
+			this.AddTextureDialog.Filter = "Direct Draw Surface Files|*.dds";
+			this.AddTextureDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.AddTextureDialog_FileOk);
+			// 
+			// ReplaceTextureDialog
+			// 
+			this.ReplaceTextureDialog.Filter = "Direct Draw Surface Files|*.dds";
+			this.ReplaceTextureDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.ReplaceTextureDialog_FileOk);
 			// 
 			// TextureEditor
 			// 
@@ -364,5 +380,7 @@
 		private System.Windows.Forms.ColumnHeader ColumnCollectionName;
 		private System.Windows.Forms.ColumnHeader ColumnCompression;
 		private System.Windows.Forms.PictureBox TexEditorPreview;
+		private System.Windows.Forms.OpenFileDialog AddTextureDialog;
+		private System.Windows.Forms.OpenFileDialog ReplaceTextureDialog;
 	}
 }

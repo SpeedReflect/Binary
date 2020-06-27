@@ -715,12 +715,13 @@ namespace Binary
 
 				using var editor = new CarPartsEditor(model);
 				editor.ShowDialog();
+				this.EditorPropertyGrid.Refresh();
 
 			}
 			else if (collection is FNGroup fng)
 			{
 
-
+				MessageBox.Show("Coming Soon M2", "SoonTM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 			}
 			else if (collection is TPKBlock tpk)
@@ -728,12 +729,13 @@ namespace Binary
 
 				using var editor = new TextureEditor(tpk);
 				editor.ShowDialog();
+				this.EditorPropertyGrid.Refresh();
 
 			}
 			else if (collection is STRBlock str)
 			{
 
-
+				MessageBox.Show("Coming Soon M3", "SoonTM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 			}
 		}

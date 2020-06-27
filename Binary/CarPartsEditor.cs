@@ -200,11 +200,13 @@ namespace Binary
 				this.RemovePartToolStripMenuItem.Enabled = false;
 				this.CopyPartToolStripMenuItem.Enabled = false;
 				this.MoveUpPartsToolStripMenuItem.Enabled = false;
+				this.MoveDownPartsToolStripMenuItem.Enabled = false;
 				this.ReversePartsToolStripMenuItem.Enabled = false;
 				this.SortPartsByNameToolStripMenuItem.Enabled = false;
 				this.AddAttributeToolStripMenuItem.Enabled = false;
 				this.RemoveAttributeToolStripMenuItem.Enabled = false;
 				this.MoveUpAttributesToolStripMenuItem.Enabled = false;
+				this.MoveDownAttributesToolStripMenuItem.Enabled = false;
 				this.ReverseAttributesToolStripMenuItem.Enabled = false;
 				this.SortAttributesByKeyToolStripMenuItem.Enabled = false;
 
@@ -249,6 +251,13 @@ namespace Binary
 			this.Model.RemovePart(index);
 			this.CarPartsTreeView.Nodes.RemoveAt(index);
 
+			if (this.CarPartsTreeView.Nodes.Count == 0)
+			{
+
+				this.ToggleMenuStripControls(this.CarPartsTreeView.SelectedNode);
+				this.CarPartsPropertyGrid.SelectedObject = null;
+
+			}
 		}
 
 		private void CopyPartToolStripMenuItem_Click(object sender, EventArgs e)

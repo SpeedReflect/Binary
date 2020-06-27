@@ -8,19 +8,28 @@ namespace Binary.Endscript
 	{
 		Invalid = 0,
 		Comment = 1,
-		CollectionNameUpdate = 2,
-		PropertyUpdate = 3,
-		SubPartUpdate = 4,
-		FEngUpdate = 5,
-		TextureUpdate = 6,
-		StringUpdate = 7,
-
-		StaticUpdate,
+		CollectionName,
 
 
+		UpdateNode,
 		AddNode,
 		RemoveNode,
 		CopyNode,
+		StaticNode,
+
+		UpdateSubPart,
+
+		UpdateTexture,
+		AddTexture,
+		RemoveTexture,
+		CopyTexture,
+		ReplaceTexture,
+
+		UpdateString,
+		AddString,
+		RemoveString,
+		
+		UpdateFEng,
 
 		NewDatabase,
 		DeleteDatabase,

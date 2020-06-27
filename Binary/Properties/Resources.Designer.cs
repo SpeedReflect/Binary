@@ -63,6 +63,16 @@ namespace Binary.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DarkTransparent {
+            get {
+                object obj = ResourceManager.GetObject("DarkTransparent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Discord {
             get {
                 object obj = ResourceManager.GetObject("Discord", resourceCulture);
@@ -73,9 +83,9 @@ namespace Binary.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Modder {
+        internal static System.Drawing.Bitmap LightTransparent {
             get {
-                object obj = ResourceManager.GetObject("Modder", resourceCulture);
+                object obj = ResourceManager.GetObject("LightTransparent", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +93,9 @@ namespace Binary.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Transparent {
+        internal static System.Drawing.Bitmap Modder {
             get {
-                object obj = ResourceManager.GetObject("Transparent", resourceCulture);
+                object obj = ResourceManager.GetObject("Modder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
