@@ -22,10 +22,12 @@ namespace Binary
 	public partial class Editor : Form
 	{
 		private List<SynchronizedDatabase> SyncDBs;
+		private readonly List<Form> _openforms;
 
 		public Editor()
 		{
 			this.SyncDBs = new List<SynchronizedDatabase>();
+			this._openforms = new List<Form>();
 			this.InitializeComponent();
 			this.ToggleTheme();
 		}
@@ -423,12 +425,16 @@ namespace Binary
 
 		private void EMSToolsHasher_Click(object sender, EventArgs e)
 		{
-
+			var hasher = new Hasher() { StartPosition = FormStartPosition.CenterScreen };
+			this._openforms.Add(hasher);
+			hasher.Show();
 		}
 
 		private void EMSToolsRaider_Click(object sender, EventArgs e)
 		{
-
+			var raider = new Raider() { StartPosition = FormStartPosition.CenterScreen };
+			this._openforms.Add(raider);
+			raider.Show();
 		}
 
 		private void EMSToolsSwatcher_Click(object sender, EventArgs e)
@@ -1190,6 +1196,14 @@ namespace Binary
 		private void Editor_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			this.SyncDBs = null;
+
+			foreach (var form in this._openforms)
+			{
+
+				try { form.Close(); }
+				catch { }
+
+			}
 		}
 
 		#endregion

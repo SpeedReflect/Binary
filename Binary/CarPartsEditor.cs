@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Binary.Properties;
@@ -12,9 +13,11 @@ namespace Binary
 	public partial class CarPartsEditor : Form
 	{
 		private DBModelPart Model { get; }
+		private readonly List<Form> _openforms;
 
 		public CarPartsEditor(DBModelPart model)
 		{
+			this._openforms = new List<Form>();
 			this.InitializeComponent();
 			this.ToggleTheme();
 			this.Model = model;
@@ -464,12 +467,16 @@ namespace Binary
 
 		private void HasherToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			var hasher = new Hasher() { StartPosition = FormStartPosition.CenterScreen };
+			this._openforms.Add(hasher);
+			hasher.Show();
 		}
 
 		private void RaiderToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			var raider = new Raider() { StartPosition = FormStartPosition.CenterScreen };
+			this._openforms.Add(raider);
+			raider.Show();
 		}
 
 		#endregion
@@ -513,5 +520,16 @@ namespace Binary
 		}
 
 		#endregion
+
+		private void CarPartsEditor_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			foreach (var form in this._openforms)
+			{
+
+				try { form.Close(); }
+				catch { }
+
+			}
+		}
 	}
 }

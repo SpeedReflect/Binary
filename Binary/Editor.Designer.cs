@@ -50,6 +50,7 @@
 			this.EMSOptionsCreate = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSOptionsRestore = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSOptionsUnlock = new System.Windows.Forms.ToolStripMenuItem();
+			this.EMSOptionsToggle = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStripScripting = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSScriptingProcess = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSScriptingGenerate = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,7 +85,6 @@
 			this.EditorCommandPrompt = new System.Windows.Forms.TextBox();
 			this.EditorStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.EditorStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.EMSOptionsToggle = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -820,6 +820,7 @@
 			this.MinimumSize = new System.Drawing.Size(912, 480);
 			this.Name = "Editor";
 			this.Text = "Binary by MaxHwoy";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Editor_FormClosing);
 			this.Load += new System.EventHandler(this.Editor_Load);
 			this.EditorMenuStrip.ResumeLayout(false);
 			this.EditorMenuStrip.PerformLayout();

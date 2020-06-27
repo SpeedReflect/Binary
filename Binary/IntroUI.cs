@@ -146,8 +146,12 @@ namespace Binary
 		private void ModderInteract()
 		{
 			this.Hide();
+			var start = FormStartPosition.CenterScreen;
+			var state = Configurations.Default.StartMaximized
+				? FormWindowState.Maximized
+				: FormWindowState.Normal;
 
-			using (var editor = new Editor())
+			using (var editor = new Editor() { StartPosition = start, WindowState = state })
 			{
 
 				editor.ShowDialog();

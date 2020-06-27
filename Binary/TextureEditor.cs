@@ -21,12 +21,14 @@ namespace Binary
 	public partial class TextureEditor : Form
 	{
 		private TPKBlock TPK { get; }
+		private readonly List<Form> _openforms;
 		public List<string> Commands { get; }
 
 		public TextureEditor(TPKBlock tpk)
 		{
 			this.InitializeComponent();
 			this.TPK = tpk;
+			this._openforms = new List<Form>();
 			this.Commands = new List<string>();
 			this.Text = $"{this.TPK.CollectionName} Editor";
 			this.TexEditorPreview.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -310,17 +312,21 @@ namespace Binary
 
 		private void TexEditorHasherItem_Click(object sender, EventArgs e)
 		{
-
+			var hasher = new Hasher() { StartPosition = FormStartPosition.CenterScreen };
+			this._openforms.Add(hasher);
+			hasher.Show();
 		}
 
 		private void TexEditorRaiderItem_Click(object sender, EventArgs e)
 		{
-
+			var raider = new Raider() { StartPosition = FormStartPosition.CenterScreen };
+			this._openforms.Add(raider);
+			raider.Show();
 		}
 
 		#endregion
 
-		#region Main
+		#region ListView
 
 		private void TexEditorListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -360,6 +366,26 @@ namespace Binary
 			this.ToggleMenuStripControls();
 		}
 
+		private void TexEditorListView_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+		{
+			e.NewWidth = this.TexEditorListView.Columns[e.ColumnIndex].Width;
+			e.Cancel = true;
+		}
+
+		private void TexEditorListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+		{
+			var brush = new SolidBrush(Theme.TextBoxBackColor);
+			e.Graphics.FillRectangle(brush, e.Bounds);
+			e.DrawText();
+		}
+
+		private void TexEditorListView_DrawItem(object sender, DrawListViewItemEventArgs e)
+		{
+			e.DrawDefault = true;
+		}
+
+		#endregion
+
 		private void TexEditorPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 		{
 			if (e.ChangedItem.Label == "CollectionName")
@@ -371,23 +397,6 @@ namespace Binary
 				this.TexEditorPropertyGrid.Refresh();
 
 			}
-		}
-
-		private void TexEditorListView_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
-		{
-			e.NewWidth = this.TexEditorListView.Columns[e.ColumnIndex].Width;
-			e.Cancel = true;
-		}
-
-		private void TextureEditor_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			var disposer = this.TexEditorPreview.Image;
-			this.TexEditorPreview.Image = null;
-			if (disposer != null) disposer.Dispose();
-
-			disposer = this.TexEditorImage.Image;
-			this.TexEditorImage = null;
-			if (disposer != null) disposer.Dispose();
 		}
 
 		private void AddTextureDialog_FileOk(object sender, CancelEventArgs e)
@@ -434,18 +443,21 @@ namespace Binary
 			}
 		}
 
-		#endregion
-
-		private void TexEditorListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+		private void TextureEditor_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var brush = new SolidBrush(Theme.TextBoxBackColor);
-			e.Graphics.FillRectangle(brush, e.Bounds);
-			e.DrawText();
-		}
+			var disposer = this.TexEditorPreview.Image;
+			this.TexEditorPreview.Image = null;
+			if (disposer != null) disposer.Dispose();
 
-		private void TexEditorListView_DrawItem(object sender, DrawListViewItemEventArgs e)
-		{
-			e.DrawDefault = true;
+			this.DisposeImage();
+
+			foreach (var form in this._openforms)
+			{
+
+				try { form.Close(); }
+				catch { }
+
+			}
 		}
 	}
 }
