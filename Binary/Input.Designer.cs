@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Input));
 			this.InputTextBox = new System.Windows.Forms.TextBox();
 			this.InputLabel = new System.Windows.Forms.Label();
 			this.InputButtonOK = new System.Windows.Forms.Button();
@@ -89,6 +90,7 @@
 			this.Controls.Add(this.InputLabel);
 			this.Controls.Add(this.InputTextBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "Input";
 			this.Text = "Editor";

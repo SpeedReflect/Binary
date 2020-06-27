@@ -1,12 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-
 using Binary.Enums;
 using Binary.Endscript;
 using Binary.Properties;
@@ -24,10 +18,45 @@ namespace Binary
 			this.InitializeComponent();
 			this.IntroPictureUser.Image = Resources.User;
 			this.IntroPictureModder.Image = Resources.Modder;
+			this.PictureBoxDiscord.Image = Resources.Discord;
+			this.PictureBoxUpdates.Image = Resources.Update;
+
+			this.PictureBoxAutoBackups.Image = Configurations.Default.AutoBackups
+				? Resources.EnableBackups : Resources.DisableBackups;
+
+			this.PictureBoxMaximized.Image = Configurations.Default.StartMaximized
+				? Resources.EnableMaximize : Resources.DisableMaximize;
+
+			this.PictureBoxTheme.Image = Configurations.Default.DarkTheme
+				? Resources.EnableTheme : Resources.DisableTheme;
+
+			this.PictureBoxSoon.Image = Configurations.Default.SoonFeature
+				? Resources.EnableSoon : Resources.DisableSoon;
+
 			this.IntroToolTip.SetToolTip(this.IntroPictureUser, "Launch Binary for Users");
 			this.IntroToolTip.SetToolTip(this.IntroPictureModder, "Launch Binary for Modders");
+			this.IntroToolTip.SetToolTip(this.PictureBoxUpdates, "Check updates for Binary");
+			this.IntroToolTip.SetToolTip(this.PictureBoxDiscord, "Join official Discord server");
+			this.IntroToolTip.SetToolTip(this.PictureBoxTheme, "Turn on Dark Theme");
+			this.IntroToolTip.SetToolTip(this.PictureBoxMaximized, "Start editor in maximized mode");
+			this.IntroToolTip.SetToolTip(this.PictureBoxAutoBackups, "Enable auto backups");
+			this.IntroToolTip.SetToolTip(this.PictureBoxSoon, "Coming Soon TM");
+
 			this.ToggleTheme();
 		}
+
+		#region Theme
+
+		private void ToggleTheme()
+		{
+			this.BackColor = Theme.MainBackColor;
+			this.ForeColor = Theme.MainForeColor;
+			this.IntroPanelModder.BackColor = Theme.ButtonBackColor;
+			this.IntroPanelUser.BackColor = Theme.ButtonBackColor;
+			this.LabelBinary.ForeColor = Theme.LabelTextColor;
+		}
+
+		#endregion
 
 		private void IntroPictureUser_Click(object sender, EventArgs e)
 		{
@@ -128,12 +157,52 @@ namespace Binary
 			this.Show();
 		}
 	
-		private void ToggleTheme()
+		private void PictureBoxDiscord_Click(object sender, EventArgs e)
 		{
-			this.BackColor = Theme.MainBackColor;
-			this.ForeColor = Theme.MainForeColor;
-			this.IntroPanelModder.BackColor = Theme.ButtonBackColor;
-			this.IntroPanelUser.BackColor = Theme.ButtonBackColor;
+			Utils.OpenBrowser("https://discord.gg/jzksXXn");
+		}
+
+		private void PictureBoxUpdates_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("No updates yet, follow discord server for news", "Updates");
+		}
+
+		private void PictureBoxAutoBackups_Click(object sender, EventArgs e)
+		{
+			Configurations.Default.AutoBackups = !Configurations.Default.AutoBackups;
+			Configurations.Default.Save();
+			this.PictureBoxAutoBackups.Image = Configurations.Default.AutoBackups
+				? Resources.EnableBackups : Resources.DisableBackups;
+		}
+
+		private void PictureBoxMaximized_Click(object sender, EventArgs e)
+		{
+			Configurations.Default.StartMaximized = !Configurations.Default.StartMaximized;
+			Configurations.Default.Save();
+			this.PictureBoxMaximized.Image = Configurations.Default.StartMaximized
+				? Resources.EnableMaximize : Resources.DisableMaximize;
+		}
+
+		private void PictureBoxTheme_Click(object sender, EventArgs e)
+		{
+			Configurations.Default.DarkTheme = !Configurations.Default.DarkTheme;
+			Configurations.Default.Save();
+			this.ToggleTheme();
+			this.PictureBoxTheme.Image = Configurations.Default.DarkTheme
+				? Resources.EnableTheme : Resources.DisableTheme;
+		}
+
+		private void PictureBoxSoon_Click(object sender, EventArgs e)
+		{
+			Configurations.Default.SoonFeature = !Configurations.Default.SoonFeature;
+			Configurations.Default.Save();
+			this.PictureBoxSoon.Image = Configurations.Default.SoonFeature
+				? Resources.EnableSoon : Resources.DisableSoon;
+		}
+
+		private void LabelBinary_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Binary by MaxHwoy v2.0.0.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

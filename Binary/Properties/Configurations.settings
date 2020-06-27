@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DarkTheme" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="PassPassed" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -16,6 +16,12 @@
     </Setting>
     <Setting Name="AutoBackups" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="StartMaximized" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SoonFeature" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

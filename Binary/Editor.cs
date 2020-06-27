@@ -95,6 +95,8 @@ namespace Binary
 			this.EMSOptionsRestore.ForeColor = Theme.MenuItemForeColor;
 			this.EMSOptionsUnlock.BackColor = Theme.MenuItemBackColor;
 			this.EMSOptionsUnlock.ForeColor = Theme.MenuItemForeColor;
+			this.EMSOptionsToggle.BackColor = Theme.MenuItemBackColor;
+			this.EMSOptionsToggle.ForeColor = Theme.MenuItemForeColor;
 			this.EMSScriptingProcess.BackColor = Theme.MenuItemBackColor;
 			this.EMSScriptingProcess.ForeColor = Theme.MenuItemForeColor;
 			this.EMSScriptingGenerate.BackColor = Theme.MenuItemBackColor;
@@ -401,22 +403,22 @@ namespace Binary
 
 		private void EMSDatabaseLoadDB_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		private void EMSDatabaseReloadDB_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		private void EMSDatabaseSaveDB_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		private void EMSDatabaseCombineDB_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		private void EMSToolsHasher_Click(object sender, EventArgs e)
@@ -431,7 +433,7 @@ namespace Binary
 
 		private void EMSToolsSwatcher_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		private void EMSOptionsCreate_Click(object sender, EventArgs e)
@@ -441,7 +443,7 @@ namespace Binary
 
 		private void EMSOptionsRestore_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		private void EMSOptionsUnlock_Click(object sender, EventArgs e)
@@ -479,9 +481,16 @@ namespace Binary
 			}
 		}
 
+		private void EMSOptionsToggle_Click(object sender, EventArgs e)
+		{
+			Configurations.Default.DarkTheme = !Configurations.Default.DarkTheme;
+			Configurations.Default.Save();
+			this.ToggleTheme();
+		}
+
 		private void EMSScriptingProcess_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		private void EMSScriptingGenerate_Click(object sender, EventArgs e)

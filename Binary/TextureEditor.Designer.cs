@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextureEditor));
 			this.TexEditorMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.TexEditorTexturesStrip = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorAddTextureItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -284,7 +285,7 @@
 			this.TexEditorPropertyGrid.Location = new System.Drawing.Point(14, 3);
 			this.TexEditorPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.TexEditorPropertyGrid.Name = "TexEditorPropertyGrid";
-			this.TexEditorPropertyGrid.Size = new System.Drawing.Size(512, 294);
+			this.TexEditorPropertyGrid.Size = new System.Drawing.Size(512, 293);
 			this.TexEditorPropertyGrid.TabIndex = 0;
 			this.TexEditorPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.TexEditorPropertyGrid_PropertyValueChanged);
 			// 
@@ -297,7 +298,7 @@
 			this.TexEditorPreview.Location = new System.Drawing.Point(6, 3);
 			this.TexEditorPreview.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.TexEditorPreview.Name = "TexEditorPreview";
-			this.TexEditorPreview.Size = new System.Drawing.Size(572, 594);
+			this.TexEditorPreview.Size = new System.Drawing.Size(571, 594);
 			this.TexEditorPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.TexEditorPreview.TabIndex = 0;
 			this.TexEditorPreview.TabStop = false;
@@ -311,7 +312,7 @@
 			this.TexEditorImage.Location = new System.Drawing.Point(6, 3);
 			this.TexEditorImage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.TexEditorImage.Name = "TexEditorImage";
-			this.TexEditorImage.Size = new System.Drawing.Size(572, 594);
+			this.TexEditorImage.Size = new System.Drawing.Size(571, 594);
 			this.TexEditorImage.TabIndex = 0;
 			this.TexEditorImage.TabStop = false;
 			// 
@@ -332,6 +333,7 @@
 			this.ClientSize = new System.Drawing.Size(1148, 627);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.TexEditorMenuStrip);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.TexEditorMenuStrip;
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.MinimumSize = new System.Drawing.Size(1164, 666);

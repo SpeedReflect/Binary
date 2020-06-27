@@ -84,6 +84,7 @@
 			this.EditorCommandPrompt = new System.Windows.Forms.TextBox();
 			this.EditorStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.EditorStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.EMSOptionsToggle = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -287,7 +288,8 @@
 			this.EditorMenuStripOptions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.EMSOptionsCreate,
             this.EMSOptionsRestore,
-            this.EMSOptionsUnlock});
+            this.EMSOptionsUnlock,
+            this.EMSOptionsToggle});
 			this.EditorMenuStripOptions.Name = "EditorMenuStripOptions";
 			this.EditorMenuStripOptions.Size = new System.Drawing.Size(61, 20);
 			this.EditorMenuStripOptions.Text = "Options";
@@ -316,6 +318,13 @@
 			this.EMSOptionsUnlock.Size = new System.Drawing.Size(247, 22);
 			this.EMSOptionsUnlock.Text = "Unlock Files For Modding";
 			this.EMSOptionsUnlock.Click += new System.EventHandler(this.EMSOptionsUnlock_Click);
+			// 
+			// EMSOptionsToggle
+			// 
+			this.EMSOptionsToggle.Name = "EMSOptionsToggle";
+			this.EMSOptionsToggle.Size = new System.Drawing.Size(247, 22);
+			this.EMSOptionsToggle.Text = "Toggle Theme";
+			this.EMSOptionsToggle.Click += new System.EventHandler(this.EMSOptionsToggle_Click);
 			// 
 			// EditorMenuStripScripting
 			// 
@@ -805,6 +814,7 @@
 			this.Controls.Add(this.EditorStatusStrip);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.EditorMenuStrip);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.EditorMenuStrip;
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.MinimumSize = new System.Drawing.Size(912, 480);
@@ -918,6 +928,7 @@
 		private System.Windows.Forms.ToolStripMenuItem EMSWindowsNew;
 		private System.Windows.Forms.TextBox EditorCommandPrompt;
 		private System.Windows.Forms.ImageList EditorImageList;
+		private System.Windows.Forms.ToolStripMenuItem EMSOptionsToggle;
 	}
 }
 

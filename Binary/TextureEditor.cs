@@ -33,6 +33,7 @@ namespace Binary
 			this.TexEditorPreview.Controls.Add(this.TexEditorImage);
 			this.TexEditorImage.Location = new Point(0, 0);
 			this.TexEditorImage.BackColor = Color.FromArgb(0, 0, 0, 0);
+			this.TexEditorImage.BorderStyle = BorderStyle.FixedSingle;
 			this.TexEditorListView.Columns[^1].Width = -2;
 			this.ToggleTheme();
 			this.LoadListView();
@@ -328,6 +329,8 @@ namespace Binary
 
 				this.TexEditorPropertyGrid.SelectedObject = null;
 				this.DisposeImage();
+				this.TexEditorImage.Width = this.TexEditorPreview.Width;
+				this.TexEditorImage.Height = this.TexEditorPreview.Height;
 				this.ToggleMenuStripControls();
 				return;
 
@@ -350,7 +353,10 @@ namespace Binary
 
 			this.DisposeImage();
 
+			this.TexEditorImage.BorderStyle = BorderStyle.None;
 			this.TexEditorImage.Image = Image.FromStream(ms);
+			this.TexEditorImage.Bounds = new Rectangle(0, 0, texture.Width, texture.Height);
+			this.TexEditorImage.BorderStyle = BorderStyle.FixedSingle;
 			this.ToggleMenuStripControls();
 		}
 

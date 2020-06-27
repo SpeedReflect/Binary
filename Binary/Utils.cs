@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Net;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
+using System.Net.Mail;
+using CoreExtensions.Management;
 
 
 
@@ -84,6 +87,22 @@ namespace Binary
         public static bool IsNullOrComment(this string value)
 		{
             return String.IsNullOrWhiteSpace(value) || value.StartsWith("//") || value.StartsWith("#");
+		}
+    
+        public static void SendLog()
+		{
+            try
+			{
+
+                // soon
+
+            }
+            catch (Exception e)
+			{
+
+                Console.WriteLine(e.GetLowestMessage());
+
+			}
 		}
     }
 }

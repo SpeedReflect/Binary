@@ -5,7 +5,8 @@ using System.Windows.Forms;
 using System.Security.Principal;
 using Nikki.Core;
 using CoreExtensions.Native;
-using Nikki.Utils;
+
+
 
 namespace Binary
 {
@@ -48,7 +49,6 @@ namespace Binary
 			Thread.CurrentThread.CurrentCulture = culture;
 			CultureInfo.DefaultThreadCurrentCulture = culture;
 			CultureInfo.DefaultThreadCurrentUICulture = culture;
-
 
 			Loader.LoadBinKeys(new string[] { "keys.txt" });
 			Application.Run(new IntroUI());

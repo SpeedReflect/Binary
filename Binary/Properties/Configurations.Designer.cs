@@ -25,7 +25,7 @@ namespace Binary.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DarkTheme {
             get {
                 return ((bool)(this["DarkTheme"]));
@@ -80,6 +80,30 @@ namespace Binary.Properties {
             }
             set {
                 this["AutoBackups"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StartMaximized {
+            get {
+                return ((bool)(this["StartMaximized"]));
+            }
+            set {
+                this["StartMaximized"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SoonFeature {
+            get {
+                return ((bool)(this["SoonFeature"]));
+            }
+            set {
+                this["SoonFeature"] = value;
             }
         }
     }

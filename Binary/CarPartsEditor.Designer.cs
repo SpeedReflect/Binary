@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CarPartsEditor));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.CarPartsTreeView = new System.Windows.Forms.TreeView();
 			this.CarPartsPropertyGrid = new System.Windows.Forms.PropertyGrid();
@@ -44,12 +45,12 @@
 			this.AddAttributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.RemoveAttributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MoveUpAttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.MoveDownAttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ReverseAttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SortAttributesByKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.HasherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.RaiderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.MoveDownAttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -102,7 +103,7 @@
 			this.CarPartsPropertyGrid.Location = new System.Drawing.Point(4, 3);
 			this.CarPartsPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.CarPartsPropertyGrid.Name = "CarPartsPropertyGrid";
-			this.CarPartsPropertyGrid.Size = new System.Drawing.Size(588, 379);
+			this.CarPartsPropertyGrid.Size = new System.Drawing.Size(587, 379);
 			this.CarPartsPropertyGrid.TabIndex = 0;
 			this.CarPartsPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.CarPartsPropertyGrid_PropertyValueChanged);
 			// 
@@ -136,54 +137,54 @@
 			// AddPartToolStripMenuItem
 			// 
 			this.AddPartToolStripMenuItem.Name = "AddPartToolStripMenuItem";
-			this.AddPartToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+			this.AddPartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+			this.AddPartToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.AddPartToolStripMenuItem.Text = "Add Part";
 			this.AddPartToolStripMenuItem.Click += new System.EventHandler(this.AddPartToolStripMenuItem_Click);
-			this.AddPartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A));
 			// 
 			// RemovePartToolStripMenuItem
 			// 
 			this.RemovePartToolStripMenuItem.Name = "RemovePartToolStripMenuItem";
-			this.RemovePartToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+			this.RemovePartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+			this.RemovePartToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.RemovePartToolStripMenuItem.Text = "Remove Part";
 			this.RemovePartToolStripMenuItem.Click += new System.EventHandler(this.RemovePartToolStripMenuItem_Click);
-			this.RemovePartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R));
 			// 
 			// CopyPartToolStripMenuItem
 			// 
 			this.CopyPartToolStripMenuItem.Name = "CopyPartToolStripMenuItem";
-			this.CopyPartToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+			this.CopyPartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+			this.CopyPartToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.CopyPartToolStripMenuItem.Text = "Copy Part";
 			this.CopyPartToolStripMenuItem.Click += new System.EventHandler(this.CopyPartToolStripMenuItem_Click);
-			this.CopyPartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P));
 			// 
 			// MoveUpPartsToolStripMenuItem
 			// 
 			this.MoveUpPartsToolStripMenuItem.Name = "MoveUpPartsToolStripMenuItem";
-			this.MoveUpPartsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+			this.MoveUpPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+			this.MoveUpPartsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.MoveUpPartsToolStripMenuItem.Text = "Move Part Up";
 			this.MoveUpPartsToolStripMenuItem.Click += new System.EventHandler(this.MoveUpPartsToolStripMenuItem_Click);
-			this.MoveUpPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U));
 			// 
 			// MoveDownPartsToolStripMenuItem
 			// 
 			this.MoveDownPartsToolStripMenuItem.Name = "MoveDownPartsToolStripMenuItem";
-			this.MoveDownPartsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+			this.MoveDownPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+			this.MoveDownPartsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.MoveDownPartsToolStripMenuItem.Text = "Move Part Down";
 			this.MoveDownPartsToolStripMenuItem.Click += new System.EventHandler(this.MoveDownPartsToolStripMenuItem_Click);
-			this.MoveDownPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D));
 			// 
 			// ReversePartsToolStripMenuItem
 			// 
 			this.ReversePartsToolStripMenuItem.Name = "ReversePartsToolStripMenuItem";
-			this.ReversePartsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+			this.ReversePartsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.ReversePartsToolStripMenuItem.Text = "Reverse Parts";
 			this.ReversePartsToolStripMenuItem.Click += new System.EventHandler(this.ReversePartsToolStripMenuItem_Click);
 			// 
 			// SortPartsByNameToolStripMenuItem
 			// 
 			this.SortPartsByNameToolStripMenuItem.Name = "SortPartsByNameToolStripMenuItem";
-			this.SortPartsByNameToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+			this.SortPartsByNameToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.SortPartsByNameToolStripMenuItem.Text = "Sort Parts By Name";
 			this.SortPartsByNameToolStripMenuItem.Click += new System.EventHandler(this.SortPartsByNameToolStripMenuItem_Click);
 			// 
@@ -203,46 +204,46 @@
 			// AddAttributeToolStripMenuItem
 			// 
 			this.AddAttributeToolStripMenuItem.Name = "AddAttributeToolStripMenuItem";
-			this.AddAttributeToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+			this.AddAttributeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+			this.AddAttributeToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
 			this.AddAttributeToolStripMenuItem.Text = "Add Attribute";
 			this.AddAttributeToolStripMenuItem.Click += new System.EventHandler(this.AddAttributeToolStripMenuItem_Click);
-			this.AddAttributeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A));
 			// 
 			// RemoveAttributeToolStripMenuItem
 			// 
 			this.RemoveAttributeToolStripMenuItem.Name = "RemoveAttributeToolStripMenuItem";
-			this.RemoveAttributeToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+			this.RemoveAttributeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
+			this.RemoveAttributeToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
 			this.RemoveAttributeToolStripMenuItem.Text = "Remove Attribute";
 			this.RemoveAttributeToolStripMenuItem.Click += new System.EventHandler(this.RemoveAttributeToolStripMenuItem_Click);
-			this.RemoveAttributeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R));
 			// 
 			// MoveUpAttributesToolStripMenuItem
 			// 
 			this.MoveUpAttributesToolStripMenuItem.Name = "MoveUpAttributesToolStripMenuItem";
-			this.MoveUpAttributesToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+			this.MoveUpAttributesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.U)));
+			this.MoveUpAttributesToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
 			this.MoveUpAttributesToolStripMenuItem.Text = "Move Attribute Up";
 			this.MoveUpAttributesToolStripMenuItem.Click += new System.EventHandler(this.MoveUpAttributesToolStripMenuItem_Click);
-			this.MoveUpAttributesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.U));
 			// 
 			// MoveDownAttributesToolStripMenuItem
 			// 
 			this.MoveDownAttributesToolStripMenuItem.Name = "MoveDownAttributesToolStripMenuItem";
-			this.MoveDownAttributesToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+			this.MoveDownAttributesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
+			this.MoveDownAttributesToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
 			this.MoveDownAttributesToolStripMenuItem.Text = "Move Attribute Down";
 			this.MoveDownAttributesToolStripMenuItem.Click += new System.EventHandler(this.MoveDownAttributesToolStripMenuItem_Click);
-			this.MoveDownAttributesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D));
 			// 
 			// ReverseAttributesToolStripMenuItem
 			// 
 			this.ReverseAttributesToolStripMenuItem.Name = "ReverseAttributesToolStripMenuItem";
-			this.ReverseAttributesToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+			this.ReverseAttributesToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
 			this.ReverseAttributesToolStripMenuItem.Text = "Reverse Attributes";
 			this.ReverseAttributesToolStripMenuItem.Click += new System.EventHandler(this.ReverseAttributesToolStripMenuItem_Click);
 			// 
 			// SortAttributesByKeyToolStripMenuItem
 			// 
 			this.SortAttributesByKeyToolStripMenuItem.Name = "SortAttributesByKeyToolStripMenuItem";
-			this.SortAttributesByKeyToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+			this.SortAttributesByKeyToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
 			this.SortAttributesByKeyToolStripMenuItem.Text = "Sort Attributes By Key";
 			this.SortAttributesByKeyToolStripMenuItem.Click += new System.EventHandler(this.SortAttributesByKeyToolStripMenuItem_Click);
 			// 
@@ -276,6 +277,7 @@
 			this.ClientSize = new System.Drawing.Size(918, 420);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.CarPartsEditorMenuStrip);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.MinimumSize = new System.Drawing.Size(931, 456);
 			this.Name = "CarPartsEditor";
