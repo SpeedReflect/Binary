@@ -79,27 +79,52 @@ namespace Binary
 
         private void CopyString_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.StringTextbox?.Text ?? String.Empty);
+            if (!String.IsNullOrEmpty(this.StringTextbox.Text))
+            {
+
+                Clipboard.SetText(this.StringTextbox.Text);
+
+            }
         }
 
         private void CopyBinHash_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.BinHashTextbox?.Text ?? String.Empty);
+            if (!String.IsNullOrEmpty(this.BinHashTextbox.Text))
+            {
+
+                Clipboard.SetText(this.BinHashTextbox.Text);
+
+            }
         }
 
         private void CopyBinFile_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.BinFileTextbox?.Text ?? String.Empty);
+            if (!String.IsNullOrEmpty(this.BinFileTextbox.Text))
+            {
+
+                Clipboard.SetText(this.BinFileTextbox.Text);
+
+            }
         }
 
         private void CopyVltHash_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.VltHashTextbox?.Text ?? String.Empty);
+            if (!String.IsNullOrEmpty(this.VltHashTextbox.Text))
+            {
+
+                Clipboard.SetText(this.VltHashTextbox.Text);
+
+            }
         }
 
         private void CopyVltFile_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.VltFileTextbox?.Text ?? String.Empty);
+            if (!String.IsNullOrEmpty(this.VltFileTextbox.Text))
+            {
+
+                Clipboard.SetText(this.VltFileTextbox.Text);
+
+            }
         }
     }
 }

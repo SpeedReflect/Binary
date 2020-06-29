@@ -462,11 +462,10 @@
 			// splitContainer4
 			// 
 			this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.splitContainer4.IsSplitterFixed = true;
 			this.splitContainer4.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer4.Margin = new System.Windows.Forms.Padding(0);
-			this.splitContainer4.MaximumSize = new System.Drawing.Size(0, 102);
-			this.splitContainer4.MinimumSize = new System.Drawing.Size(0, 102);
 			this.splitContainer4.Name = "splitContainer4";
 			this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
@@ -724,7 +723,7 @@
 			this.EditorTreeView.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.EditorTreeView.Name = "EditorTreeView";
 			this.EditorTreeView.PathSeparator = "|";
-			this.EditorTreeView.SelectedImageIndex = 2;
+			this.EditorTreeView.SelectedImageIndex = 0;
 			this.EditorTreeView.Size = new System.Drawing.Size(296, 297);
 			this.EditorTreeView.TabIndex = 0;
 			this.EditorTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.EditorTreeView_BeforeSelect);
@@ -815,6 +814,7 @@
 			this.Controls.Add(this.EditorStatusStrip);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.EditorMenuStrip);
+			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.EditorMenuStrip;
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

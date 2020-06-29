@@ -89,17 +89,32 @@ namespace Binary
 
         private void CopyBinHash_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.BinHashInput?.Text ?? String.Empty);
+            if (!String.IsNullOrEmpty(this.BinHashInput.Text))
+            {
+
+                Clipboard.SetText(this.BinHashInput.Text);
+
+            }
         }
 
         private void CopyBinFile_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.BinFileInput?.Text ?? String.Empty);
+            if (!String.IsNullOrEmpty(this.BinFileInput.Text))
+            {
+
+                Clipboard.SetText(this.BinFileInput.Text);
+
+            }
         }
 
         private void CopyString_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this.StringGuessed?.Text ?? String.Empty);
+            if (!String.IsNullOrEmpty(this.StringGuessed.Text))
+            {
+
+                Clipboard.SetText(this.StringGuessed.Text);
+
+            }
         }
     }
 }

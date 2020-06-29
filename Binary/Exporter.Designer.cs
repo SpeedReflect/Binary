@@ -64,6 +64,7 @@
 			this.ClientSize = new System.Drawing.Size(214, 48);
 			this.Controls.Add(this.ExporterButton);
 			this.Controls.Add(this.ExportSerialized);
+			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.Name = "Exporter";

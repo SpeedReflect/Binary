@@ -112,6 +112,7 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.AttribKeyComboBox);
 			this.Controls.Add(this.AttribTypeComboBox);
+			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;

@@ -277,6 +277,7 @@
 			this.ClientSize = new System.Drawing.Size(918, 420);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.CarPartsEditorMenuStrip);
+			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.MinimumSize = new System.Drawing.Size(931, 456);

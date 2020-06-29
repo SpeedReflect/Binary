@@ -44,6 +44,7 @@
 			// 
 			// ChooseSearchMode
 			// 
+			this.ChooseSearchMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.ChooseSearchMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.ChooseSearchMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.ChooseSearchMode.FormattingEnabled = true;
@@ -188,6 +189,7 @@
 			this.Controls.Add(this.BinFileInput);
 			this.Controls.Add(this.BinHashInput);
 			this.Controls.Add(this.ChooseSearchMode);
+			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
