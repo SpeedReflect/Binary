@@ -180,8 +180,8 @@
 			// 
 			// IntroUI
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(638, 388);
 			this.Controls.Add(this.PictureBoxTheme);
 			this.Controls.Add(this.PictureBoxDiscord);
@@ -196,6 +196,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "IntroUI";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Binary by MaxHwoy";
 			this.IntroPanelModder.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.IntroPictureModder)).EndInit();

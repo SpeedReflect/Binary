@@ -34,7 +34,7 @@ namespace Binary
 			};
 
 			this.Folder = folder;
-			this.Filename = file;
+			this.Filename = file.ToUpperInvariant();
 			this.LoadingOpts = new Options(this.FullPath);
 			this.SavingOpts = new Options(this.FullPath, Configurations.Default.Watermark);
 		}

@@ -81,8 +81,8 @@
 			// Input
 			// 
 			this.AcceptButton = this.InputButtonOK;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.CancelButton = this.InputButtonCancel;
 			this.ClientSize = new System.Drawing.Size(350, 97);
 			this.Controls.Add(this.InputButtonCancel);
@@ -93,6 +93,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "Input";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Editor";
 			this.ResumeLayout(false);
 			this.PerformLayout();

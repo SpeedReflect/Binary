@@ -103,7 +103,7 @@
 			this.CarPartsPropertyGrid.Location = new System.Drawing.Point(4, 3);
 			this.CarPartsPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.CarPartsPropertyGrid.Name = "CarPartsPropertyGrid";
-			this.CarPartsPropertyGrid.Size = new System.Drawing.Size(584, 379);
+			this.CarPartsPropertyGrid.Size = new System.Drawing.Size(583, 379);
 			this.CarPartsPropertyGrid.TabIndex = 0;
 			this.CarPartsPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.CarPartsPropertyGrid_PropertyValueChanged);
 			// 
@@ -272,8 +272,8 @@
 			// 
 			// CarPartsEditor
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(918, 420);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.CarPartsEditorMenuStrip);
@@ -281,6 +281,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.MinimumSize = new System.Drawing.Size(931, 456);
 			this.Name = "CarPartsEditor";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Car Parts Editor";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CarPartsEditor_FormClosing);
 			this.splitContainer1.Panel1.ResumeLayout(false);

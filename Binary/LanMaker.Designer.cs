@@ -147,8 +147,8 @@
 			// 
 			// LanMaker
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(490, 112);
 			this.Controls.Add(this.LanMakerButtonHelp);
 			this.Controls.Add(this.label3);
@@ -163,6 +163,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "LanMaker";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Launcher Maker";
 			this.ResumeLayout(false);
 			this.PerformLayout();

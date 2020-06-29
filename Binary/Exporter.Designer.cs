@@ -59,14 +59,15 @@
 			// Exporter
 			// 
 			this.AcceptButton = this.ExporterButton;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(214, 48);
 			this.Controls.Add(this.ExporterButton);
 			this.Controls.Add(this.ExportSerialized);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.Name = "Exporter";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Exporter";
 			this.ResumeLayout(false);
 			this.PerformLayout();

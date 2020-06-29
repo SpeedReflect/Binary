@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Reflection;
@@ -7,8 +8,10 @@ using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
 using Nikki.Core;
-using CoreExtensions.Native;
 using CoreExtensions.IO;
+using CoreExtensions.Native;
+
+
 
 namespace Binary
 {
@@ -52,7 +55,10 @@ namespace Binary
 			CultureInfo.DefaultThreadCurrentCulture = culture;
 			CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-			Loader.LoadBinKeys(new string[] { "keys.txt" });
+			var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+			path = Path.Combine(path, "keys.txt");
+			Loader.LoadBinKeys(new string[] { path });
+
 			Application.ThreadException += new ThreadExceptionEventHandler(ThreadExceptionHandler);
 			Application.Run(new IntroUI());
 

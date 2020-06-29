@@ -174,8 +174,8 @@
 			// 
 			// Raider
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(534, 169);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
@@ -193,6 +193,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.MaximizeBox = false;
 			this.Name = "Raider";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "NFS-Raider by MaxHwoy";
 			this.ResumeLayout(false);
 			this.PerformLayout();

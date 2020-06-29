@@ -729,6 +729,7 @@
 			this.EditorTreeView.TabIndex = 0;
 			this.EditorTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.EditorTreeView_BeforeSelect);
 			this.EditorTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.EditorTreeView_AfterSelect);
+			this.EditorTreeView.DoubleClick += new System.EventHandler(this.EditorTreeView_DoubleClick);
 			// 
 			// EditorImageList
 			// 
@@ -808,8 +809,8 @@
 			// 
 			// Editor
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(896, 464);
 			this.Controls.Add(this.EditorStatusStrip);
 			this.Controls.Add(this.splitContainer1);

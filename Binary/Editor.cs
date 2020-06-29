@@ -860,10 +860,10 @@ namespace Binary
 					}
 					catch (Exception ex)
 					{
-
+					
 						MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						return;
-
+					
 					}
 
 				}
@@ -1253,5 +1253,15 @@ namespace Binary
 		}
 
 		#endregion
+
+		private void EditorTreeView_DoubleClick(object sender, EventArgs e)
+		{
+			if (this.EditorButtonOpenEditor.Enabled)
+			{
+
+				this.EditorButtonOpenEditor_Click(null, EventArgs.Empty);
+
+			}
+		}
 	}
 }
