@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Binary.Endscript;
 using Binary.Properties;
 using ILWrapper.Enums;
 using Nikki.Reflection.Enum;
@@ -118,9 +117,10 @@ namespace Binary
 					Text = (count++).ToString()
 				};
 
+				var compression = texture.Compression.ToString().Substring(8); // TEXCOMP_ = 8
 				item.SubItems.Add($"0x{texture.BinKey:X8}");
 				item.SubItems.Add(texture.CollectionName);
-				item.SubItems.Add(texture.Compression);
+				item.SubItems.Add(compression);
 				this.TexEditorListView.Items.Add(item);
 
 			}
@@ -303,7 +303,51 @@ namespace Binary
 
 		private void TexEditorExportTextureItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Coming Soon TM", "Soon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			string FilterExt = "Direct Draw Surface files|*.dds|";
+			FilterExt += "Portable Network Graphics files|*.png|";
+			FilterExt += "Joint Photographic Group files|*.jpg|";
+			FilterExt += "Bitmap Pixel Format files|*.bmp";
+			this.ExportTextureDialog.Filter = FilterExt;
+
+			if (this.ExportTextureDialog.ShowDialog() == DialogResult.OK)
+			{
+
+				try
+				{
+
+					string path = this.ExportTextureDialog.FileName;
+					string last = Path.GetExtension(path).ToUpperInvariant()[1..];
+					var ext = (ImageType)Enum.Parse(typeof(ImageType), last);
+
+					var index = this.TexEditorListView.SelectedIndices[0];
+					var key = this.GetSelectedKey();
+					var texture = this.TPK.FindTexture(key, eKeyType.BINKEY);
+
+					if (ext == ImageType.DDS)
+					{
+
+						using var bw = new BinaryWriter(File.Open(path, FileMode.Create));
+						bw.Write(texture.GetDDSArray(false));
+
+					}
+					else
+					{
+
+						var data = texture.GetDDSArray(true);
+						var image = new ILWrapper.Image(data);
+						image.Save(path, ext);
+
+					}
+
+				}
+				catch (Exception ex)
+				{
+
+					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+
+			}
 		}
 
 		private void TexEditorFindTextureItem_Click(object sender, EventArgs e)
@@ -358,7 +402,9 @@ namespace Binary
 
 			this.TexEditorPropertyGrid.SelectedObject = texture;
 
-			var data = texture.GetDDSArray();
+			var data = texture.GetDDSArray(true);
+
+
 			var image = new ILWrapper.Image(data);
 
 			using var ms = new MemoryStream();
@@ -451,8 +497,7 @@ namespace Binary
 			try
 			{
 
-				string error = String.Empty;
-				if (!Comp.IsDDSTexture(this.AddTextureDialog.FileName, ref error))
+				if (!Comp.IsDDSTexture(this.AddTextureDialog.FileName, out string error))
 				{
 
 					throw new Exception(error);
@@ -475,6 +520,13 @@ namespace Binary
 
 			try
 			{
+
+				if (!Comp.IsDDSTexture(this.ReplaceTextureDialog.FileName, out string error))
+				{
+
+					throw new Exception(error);
+
+				}
 
 				var texture = this.TPK.FindTexture(key, eKeyType.BINKEY);
 				texture.Reload(this.ReplaceTextureDialog.FileName);

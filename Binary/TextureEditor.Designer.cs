@@ -54,6 +54,7 @@
 			this.TexEditorImage = new System.Windows.Forms.PictureBox();
 			this.AddTextureDialog = new System.Windows.Forms.OpenFileDialog();
 			this.ReplaceTextureDialog = new System.Windows.Forms.OpenFileDialog();
+			this.ExportTextureDialog = new System.Windows.Forms.SaveFileDialog();
 			this.TexEditorMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -284,7 +285,7 @@
 			this.TexEditorPropertyGrid.Location = new System.Drawing.Point(14, 3);
 			this.TexEditorPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.TexEditorPropertyGrid.Name = "TexEditorPropertyGrid";
-			this.TexEditorPropertyGrid.Size = new System.Drawing.Size(512, 291);
+			this.TexEditorPropertyGrid.Size = new System.Drawing.Size(512, 290);
 			this.TexEditorPropertyGrid.TabIndex = 0;
 			this.TexEditorPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.TexEditorPropertyGrid_PropertyValueChanged);
 			// 
@@ -297,7 +298,7 @@
 			this.panel1.Controls.Add(this.TexEditorImage);
 			this.panel1.Location = new System.Drawing.Point(6, 3);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(569, 570);
+			this.panel1.Size = new System.Drawing.Size(568, 570);
 			this.panel1.TabIndex = 1;
 			// 
 			// TexEditorImage
@@ -382,5 +383,6 @@
 		private System.Windows.Forms.OpenFileDialog AddTextureDialog;
 		private System.Windows.Forms.OpenFileDialog ReplaceTextureDialog;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.SaveFileDialog ExportTextureDialog;
 	}
 }

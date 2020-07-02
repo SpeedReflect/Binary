@@ -51,6 +51,8 @@
 			this.ToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.HasherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.RaiderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.MoveFirstPartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.MoveLastPartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -103,7 +105,7 @@
 			this.CarPartsPropertyGrid.Location = new System.Drawing.Point(4, 3);
 			this.CarPartsPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.CarPartsPropertyGrid.Name = "CarPartsPropertyGrid";
-			this.CarPartsPropertyGrid.Size = new System.Drawing.Size(583, 379);
+			this.CarPartsPropertyGrid.Size = new System.Drawing.Size(582, 379);
 			this.CarPartsPropertyGrid.TabIndex = 0;
 			this.CarPartsPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.CarPartsPropertyGrid_PropertyValueChanged);
 			// 
@@ -128,6 +130,8 @@
             this.CopyPartToolStripMenuItem,
             this.MoveUpPartsToolStripMenuItem,
             this.MoveDownPartsToolStripMenuItem,
+            this.MoveFirstPartsToolStripMenuItem,
+            this.MoveLastPartsToolStripMenuItem,
             this.ReversePartsToolStripMenuItem,
             this.SortPartsByNameToolStripMenuItem});
 			this.CarPartsToolStripMenuItem.Name = "CarPartsToolStripMenuItem";
@@ -173,6 +177,22 @@
 			this.MoveDownPartsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.MoveDownPartsToolStripMenuItem.Text = "Move Part Down";
 			this.MoveDownPartsToolStripMenuItem.Click += new System.EventHandler(this.MoveDownPartsToolStripMenuItem_Click);
+			// 
+			// MoveFirstPartsToolStripMenuItem
+			// 
+			this.MoveFirstPartsToolStripMenuItem.Name = "MoveFirstPartsToolStripMenuItem";
+			this.MoveFirstPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.U)));
+			this.MoveFirstPartsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.MoveFirstPartsToolStripMenuItem.Text = "Move Part First";
+			this.MoveFirstPartsToolStripMenuItem.Click += new System.EventHandler(this.MoveFirstPartsToolStripMenuItem_Click);
+			// 
+			// MoveLastPartsToolStripMenuItem
+			// 
+			this.MoveLastPartsToolStripMenuItem.Name = "MoveLastPartsToolStripMenuItem";
+			this.MoveLastPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.D)));
+			this.MoveLastPartsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.MoveLastPartsToolStripMenuItem.Text = "Move Part Last";
+			this.MoveLastPartsToolStripMenuItem.Click += new System.EventHandler(this.MoveLastPartsToolStripMenuItem_Click);
 			// 
 			// ReversePartsToolStripMenuItem
 			// 
@@ -320,5 +340,7 @@
 		private System.Windows.Forms.ToolStripMenuItem RaiderToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem MoveDownPartsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem MoveDownAttributesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem MoveFirstPartsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem MoveLastPartsToolStripMenuItem;
 	}
 }

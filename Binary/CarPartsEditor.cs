@@ -71,6 +71,10 @@ namespace Binary
 			this.MoveUpPartsToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.MoveDownPartsToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
 			this.MoveDownPartsToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.MoveFirstPartsToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.MoveFirstPartsToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.MoveLastPartsToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.MoveLastPartsToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.ReversePartsToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
 			this.ReversePartsToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.SortPartsByNameToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
@@ -204,6 +208,8 @@ namespace Binary
 				this.CopyPartToolStripMenuItem.Enabled = false;
 				this.MoveUpPartsToolStripMenuItem.Enabled = false;
 				this.MoveDownPartsToolStripMenuItem.Enabled = false;
+				this.MoveFirstPartsToolStripMenuItem.Enabled = false;
+				this.MoveLastPartsToolStripMenuItem.Enabled = false;
 				this.ReversePartsToolStripMenuItem.Enabled = false;
 				this.SortPartsByNameToolStripMenuItem.Enabled = false;
 				this.AddAttributeToolStripMenuItem.Enabled = false;
@@ -222,6 +228,8 @@ namespace Binary
 				this.CopyPartToolStripMenuItem.Enabled = node.Level == 0;
 				this.MoveUpPartsToolStripMenuItem.Enabled = node.Level == 0;
 				this.MoveDownPartsToolStripMenuItem.Enabled = node.Level == 0;
+				this.MoveFirstPartsToolStripMenuItem.Enabled = node.Level == 0;
+				this.MoveLastPartsToolStripMenuItem.Enabled = node.Level == 0;
 				this.ReversePartsToolStripMenuItem.Enabled = node.Level == 0;
 				this.SortPartsByNameToolStripMenuItem.Enabled = node.Level == 0;
 				this.AddAttributeToolStripMenuItem.Enabled = node.Level == 0;
@@ -307,7 +315,30 @@ namespace Binary
 			this.Model.ModelCarParts[index1] = this.Model.ModelCarParts[index2];
 			this.Model.ModelCarParts[index2] = temp;
 
-			this.LoadTreeView(path);
+			var node1 = this.CarPartsTreeView.Nodes[index1];
+			var node2 = this.CarPartsTreeView.Nodes[index2];
+
+			node1.Text = this.Model.ModelCarParts[index1].PartName;
+			node2.Text = this.Model.ModelCarParts[index2].PartName;
+
+			node1.Nodes.Clear();
+			node2.Nodes.Clear();
+
+			foreach (var attribute in this.Model.ModelCarParts[index1].Attributes)
+			{
+
+				node1.Nodes.Add(new TreeNode(attribute.ToString()));
+
+			}
+
+			foreach (var attribute in this.Model.ModelCarParts[index2].Attributes)
+			{
+
+				node2.Nodes.Add(new TreeNode(attribute.ToString()));
+
+			}
+
+			this.CarPartsTreeView.SelectedNode = this.CarPartsTreeView.Nodes[index2];
 		}
 
 		private void MoveDownPartsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -332,7 +363,86 @@ namespace Binary
 			this.Model.ModelCarParts[index1] = this.Model.ModelCarParts[index2];
 			this.Model.ModelCarParts[index2] = temp;
 
-			this.LoadTreeView(path);
+			var node1 = this.CarPartsTreeView.Nodes[index1];
+			var node2 = this.CarPartsTreeView.Nodes[index2];
+
+			node1.Text = this.Model.ModelCarParts[index1].PartName;
+			node2.Text = this.Model.ModelCarParts[index2].PartName;
+
+			node1.Nodes.Clear();
+			node2.Nodes.Clear();
+
+			foreach (var attribute in this.Model.ModelCarParts[index1].Attributes)
+			{
+
+				node1.Nodes.Add(new TreeNode(attribute.ToString()));
+
+			}
+
+			foreach (var attribute in this.Model.ModelCarParts[index2].Attributes)
+			{
+
+				node2.Nodes.Add(new TreeNode(attribute.ToString()));
+
+			}
+
+			this.CarPartsTreeView.SelectedNode = this.CarPartsTreeView.Nodes[index2];
+		}
+
+		private void MoveFirstPartsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// Assuming we are in a real car part node
+
+			if (this.CarPartsTreeView.Nodes.Count == 0 || this.CarPartsTreeView.Nodes.Count == 1) return;
+
+			var path = this.CarPartsTreeView.SelectedNode.FullPath;
+			var index = this.CarPartsTreeView.SelectedNode.Index;
+			var part = this.Model.ModelCarParts[index];
+
+			// Remove part
+			this.Model.RemovePart(index);
+			this.CarPartsTreeView.Nodes.RemoveAt(index);
+
+			// Add to the front
+			this.Model.ModelCarParts.Insert(0, part);
+			this.CarPartsTreeView.Nodes.Insert(0, part.PartName);
+
+			foreach (var attribute in part.Attributes)
+			{
+
+				this.CarPartsTreeView.Nodes[0].Nodes.Add(attribute.ToString());
+
+			}
+
+			this.CarPartsTreeView.SelectedNode = this.CarPartsTreeView.Nodes[0];
+		}
+
+		private void MoveLastPartsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// Assuming we are in a real car part node
+
+			if (this.CarPartsTreeView.Nodes.Count == 0 || this.CarPartsTreeView.Nodes.Count == 1) return;
+
+			var path = this.CarPartsTreeView.SelectedNode.FullPath;
+			var index = this.CarPartsTreeView.SelectedNode.Index;
+			var part = this.Model.ModelCarParts[index];
+
+			// Remove part
+			this.Model.RemovePart(index);
+			this.CarPartsTreeView.Nodes.RemoveAt(index);
+
+			// Add to the back
+			this.Model.ModelCarParts.Add(part);
+			this.CarPartsTreeView.Nodes.Add(part.PartName);
+
+			foreach (var attribute in part.Attributes)
+			{
+
+				this.CarPartsTreeView.Nodes[^1].Nodes.Add(attribute.ToString());
+
+			}
+
+			this.CarPartsTreeView.SelectedNode = this.CarPartsTreeView.Nodes[^1];
 		}
 
 		private void ReversePartsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -386,7 +496,8 @@ namespace Binary
 			var path = this.CarPartsTreeView.SelectedNode.FullPath;
 			var index1 = this.CarPartsTreeView.SelectedNode.Index;
 			var index2 = index1 - 1;
-			var realpart = this.Model.GetRealPart(this.CarPartsTreeView.SelectedNode.Parent.Index);
+			var parent = this.CarPartsTreeView.SelectedNode.Parent.Index;
+			var realpart = this.Model.GetRealPart(parent);
 
 			if (index2 < 0)
 			{
@@ -402,7 +513,10 @@ namespace Binary
 			realpart.Attributes[index1] = realpart.Attributes[index2];
 			realpart.Attributes[index2] = temp;
 
-			this.LoadTreeView(path);
+			this.CarPartsTreeView.Nodes[parent].Nodes[index1].Text = realpart.Attributes[index1].ToString();
+			this.CarPartsTreeView.Nodes[parent].Nodes[index2].Text = realpart.Attributes[index2].ToString();
+
+			this.CarPartsTreeView.SelectedNode = this.CarPartsTreeView.Nodes[parent].Nodes[index2];
 		}
 
 		private void MoveDownAttributesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -412,7 +526,8 @@ namespace Binary
 			var path = this.CarPartsTreeView.SelectedNode.FullPath;
 			var index1 = this.CarPartsTreeView.SelectedNode.Index;
 			var index2 = index1 + 1;
-			var realpart = this.Model.GetRealPart(this.CarPartsTreeView.SelectedNode.Parent.Index);
+			var parent = this.CarPartsTreeView.SelectedNode.Parent.Index;
+			var realpart = this.Model.GetRealPart(parent);
 
 			if (index2 >= realpart.Length)
 			{
@@ -428,7 +543,10 @@ namespace Binary
 			realpart.Attributes[index1] = realpart.Attributes[index2];
 			realpart.Attributes[index2] = temp;
 
-			this.LoadTreeView(path);
+			this.CarPartsTreeView.Nodes[parent].Nodes[index1].Text = realpart.Attributes[index1].ToString();
+			this.CarPartsTreeView.Nodes[parent].Nodes[index2].Text = realpart.Attributes[index2].ToString();
+
+			this.CarPartsTreeView.SelectedNode = this.CarPartsTreeView.Nodes[parent].Nodes[index2];
 		}
 
 		private void ReverseAttributesToolStripMenuItem_Click(object sender, EventArgs e)

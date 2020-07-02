@@ -77,7 +77,7 @@
 			this.EditorButtonImportNode = new System.Windows.Forms.Button();
 			this.splitContainer10 = new System.Windows.Forms.SplitContainer();
 			this.EditorFindTextBox = new System.Windows.Forms.TextBox();
-			this.EditorButtonFindNode = new System.Windows.Forms.Button();
+			this.EditorButtonScriptNode = new System.Windows.Forms.Button();
 			this.EditorTreeView = new System.Windows.Forms.TreeView();
 			this.EditorImageList = new System.Windows.Forms.ImageList(this.components);
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -681,7 +681,7 @@
 			// 
 			// splitContainer10.Panel2
 			// 
-			this.splitContainer10.Panel2.Controls.Add(this.EditorButtonFindNode);
+			this.splitContainer10.Panel2.Controls.Add(this.EditorButtonScriptNode);
 			this.splitContainer10.Size = new System.Drawing.Size(296, 33);
 			this.splitContainer10.SplitterDistance = 196;
 			this.splitContainer10.SplitterWidth = 1;
@@ -699,20 +699,21 @@
 			this.EditorFindTextBox.Name = "EditorFindTextBox";
 			this.EditorFindTextBox.Size = new System.Drawing.Size(195, 24);
 			this.EditorFindTextBox.TabIndex = 0;
+			this.EditorFindTextBox.TextChanged += new System.EventHandler(this.EditorFindTextBox_TextChanged);
 			// 
-			// EditorButtonFindNode
+			// EditorButtonScriptNode
 			// 
-			this.EditorButtonFindNode.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.EditorButtonFindNode.Enabled = false;
-			this.EditorButtonFindNode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.EditorButtonFindNode.Location = new System.Drawing.Point(0, 0);
-			this.EditorButtonFindNode.Margin = new System.Windows.Forms.Padding(0);
-			this.EditorButtonFindNode.Name = "EditorButtonFindNode";
-			this.EditorButtonFindNode.Size = new System.Drawing.Size(99, 33);
-			this.EditorButtonFindNode.TabIndex = 2;
-			this.EditorButtonFindNode.Text = "Find Node";
-			this.EditorButtonFindNode.UseVisualStyleBackColor = false;
-			this.EditorButtonFindNode.Click += new System.EventHandler(this.EditorButtonFindNode_Click);
+			this.EditorButtonScriptNode.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.EditorButtonScriptNode.Enabled = false;
+			this.EditorButtonScriptNode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.EditorButtonScriptNode.Location = new System.Drawing.Point(0, 0);
+			this.EditorButtonScriptNode.Margin = new System.Windows.Forms.Padding(0);
+			this.EditorButtonScriptNode.Name = "EditorButtonScriptNode";
+			this.EditorButtonScriptNode.Size = new System.Drawing.Size(99, 33);
+			this.EditorButtonScriptNode.TabIndex = 2;
+			this.EditorButtonScriptNode.Text = "Script Node";
+			this.EditorButtonScriptNode.UseVisualStyleBackColor = false;
+			this.EditorButtonScriptNode.Click += new System.EventHandler(this.EditorButtonScriptNode_Click);
 			// 
 			// EditorTreeView
 			// 
@@ -902,7 +903,7 @@
 		private System.Windows.Forms.Button EditorButtonExportNode;
 		private System.Windows.Forms.Button EditorButtonImportNode;
 		private System.Windows.Forms.SplitContainer splitContainer10;
-		private System.Windows.Forms.Button EditorButtonFindNode;
+		private System.Windows.Forms.Button EditorButtonScriptNode;
 		private System.Windows.Forms.SplitContainer splitContainer3;
 		private System.Windows.Forms.TextBox EditorFindTextBox;
 		private System.Windows.Forms.TreeView EditorTreeView;

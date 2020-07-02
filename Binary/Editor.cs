@@ -15,8 +15,8 @@ using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
-
-
+using System.Linq;
+using System.Text;
 
 namespace Binary
 {
@@ -24,6 +24,7 @@ namespace Binary
 	{
 		private List<SynchronizedDatabase> SyncDBs;
 		private readonly List<Form> _openforms;
+		private const string empty = "\"\"";
 
 		public Editor()
 		{
@@ -134,9 +135,9 @@ namespace Binary
 			this.EditorButtonImportNode.BackColor = Theme.ButtonBackColor;
 			this.EditorButtonImportNode.ForeColor = Theme.ButtonForeColor;
 			this.EditorButtonImportNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
-			this.EditorButtonFindNode.BackColor = Theme.ButtonBackColor;
-			this.EditorButtonFindNode.ForeColor = Theme.ButtonForeColor;
-			this.EditorButtonFindNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
+			this.EditorButtonScriptNode.BackColor = Theme.ButtonBackColor;
+			this.EditorButtonScriptNode.ForeColor = Theme.ButtonForeColor;
+			this.EditorButtonScriptNode.FlatAppearance.BorderColor = Theme.ButtonFlatColor;
 
 			// Textboxes
 			this.EditorCommandPrompt.BackColor = Theme.PrimBackColor;
@@ -263,7 +264,7 @@ namespace Binary
 			if (sdb == null)
 			{
 
-				this.EditorButtonCopyNode.Enabled = false;
+				this.EditorButtonRemoveNode.Enabled = false;
 				return;
 
 			}
@@ -342,6 +343,34 @@ namespace Binary
 
 			var manager = sdb.Database.GetManager(node.Text);
 			this.EditorButtonImportNode.Enabled = manager != null;
+		}
+
+		private void ManageButtonScriptNode(TreeNode node)
+		{
+			if (node == null || node.Level != 2)
+			{
+
+				this.EditorButtonScriptNode.Enabled = false;
+				return;
+
+			}
+
+			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Parent.Text);
+
+			if (sdb == null)
+			{
+
+				this.EditorButtonScriptNode.Enabled = false;
+				return;
+
+			}
+
+			var manager = sdb.Database.GetManager(node.Parent.Text);
+			this.EditorButtonScriptNode.Enabled =
+				manager != null &&
+				!typeof(DBModelPart).IsAssignableFrom(manager.CollectionType) &&
+				!typeof(FNGroup).IsAssignableFrom(manager.CollectionType) &&
+				!typeof(STRBlock).IsAssignableFrom(manager.CollectionType);
 		}
 
 		#endregion
@@ -516,7 +545,8 @@ namespace Binary
 
 				if (type != typeof(string) && typeof(IEnumerable).IsAssignableFrom(type)) return;
 
-				this.InjectEndCommand(eCommandType.update, path, property, value.ToString());
+				var str = this.GenerateEndCommand(eCommandType.update, path, property, value.ToString());
+				this.WriteLineToEndCommandPrompt(str);
 
 			}
 		}
@@ -613,7 +643,8 @@ namespace Binary
 
 						manager.Add(input.Value);
 						var path = this.EditorTreeView.SelectedNode.FullPath;
-						this.InjectEndCommand(eCommandType.add, path, input.Value);
+						var str = this.GenerateEndCommand(eCommandType.add, path, input.Value);
+						this.WriteLineToEndCommandPrompt(str);
 						this.LoadTreeView(path);
 						break;
 
@@ -653,7 +684,8 @@ namespace Binary
 
 				this.EditorPropertyGrid.SelectedObject = null;
 				manager.Remove(cname);
-				this.InjectEndCommand(eCommandType.remove, this.EditorTreeView.SelectedNode.FullPath);
+				var str = this.GenerateEndCommand(eCommandType.remove, this.EditorTreeView.SelectedNode.FullPath);
+				this.WriteLineToEndCommandPrompt(str);
 				this.LoadTreeView(this.EditorTreeView.SelectedNode.Parent.FullPath);
 
 			}
@@ -690,7 +722,8 @@ namespace Binary
 
 						manager.Clone(input.Value, cname);
 						var path = this.EditorTreeView.SelectedNode.FullPath;
-						this.InjectEndCommand(eCommandType.copy, path, input.Value);
+						var str = this.GenerateEndCommand(eCommandType.copy, path, input.Value);
+						this.WriteLineToEndCommandPrompt(str);
 						this.LoadTreeView(path);
 						break;
 
@@ -871,9 +904,63 @@ namespace Binary
 			}
 		}
 
-		private void EditorButtonFindNode_Click(object sender, EventArgs e)
+		private void EditorButtonScriptNode_Click(object sender, EventArgs e)
 		{
-			this.RecursiveTreeHiglights(this.EditorFindTextBox.Text, this.EditorTreeView.Nodes);
+			// This button is enabled only in collections, so it is 
+			// safe to assume that we are in a collection TreeNode
+
+			var fname = this.EditorTreeView.SelectedNode.Parent.Parent.Text;
+			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
+			var cname = this.EditorTreeView.SelectedNode.Text;
+
+			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var manager = sdb.Database.GetManager(mname);
+			var collection = manager[manager.IndexOf(cname)] as Collectable;
+
+			var properties = collection.GetAccessibles().ToList();
+			properties.Sort();
+
+			var lines = new List<string>(properties.Count);
+			var path = this.EditorTreeView.SelectedNode.FullPath;
+
+			foreach (var property in properties)
+			{
+
+				if (property.Equals("CollectionName", StringComparison.InvariantCulture)) continue;
+				var value = collection.GetValue(property);
+				if (String.IsNullOrEmpty(value)) value = empty;
+				lines.Add(this.GenerateEndCommand(eCommandType.update, path, property, value));
+
+			}
+
+			foreach (TreeNode node in this.EditorTreeView.SelectedNode.Nodes)
+			{
+
+				if (node.Nodes == null) continue;
+
+				foreach (TreeNode subnode in node.Nodes)
+				{
+
+					path = subnode.FullPath;
+					var expand = node.Text;
+					var name = subnode.Text;
+					var part = collection.GetSubPart(name, expand);
+					if (part == null) continue;
+
+					foreach (var property in part.GetAccessibles())
+					{
+
+						var value = part.GetValue(property);
+						if (String.IsNullOrEmpty(value)) value = empty;
+						lines.Add(this.GenerateEndCommand(eCommandType.update, path, property, value));
+
+					}
+
+				}
+
+			}
+
+			this.WriteLineToEndCommandPrompt(lines);
 		}
 
 		private void RecursiveNodeSelection(string path, TreeNodeCollection nodes)
@@ -1003,12 +1090,22 @@ namespace Binary
 
 			}
 
-			this.EditorButtonFindNode.Enabled = true;
-
 			if (!String.IsNullOrEmpty(selected))
 			{
 
 				this.RecursiveNodeSelection(selected, this.EditorTreeView.Nodes);
+
+			}
+			else
+			{
+
+				this.ManageButtonOpenEditor(null);
+				this.ManageButtonAddNode(null);
+				this.ManageButtonRemoveNode(null);
+				this.ManageButtonCopyNode(null);
+				this.ManageButtonExportNode(null);
+				this.ManageButtonImportNode(null);
+				this.ManageButtonScriptNode(null);
 
 			}
 		}
@@ -1119,8 +1216,19 @@ namespace Binary
 			this.ManageButtonCopyNode(e.Node);
 			this.ManageButtonExportNode(e.Node);
 			this.ManageButtonImportNode(e.Node);
+			this.ManageButtonScriptNode(e.Node);
 
 			this.EditorPropertyGrid.SelectedObject = selected;
+		}
+
+		private void EditorTreeView_DoubleClick(object sender, EventArgs e)
+		{
+			if (this.EditorButtonOpenEditor.Enabled)
+			{
+
+				this.EditorButtonOpenEditor_Click(null, EventArgs.Empty);
+
+			}
 		}
 
 		#endregion
@@ -1133,47 +1241,88 @@ namespace Binary
 				this.EditorCommandPrompt.Text.EndsWith(Environment.NewLine))
 			{
 
-				this.EditorCommandPrompt.Text += line + Environment.NewLine;
+				this.EditorCommandPrompt.Text += line;
 
 			}
 			else
 			{
 
-				this.EditorCommandPrompt.Text += Environment.NewLine + line + Environment.NewLine;
+				this.EditorCommandPrompt.Text += Environment.NewLine + line;
 
 			}
+
+			if (!this.EditorCommandPrompt.Text.EndsWith(Environment.NewLine))
+			{
+
+				this.EditorCommandPrompt.Text += Environment.NewLine;
+
+			}
+
+			this.EditorCommandPrompt.SelectionStart = this.EditorCommandPrompt.Text.Length - 1;
+			this.EditorCommandPrompt.ScrollToCaret();
 		}
 
-		private void InjectEndCommand(eCommandType type, string nodepath)
+		private void WriteLineToEndCommandPrompt(IEnumerable<string> lines)
+		{
+			var size = lines.Aggregate(0, (result, str) => result += str.Length + 2);
+			var sb = new StringBuilder(size);
+
+			foreach (var line in lines) sb.Append(line + Environment.NewLine);
+			this.WriteLineToEndCommandPrompt(sb.ToString());
+		}
+
+		private string GenerateEndCommand(eCommandType type, string nodepath)
 		{
 			const string space = " ";
 			var line = type.ToString() + space;
 			var splits = nodepath.Split(this.EditorTreeView.PathSeparator);
 
-			for (int loop = 0; loop < splits.Length - 1; ++loop) line += splits[loop] + space;
+			for (int loop = 0; loop < splits.Length - 1; ++loop)
+			{
 
-			line += splits[^1];
-			this.WriteLineToEndCommandPrompt(line);
+				var split = splits[loop];
+				line += split.Contains(' ') ? $"\"{split}\"" + space : split + space;
+
+			}
+
+			line += splits[^1].Contains(' ') ? $"\"{splits[^1]}\"" : splits[^1];
+			return line;
 		}
 
-		private void InjectEndCommand(eCommandType type, string nodepath, params string[] args)
+		private string GenerateEndCommand(eCommandType type, string nodepath, params string[] args)
 		{
 			const string space = " ";
 			var line = type.ToString() + space;
 			var splits = nodepath.Split(this.EditorTreeView.PathSeparator);
 
-			foreach (var split in splits) line += split + space;
+			foreach (var split in splits)
+			{
 
-			for (int loop = 0; loop < args.Length - 1; ++loop) line += args[loop] + space;
+				line += split.Contains(' ') ? $"\"{split}\"" + space : split + space;
 
-			line += args[^1];
-			this.WriteLineToEndCommandPrompt(line);
+			}
+
+			for (int loop = 0; loop < args.Length - 1; ++loop)
+			{
+
+				var arg = args[loop];
+				line += arg.Contains(' ') ? $"\"{arg}\"" + space : arg + space;
+
+			}
+
+			line += args[^1].Contains(' ') ? $"\"{args[^1]}\"" : args[^1];
+			return line;
 		}
 
 		private void EditorPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 		{
-			this.InjectEndCommand(eCommandType.update, this.EditorTreeView.SelectedNode.FullPath,
-				e.ChangedItem.Label, e.ChangedItem.Value.ToString());
+			var value = e.ChangedItem.Value.ToString();
+			if (String.IsNullOrEmpty(value)) value = empty;
+			
+			var str = this.GenerateEndCommand(eCommandType.update, this.EditorTreeView.SelectedNode.FullPath,
+				e.ChangedItem.Label, value);
+			
+			this.WriteLineToEndCommandPrompt(str);
 
 			if (e.ChangedItem.Label == "CollectionName")
 			{
@@ -1182,6 +1331,11 @@ namespace Binary
 				this.EditorPropertyGrid.Refresh();
 
 			}
+		}
+
+		private void EditorFindTextBox_TextChanged(object sender, EventArgs e)
+		{
+			this.RecursiveTreeHiglights(this.EditorFindTextBox.Text, this.EditorTreeView.Nodes);
 		}
 
 		#endregion
@@ -1253,15 +1407,5 @@ namespace Binary
 		}
 
 		#endregion
-
-		private void EditorTreeView_DoubleClick(object sender, EventArgs e)
-		{
-			if (this.EditorButtonOpenEditor.Enabled)
-			{
-
-				this.EditorButtonOpenEditor_Click(null, EventArgs.Empty);
-
-			}
-		}
 	}
 }
