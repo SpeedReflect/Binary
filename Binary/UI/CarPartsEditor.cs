@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using Binary.Tools;
+using Binary.Interact;
 using Binary.Properties;
 using Nikki.Support.Shared.Class;
 using Nikki.Support.Shared.Parts.CarParts;
 
 
 
-namespace Binary
+namespace Binary.UI
 {
 	public partial class CarPartsEditor : Form
 	{

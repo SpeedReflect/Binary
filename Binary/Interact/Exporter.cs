@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 
 
-namespace Binary
+namespace Binary.Interact
 {
 	public partial class Exporter : Form
 	{

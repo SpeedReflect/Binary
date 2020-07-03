@@ -1,21 +1,23 @@
 ﻿using System;
 using System.IO;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
+using System.Collections;
 using System.Windows.Forms;
+using System.ComponentModel;
+using System.Collections.Generic;
+using Binary.Tools;
+using Binary.Interact;
 using Binary.Properties;
-using ILWrapper.Enums;
-using Nikki.Reflection.Enum;
-using Nikki.Support.Shared.Class;
 using Nikki.Utils;
 using Nikki.Utils.EA;
+using Nikki.Reflection.Enum;
+using Nikki.Support.Shared.Class;
+using ILWrapper.Enums;
 using CoreExtensions.Management;
 
 
 
-namespace Binary
+namespace Binary.UI
 {
 	public partial class TextureEditor : Form
 	{
@@ -379,7 +381,7 @@ namespace Binary
 
 		#endregion
 
-		#region ListView
+		#region List View
 
 		private void TexEditorListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -480,6 +482,8 @@ namespace Binary
 
 		#endregion
 
+		#region Events
+
 		private void TexEditorPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 		{
 			if (e.ChangedItem.Label == "CollectionName")
@@ -555,5 +559,7 @@ namespace Binary
 
 			}
 		}
+
+		#endregion
 	}
 }

@@ -1,4 +1,4 @@
-﻿namespace Binary
+﻿namespace Binary.UI
 {
 	partial class TextureEditor
 	{

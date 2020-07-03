@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 
 
-namespace Binary
+namespace Binary.Interact
 {
 	public partial class Importer : Form
 	{
@@ -15,8 +15,7 @@ namespace Binary
 			this.ToggleTheme();
 			this.ImporterType.SelectedIndex = 0;
 
-			string tip =
-				"Serialazed import type of the collection. See Readme/Tutorials for more details.";
+			string tip = "Serialazed import type of the collection. See Readme/Tutorials for more details.";
 			this.ImporterToolTip.SetToolTip(this.ImporterLabel, tip);
 			this.ImporterToolTip.SetToolTip(this.ImporterType, tip);
 		}

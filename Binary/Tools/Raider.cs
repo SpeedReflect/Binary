@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
 using Nikki.Core;
-using CoreExtensions.Native;
 using CoreExtensions.Text;
+using CoreExtensions.Native;
 
 
 
-namespace Binary
+namespace Binary.Tools
 {
     public partial class Raider : Form
     {

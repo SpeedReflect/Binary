@@ -1,4 +1,4 @@
-﻿namespace Binary
+﻿namespace Binary.Tools
 {
 	partial class Raider
 	{

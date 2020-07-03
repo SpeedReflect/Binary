@@ -1,4 +1,4 @@
-﻿namespace Binary
+﻿namespace Binary.UI
 {
 	partial class StringEditor
 	{
@@ -92,7 +92,7 @@
 			// 
 			this.AddStringToolStripMenuItem.Name = "AddStringToolStripMenuItem";
 			this.AddStringToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.AddStringToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+			this.AddStringToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.AddStringToolStripMenuItem.Text = "Add String";
 			this.AddStringToolStripMenuItem.Click += new System.EventHandler(this.AddStringToolStripMenuItem_Click);
 			// 
@@ -101,7 +101,7 @@
 			this.RemoveStringToolStripMenuItem.Enabled = false;
 			this.RemoveStringToolStripMenuItem.Name = "RemoveStringToolStripMenuItem";
 			this.RemoveStringToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-			this.RemoveStringToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+			this.RemoveStringToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.RemoveStringToolStripMenuItem.Text = "Remove String";
 			this.RemoveStringToolStripMenuItem.Click += new System.EventHandler(this.RemoveStringToolStripMenuItem_Click);
 			// 
@@ -110,7 +110,7 @@
 			this.EditStringToolStripMenuItem.Enabled = false;
 			this.EditStringToolStripMenuItem.Name = "EditStringToolStripMenuItem";
 			this.EditStringToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-			this.EditStringToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+			this.EditStringToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.EditStringToolStripMenuItem.Text = "Edit String";
 			this.EditStringToolStripMenuItem.Click += new System.EventHandler(this.EditStringToolStripMenuItem_Click);
 			// 
@@ -128,7 +128,7 @@
 			// 
 			this.ReplaceStringToolStripMenuItem.Name = "ReplaceStringToolStripMenuItem";
 			this.ReplaceStringToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-			this.ReplaceStringToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+			this.ReplaceStringToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
 			this.ReplaceStringToolStripMenuItem.Text = "Find and Replace";
 			this.ReplaceStringToolStripMenuItem.Click += new System.EventHandler(this.ReplaceStringToolStripMenuItem_Click);
 			// 
@@ -136,8 +136,8 @@
 			// 
 			this.FindPreviousToolStripMenuItem.Enabled = false;
 			this.FindPreviousToolStripMenuItem.Name = "FindPreviousToolStripMenuItem";
-			this.FindPreviousToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.F3)));
-			this.FindPreviousToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+			this.FindPreviousToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+			this.FindPreviousToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
 			this.FindPreviousToolStripMenuItem.Text = "Find Previous";
 			this.FindPreviousToolStripMenuItem.Click += new System.EventHandler(this.FindPreviousToolStripMenuItem_Click);
 			// 
@@ -145,8 +145,8 @@
 			// 
 			this.FindNextToolStripMenuItem.Enabled = false;
 			this.FindNextToolStripMenuItem.Name = "FindNextToolStripMenuItem";
-			this.FindNextToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.F6)));
-			this.FindNextToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+			this.FindNextToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
+			this.FindNextToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
 			this.FindNextToolStripMenuItem.Text = "Find Next";
 			this.FindNextToolStripMenuItem.Click += new System.EventHandler(this.FindNextToolStripMenuItem_Click);
 			// 
@@ -163,7 +163,7 @@
 			// 
 			this.HasherToolStripMenuItem.Name = "HasherToolStripMenuItem";
 			this.HasherToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.H)));
-			this.HasherToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+			this.HasherToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.HasherToolStripMenuItem.Text = "Hasher";
 			this.HasherToolStripMenuItem.Click += new System.EventHandler(this.HasherToolStripMenuItem_Click);
 			// 
@@ -171,7 +171,7 @@
 			// 
 			this.RaiderToolStripMenuItem.Name = "RaiderToolStripMenuItem";
 			this.RaiderToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
-			this.RaiderToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+			this.RaiderToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.RaiderToolStripMenuItem.Text = "Raider";
 			this.RaiderToolStripMenuItem.Click += new System.EventHandler(this.RaiderToolStripMenuItem_Click);
 			// 
@@ -310,6 +310,7 @@
 			this.StrEditorListView.Location = new System.Drawing.Point(3, 3);
 			this.StrEditorListView.MultiSelect = false;
 			this.StrEditorListView.Name = "StrEditorListView";
+			this.StrEditorListView.OwnerDraw = true;
 			this.StrEditorListView.Size = new System.Drawing.Size(761, 241);
 			this.StrEditorListView.TabIndex = 0;
 			this.StrEditorListView.UseCompatibleStateImageBehavior = false;

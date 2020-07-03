@@ -1,4 +1,4 @@
-﻿namespace Binary
+﻿namespace Binary.Interact
 {
 	partial class Input
 	{

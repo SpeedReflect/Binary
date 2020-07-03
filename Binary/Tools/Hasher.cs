@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
-
+using Nikki.Utils;
 using CoreExtensions.Native;
 
-using Nikki.Utils;
 
 
-
-namespace Binary
+namespace Binary.Tools
 {
     public partial class Hasher : Form
     {

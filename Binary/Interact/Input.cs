@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using Binary.Properties;
 
 
 
-namespace Binary
+namespace Binary.Interact
 {
 	public partial class Input : Form
 	{

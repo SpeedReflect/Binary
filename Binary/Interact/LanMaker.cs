@@ -2,11 +2,10 @@
 using System.IO;
 using System.Windows.Forms;
 using Binary.Endscript;
-using Binary.Properties;
 
 
 
-namespace Binary
+namespace Binary.Interact
 {
 	public partial class LanMaker : Form
 	{

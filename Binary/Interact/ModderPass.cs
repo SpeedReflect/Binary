@@ -6,7 +6,7 @@ using Nikki.Utils;
 
 
 
-namespace Binary
+namespace Binary.Interact
 {
 	public partial class ModderPass : Form
 	{

@@ -1,4 +1,4 @@
-﻿namespace Binary
+﻿namespace Binary.UI
 {
 	partial class CarPartsEditor
 	{
@@ -149,7 +149,7 @@
 			// RemovePartToolStripMenuItem
 			// 
 			this.RemovePartToolStripMenuItem.Name = "RemovePartToolStripMenuItem";
-			this.RemovePartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+			this.RemovePartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
 			this.RemovePartToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.RemovePartToolStripMenuItem.Text = "Remove Part";
 			this.RemovePartToolStripMenuItem.Click += new System.EventHandler(this.RemovePartToolStripMenuItem_Click);
@@ -157,7 +157,7 @@
 			// CopyPartToolStripMenuItem
 			// 
 			this.CopyPartToolStripMenuItem.Name = "CopyPartToolStripMenuItem";
-			this.CopyPartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+			this.CopyPartToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
 			this.CopyPartToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.CopyPartToolStripMenuItem.Text = "Copy Part";
 			this.CopyPartToolStripMenuItem.Click += new System.EventHandler(this.CopyPartToolStripMenuItem_Click);
@@ -173,7 +173,7 @@
 			// MoveDownPartsToolStripMenuItem
 			// 
 			this.MoveDownPartsToolStripMenuItem.Name = "MoveDownPartsToolStripMenuItem";
-			this.MoveDownPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+			this.MoveDownPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
 			this.MoveDownPartsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.MoveDownPartsToolStripMenuItem.Text = "Move Part Down";
 			this.MoveDownPartsToolStripMenuItem.Click += new System.EventHandler(this.MoveDownPartsToolStripMenuItem_Click);
@@ -189,7 +189,7 @@
 			// MoveLastPartsToolStripMenuItem
 			// 
 			this.MoveLastPartsToolStripMenuItem.Name = "MoveLastPartsToolStripMenuItem";
-			this.MoveLastPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.D)));
+			this.MoveLastPartsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.O)));
 			this.MoveLastPartsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.MoveLastPartsToolStripMenuItem.Text = "Move Part Last";
 			this.MoveLastPartsToolStripMenuItem.Click += new System.EventHandler(this.MoveLastPartsToolStripMenuItem_Click);
@@ -232,7 +232,7 @@
 			// RemoveAttributeToolStripMenuItem
 			// 
 			this.RemoveAttributeToolStripMenuItem.Name = "RemoveAttributeToolStripMenuItem";
-			this.RemoveAttributeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
+			this.RemoveAttributeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
 			this.RemoveAttributeToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
 			this.RemoveAttributeToolStripMenuItem.Text = "Remove Attribute";
 			this.RemoveAttributeToolStripMenuItem.Click += new System.EventHandler(this.RemoveAttributeToolStripMenuItem_Click);
@@ -248,7 +248,7 @@
 			// MoveDownAttributesToolStripMenuItem
 			// 
 			this.MoveDownAttributesToolStripMenuItem.Name = "MoveDownAttributesToolStripMenuItem";
-			this.MoveDownAttributesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
+			this.MoveDownAttributesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
 			this.MoveDownAttributesToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
 			this.MoveDownAttributesToolStripMenuItem.Text = "Move Attribute Down";
 			this.MoveDownAttributesToolStripMenuItem.Click += new System.EventHandler(this.MoveDownAttributesToolStripMenuItem_Click);
@@ -279,6 +279,7 @@
 			// HasherToolStripMenuItem
 			// 
 			this.HasherToolStripMenuItem.Name = "HasherToolStripMenuItem";
+			this.MoveDownAttributesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.H)));
 			this.HasherToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
 			this.HasherToolStripMenuItem.Text = "Hasher";
 			this.HasherToolStripMenuItem.Click += new System.EventHandler(this.HasherToolStripMenuItem_Click);
@@ -286,6 +287,7 @@
 			// RaiderToolStripMenuItem
 			// 
 			this.RaiderToolStripMenuItem.Name = "RaiderToolStripMenuItem";
+			this.MoveDownAttributesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
 			this.RaiderToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
 			this.RaiderToolStripMenuItem.Text = "Raider";
 			this.RaiderToolStripMenuItem.Click += new System.EventHandler(this.RaiderToolStripMenuItem_Click);

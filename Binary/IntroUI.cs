@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using Binary.Enums;
+using Binary.Interact;
 using Binary.Endscript;
 using Binary.Properties;
 using Nikki.Core;

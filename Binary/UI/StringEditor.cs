@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using Binary.Tools;
+using Binary.Interact;
 using Binary.Properties;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
+using System.Text.RegularExpressions;
 
-
-
-namespace Binary
+namespace Binary.UI
 {
 	public partial class StringEditor : Form
 	{
@@ -40,10 +37,56 @@ namespace Binary
 
 		private void ToggleTheme()
 		{
+			// Renderers
+			this.StrEditorMenuStrip.Renderer = new Theme.MenuStripRenderer();
 
+			// Primary colors and controls
+			this.BackColor = Theme.MainBackColor;
+			this.ForeColor = Theme.MainForeColor;
+
+			// List view
+			this.StrEditorListView.BackColor = Theme.PrimBackColor;
+			this.StrEditorListView.ForeColor = Theme.PrimForeColor;
+
+			// Labels
+			this.label1.ForeColor = Theme.LabelTextColor;
+			this.label2.ForeColor = Theme.LabelTextColor;
+			this.label3.ForeColor = Theme.LabelTextColor;
+
+			// Text boxes
+			this.TextBoxKey.BackColor = Theme.TextBoxBackColor;
+			this.TextBoxKey.ForeColor = Theme.TextBoxForeColor;
+			this.TextBoxLabel.BackColor = Theme.TextBoxBackColor;
+			this.TextBoxLabel.ForeColor = Theme.TextBoxForeColor;
+			this.TextBoxText.BackColor = Theme.TextBoxBackColor;
+			this.TextBoxText.ForeColor = Theme.TextBoxForeColor;
+			this.StringEditorTextBox.BackColor = Theme.TextBoxBackColor;
+			this.StringEditorTextBox.ForeColor = Theme.TextBoxForeColor;
+
+			// Menu strip and menu items
+			this.StrEditorMenuStrip.ForeColor = Theme.LabelTextColor;
+
+			this.AddStringToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.AddStringToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.RemoveStringToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.RemoveStringToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.EditStringToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.EditStringToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.ReplaceStringToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.ReplaceStringToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.FindPreviousToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.FindPreviousToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.FindNextToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.FindNextToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.HasherToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.HasherToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.RaiderToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.RaiderToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 		}
 
 		#endregion
+
+		#region Methods
 
 		private void LoadListView(int index = -1)
 		{
@@ -124,6 +167,10 @@ namespace Binary
 			this.StrEditorListView.Items[index].EnsureVisible();
 		}
 
+		#endregion
+
+		#region Menu Strip
+
 		private void AddStringToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 
@@ -167,6 +214,43 @@ namespace Binary
 
 		private void ReplaceStringToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (this.StrEditorListView.Items.Count == 0) return;
+
+			using var with = new Input("Enter string to replace with");
+			using var input = new Input("Enter string to search for",
+										new Predicate<string>(_ => !String.IsNullOrEmpty(_)),
+										"Input string cannot be null or empty");
+			
+			if (input.ShowDialog() == DialogResult.OK && with.ShowDialog() == DialogResult.OK)
+			{
+
+				using var check = new Check("Make case-sensitive replace?");
+
+				if (check.ShowDialog() == DialogResult.OK)
+				{
+
+					this.StrEditorListView.BeginUpdate();
+
+					for (int i = 0; i < this.StrEditorListView.Items.Count; ++i)
+					{
+
+						var item = this.StrEditorListView.Items[i];
+						var record = this.STR.GetRecord(item.SubItems[1].Text);
+
+						var options = check.Value
+							? RegexOptions.Multiline | RegexOptions.CultureInvariant
+							: RegexOptions.Multiline | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase;
+
+						record.Text = Regex.Replace(record.Text, input.Value, with.Value, options);
+						item.SubItems[3].Text = record.Text;
+
+					}
+
+					this.StrEditorListView.EndUpdate();
+
+				}
+
+			}
 
 		}
 
@@ -254,6 +338,116 @@ namespace Binary
 			raider.Show();
 		}
 
+		#endregion
+
+		#region List View
+
+		private void StrEditorListView_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (this.StrEditorListView.SelectedItems.Count == 0)
+			{
+
+				this.StringEditorTextBox.Text = String.Empty;
+				this.ToggleMenuStripControls();
+				return;
+
+			}
+
+			var key = this.GetSelectedKey();
+			var record = this.STR.GetRecord(key);
+
+			if (record == null) return;
+
+			this.StringEditorTextBox.Text = record.Text;
+			this.ToggleMenuStripControls();
+		}
+
+		private void StrEditorListView_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			this.EditStringToolStripMenuItem_Click(this.EditStringToolStripMenuItem, EventArgs.Empty);
+		}
+
+		private void StrEditorListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+		{
+			var brush = new SolidBrush(Theme.TextBoxBackColor);
+			e.Graphics.FillRectangle(brush, e.Bounds);
+			e.DrawText();
+		}
+
+		private void StrEditorListView_DrawItem(object sender, DrawListViewItemEventArgs e)
+		{
+			e.DrawDefault = true;
+		}
+
+		private void StrEditorListView_ColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			uint key;
+			int index;
+
+			if (this.StrEditorListView.SelectedItems.Count == 0)
+			{
+
+				key = 0xFFFFFFFF;
+				index = -1;
+
+			}
+			else
+			{
+
+				key = this.GetSelectedKey();
+				index = 0;
+
+			}
+
+			switch (e.Column)
+			{
+				case 1: // Key
+					this.STR.SortRecordsByKey();
+					if (index == 0) index = this.FastFindIndex(key);
+					this.LoadListView(index);
+					break;
+
+				case 2: // Label
+					this.STR.SortRecordsByLabel();
+					if (index == 0) index = this.FastFindIndex(key);
+					this.LoadListView(index);
+					break;
+
+				case 3: // Text
+					this.STR.SortRecordsByText();
+					if (index == 0) index = this.FastFindIndex(key);
+					this.LoadListView(index);
+					break;
+
+				default:
+					return;
+
+			}
+
+			if (!String.IsNullOrEmpty(this.TextBoxKey.Text))
+			{
+
+				this.TextBoxKey_TextChanged(this.TextBoxKey, EventArgs.Empty);
+
+			}
+			else if (!String.IsNullOrEmpty(this.TextBoxLabel.Text))
+			{
+
+				this.TextBoxLabel_TextChanged(this.TextBoxLabel, EventArgs.Empty);
+
+			}
+			else if (!String.IsNullOrEmpty(this.TextBoxText.Text))
+			{
+
+				this.TextBoxText_TextChanged(this.TextBoxText, EventArgs.Empty);
+
+			}
+		}
+
+		#endregion
+
+		#region Events
+
 		private void TextBoxKey_TextChanged(object sender, EventArgs e)
 		{
 			this.StrEditorListView.BeginUpdate();
@@ -278,7 +472,7 @@ namespace Binary
 			{
 
 				var find = this.TextBoxKey.Text.ToUpperInvariant();
-				
+
 				foreach (ListViewItem item in this.StrEditorListView.Items)
 				{
 
@@ -407,44 +601,19 @@ namespace Binary
 			var selected = this.StrEditorListView.SelectedItems[0];
 			record.Text = this.StringEditorTextBox.Text ?? String.Empty;
 			selected.SubItems[3].Text = record.Text;
-			
+
 			var upper = record.Text.ToUpperInvariant();
-			
+
 			if (!String.IsNullOrEmpty(this.TextBoxText.Text))
 			{
-			
+
 				selected.BackColor = !upper.Contains(this.TextBoxText.Text.ToUpperInvariant())
 					? this.StrEditorListView.BackColor
 					: Configurations.Default.DarkTheme
 						? _highlight_dark
 						: _highlight_light;
-			
-			}			
-		}
-
-		private void StrEditorListView_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (this.StrEditorListView.SelectedItems.Count == 0)
-			{
-
-				this.StringEditorTextBox.Text = String.Empty;
-				this.ToggleMenuStripControls();
-				return;
 
 			}
-
-			var key = this.GetSelectedKey();
-			var record = this.STR.GetRecord(key);
-
-			if (record == null) return;
-
-			this.StringEditorTextBox.Text = record.Text;
-			this.ToggleMenuStripControls();
-		}
-
-		private void StrEditorListView_MouseDoubleClick(object sender, MouseEventArgs e)
-		{
-			this.EditStringToolStripMenuItem_Click(this.EditStringToolStripMenuItem, EventArgs.Empty);
 		}
 
 		private void StringEditor_FormClosing(object sender, FormClosingEventArgs e)
@@ -458,81 +627,6 @@ namespace Binary
 			}
 		}
 
-		private void StrEditorListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-		{
-			var brush = new SolidBrush(Theme.TextBoxBackColor);
-			e.Graphics.FillRectangle(brush, e.Bounds);
-			e.DrawText();
-		}
-
-		private void StrEditorListView_DrawItem(object sender, DrawListViewItemEventArgs e)
-		{
-			e.DrawDefault = true;
-		}
-
-		private void StrEditorListView_ColumnClick(object sender, ColumnClickEventArgs e)
-		{
-			uint key;
-			int index;
-
-			if (this.StrEditorListView.SelectedItems.Count == 0)
-			{
-
-				key = 0xFFFFFFFF;
-				index = -1;
-
-			}
-			else
-			{
-
-				key = this.GetSelectedKey();
-				index = 0;
-
-			}
-
-			switch (e.Column)
-			{
-				case 1: // Key
-					this.STR.SortRecordsByKey();
-					if (index == 0) index = this.FastFindIndex(key);
-					this.LoadListView(index);
-					break;
-
-				case 2: // Label
-					this.STR.SortRecordsByLabel();
-					if (index == 0) index = this.FastFindIndex(key);
-					this.LoadListView(index);
-					break;
-
-				case 3: // Text
-					this.STR.SortRecordsByText();
-					if (index == 0) index = this.FastFindIndex(key);
-					this.LoadListView(index);
-					break;
-
-				default:
-					return;
-
-			}
-
-			if (!String.IsNullOrEmpty(this.TextBoxKey.Text))
-			{
-
-				this.TextBoxKey_TextChanged(this.TextBoxKey, EventArgs.Empty);
-
-			}
-			else if (!String.IsNullOrEmpty(this.TextBoxLabel.Text))
-			{
-
-				this.TextBoxLabel_TextChanged(this.TextBoxLabel, EventArgs.Empty);
-
-			}
-			else if (!String.IsNullOrEmpty(this.TextBoxText.Text))
-			{
-
-				this.TextBoxText_TextChanged(this.TextBoxText, EventArgs.Empty);
-
-			}
-		}
+		#endregion
 	}
 }
