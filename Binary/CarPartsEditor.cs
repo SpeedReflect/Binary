@@ -128,6 +128,7 @@ namespace Binary
 		private void LoadTreeView(string selected = null)
 		{
 			this.CarPartsTreeView.Nodes.Clear();
+			this.CarPartsTreeView.BeginUpdate();
 			var nodes = new TreeNode[this.Model.CarPartsCount];
 			int count = 0;
 
@@ -149,6 +150,7 @@ namespace Binary
 			}
 
 			this.CarPartsTreeView.Nodes.AddRange(nodes);
+			this.CarPartsTreeView.EndUpdate();
 
 			if (!String.IsNullOrEmpty(selected))
 			{

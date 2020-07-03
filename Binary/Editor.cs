@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Drawing;
 using System.Collections;
 using System.Diagnostics;
@@ -15,8 +17,8 @@ using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
-using System.Linq;
-using System.Text;
+
+
 
 namespace Binary
 {
@@ -785,7 +787,9 @@ namespace Binary
 			else if (collection is STRBlock str)
 			{
 
-				MessageBox.Show("Coming Soon M3", "SoonTM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				using var editor = new StringEditor(str);
+				editor.ShowDialog();
+				this.EditorPropertyGrid.Refresh();
 
 			}
 		}

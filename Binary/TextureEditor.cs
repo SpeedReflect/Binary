@@ -106,6 +106,7 @@ namespace Binary
 		{
 			this.TexEditorListView.Items.Clear();
 			var list = this.TPK.GetTextures() as IEnumerable;
+			this.TexEditorListView.BeginUpdate();
 
 			var count = 0;
 
@@ -124,6 +125,8 @@ namespace Binary
 				this.TexEditorListView.Items.Add(item);
 
 			}
+
+			this.TexEditorListView.EndUpdate();
 
 			if (index < 0 || index >= this.TexEditorListView.Items.Count) return;
 
@@ -403,8 +406,6 @@ namespace Binary
 			this.TexEditorPropertyGrid.SelectedObject = texture;
 
 			var data = texture.GetDDSArray(true);
-
-
 			var image = new ILWrapper.Image(data);
 
 			using var ms = new MemoryStream();

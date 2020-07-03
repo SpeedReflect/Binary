@@ -79,7 +79,7 @@
 			this.TexEditorMenuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
 			this.TexEditorMenuStrip.Size = new System.Drawing.Size(1148, 24);
 			this.TexEditorMenuStrip.TabIndex = 0;
-			this.TexEditorMenuStrip.Text = "menuStrip1";
+			this.TexEditorMenuStrip.Text = "StrEditorMenuStrip";
 			// 
 			// TexEditorTexturesStrip
 			// 
