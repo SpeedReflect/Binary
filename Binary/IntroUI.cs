@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using Binary.Enums;
 using Binary.Interact;
-using Binary.Endscript;
 using Binary.Properties;
+using Endscript.Core;
+using Endscript.Enums;
 using Nikki.Core;
 using CoreExtensions.Management;
 
@@ -107,7 +107,7 @@ namespace Binary
 
 			if (dialog.ShowDialog() != DialogResult.OK) return;
 
-			Parser.Deserialize(dialog.FileName, out Launch launch);
+			Launch.Deserialize(dialog.FileName, out Launch launch);
 
 			if (launch.UsageID != eUsage.User)
 			{

@@ -9,31 +9,30 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Binary.UI;
-using Binary.Enums;
 using Binary.Tools;
+using Binary.Prompt;
 using Binary.Interact;
-using Binary.Endscript;
 using Binary.Properties;
+using Endscript.Enums;
+using Endscript.Profiles;
 using Nikki.Core;
 using Nikki.Utils;
 using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
-
-
+using Endscript.Core;
 
 namespace Binary
 {
 	public partial class Editor : Form
 	{
-		private List<SynchronizedDatabase> SyncDBs;
+		private BaseProfile Profile { get; set; }
 		private readonly List<Form> _openforms;
 		private const string empty = "\"\"";
 
 		public Editor()
 		{
-			this.SyncDBs = new List<SynchronizedDatabase>();
 			this._openforms = new List<Form>();
 			this.InitializeComponent();
 			this.ToggleTheme();
@@ -160,10 +159,10 @@ namespace Binary
 			try
 			{
 
-				if (this.SyncDBs.Count > 0)
+				if (this.Profile.Count > 0)
 				{
 
-					foreach (var sdb in this.SyncDBs)
+					foreach (var sdb in this.Profile)
 					{
 
 						var from = sdb.FullPath;
@@ -240,7 +239,7 @@ namespace Binary
 
 			}
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Text);
+			var sdb = this.Profile.Find(_ => _.Filename == node.Parent.Text);
 
 			if (sdb == null)
 			{
@@ -264,7 +263,7 @@ namespace Binary
 
 			}
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Parent.Text);
+			var sdb = this.Profile.Find(_ => _.Filename == node.Parent.Parent.Text);
 
 			if (sdb == null)
 			{
@@ -288,7 +287,7 @@ namespace Binary
 
 			}
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Parent.Text);
+			var sdb = this.Profile.Find(_ => _.Filename == node.Parent.Parent.Text);
 
 			if (sdb == null)
 			{
@@ -312,7 +311,7 @@ namespace Binary
 
 			}
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Parent.Text);
+			var sdb = this.Profile.Find(_ => _.Filename == node.Parent.Parent.Text);
 
 			if (sdb == null)
 			{
@@ -336,7 +335,7 @@ namespace Binary
 
 			}
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Text);
+			var sdb = this.Profile.Find(_ => _.Filename == node.Parent.Text);
 
 			if (sdb == null)
 			{
@@ -360,7 +359,7 @@ namespace Binary
 
 			}
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == node.Parent.Parent.Text);
+			var sdb = this.Profile.Find(_ => _.Filename == node.Parent.Parent.Text);
 
 			if (sdb == null)
 			{
@@ -403,7 +402,7 @@ namespace Binary
 			if (browser.ShowDialog() == DialogResult.OK)
 			{
 
-				this.LoadSynchronizedDatabases(browser.FileName, true);
+				this.LoadProfile(browser.FileName, true);
 
 			}
 		}
@@ -415,7 +414,7 @@ namespace Binary
 			if (File.Exists(file))
 			{
 
-				this.LoadSynchronizedDatabases(file, true);
+				this.LoadProfile(file, true);
 
 			}
 			else
@@ -429,7 +428,7 @@ namespace Binary
 
 		private void EMSMainSaveFiles_Click(object sender, EventArgs e)
 		{
-			this.SaveSynchronizedDatabases();
+			this.SaveProfile();
 		}
 
 		private void EMSMainExit_Click(object sender, EventArgs e)
@@ -493,10 +492,10 @@ namespace Binary
 			try
 			{
 
-				if (this.SyncDBs.Count > 0)
+				if (this.Profile.Count > 0)
 				{
 
-					var path = this.SyncDBs[0].Folder;
+					var path = this.Profile[0].Folder;
 
 					MemoryUnlock.FastUnlock(path + @"\GLOBAL\CARHEADERSMEMORYFILE.BIN");
 					MemoryUnlock.FastUnlock(path + @"\GLOBAL\FRONTENDMEMORYFILE.BIN");
@@ -567,11 +566,11 @@ namespace Binary
 			{
 
 				// Considering at least ONE file is currently open
-				if (this.SyncDBs.Count > 0)
+				if (this.Profile.Count > 0)
 				{
 
-					var path = this.SyncDBs[0].Folder;
-					var game = this.SyncDBs[0].Database.GameINT;
+					var path = this.Profile[0].Folder;
+					var game = this.Profile[0].Database.GameINT;
 					var exe = path;
 
 					exe += game switch
@@ -632,7 +631,7 @@ namespace Binary
 			var fname = this.EditorTreeView.SelectedNode.Parent.Text;
 			var mname = this.EditorTreeView.SelectedNode.Text;
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var sdb = this.Profile.Find(_ => _.Filename == fname);
 			var manager = sdb.Database.GetManager(mname);
 
 			using var input = new Input("Enter name of the new collection");
@@ -681,7 +680,7 @@ namespace Binary
 			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
 			var cname = this.EditorTreeView.SelectedNode.Text;
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var sdb = this.Profile.Find(_ => _.Filename == fname);
 			var manager = sdb.Database.GetManager(mname);
 			
 			try
@@ -711,7 +710,7 @@ namespace Binary
 			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
 			var cname = this.EditorTreeView.SelectedNode.Text;
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var sdb = this.Profile.Find(_ => _.Filename == fname);
 			var manager = sdb.Database.GetManager(mname);
 
 			using var input = new Input("Enter name of the new collection");
@@ -760,7 +759,7 @@ namespace Binary
 			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
 			var cname = this.EditorTreeView.SelectedNode.Text;
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var sdb = this.Profile.Find(_ => _.Filename == fname);
 			var manager = sdb.Database.GetManager(mname);
 
 			var collection = manager[manager.FindIndex(cname)];
@@ -806,7 +805,7 @@ namespace Binary
 			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
 			var cname = this.EditorTreeView.SelectedNode.Text;
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var sdb = this.Profile.Find(_ => _.Filename == fname);
 			var manager = sdb.Database.GetManager(mname);
 
 			using var exporter = new Exporter(manager.AllowsNoSerialization)
@@ -862,7 +861,7 @@ namespace Binary
 			var fname = this.EditorTreeView.SelectedNode.Parent.Text;
 			var mname = this.EditorTreeView.SelectedNode.Text;
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var sdb = this.Profile.Find(_ => _.Filename == fname);
 			var manager = sdb.Database.GetManager(mname);
 
 			using var importer = new Importer()
@@ -920,7 +919,7 @@ namespace Binary
 			var mname = this.EditorTreeView.SelectedNode.Parent.Text;
 			var cname = this.EditorTreeView.SelectedNode.Text;
 
-			var sdb = this.SyncDBs.Find(_ => _.Filename == fname);
+			var sdb = this.Profile.Find(_ => _.Filename == fname);
 			var manager = sdb.Database.GetManager(mname);
 			var collection = manager[manager.IndexOf(cname)] as Collectable;
 
@@ -1014,12 +1013,12 @@ namespace Binary
 
 		#region Loading
 
-		private void LoadSynchronizedDatabases(string filename, bool showerrors)
+		private void LoadProfile(string filename, bool showerrors)
 		{
 			try
 			{
 
-				Parser.Deserialize(filename, out Launch launch);
+				Launch.Deserialize(filename, out Launch launch);
 
 				if (launch.UsageID != eUsage.Modder)
 				{
@@ -1049,15 +1048,13 @@ namespace Binary
 
 				}
 
-				launch.CheckFiles();
-				launch.LoadLinks();
-
-				this.SyncDBs.Clear();
+				this.EditorPropertyGrid.SelectedObject = null;
+				this.Profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
 
 				var watch = new Stopwatch();
 				watch.Start();
 
-				this.LoadAllDB(launch);
+				this.Profile.Load(launch);
 
 				watch.Stop();
 				this.EditorStatusLabel.Text = $"Files: {launch.Files.Count} | Loading Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
@@ -1087,13 +1084,15 @@ namespace Binary
 
 		private void LoadTreeView(string selected = null)
 		{
-			this.EditorTreeView.Nodes.Clear();
-			this.SyncDBs.Sort((x, y) => x.Filename.CompareTo(y.Filename));
+			this.EditorTreeView.BeginUpdate();
 
-			foreach (var db in this.SyncDBs)
+			this.EditorTreeView.Nodes.Clear();
+			this.Profile.Sort();
+
+			foreach (var sdb in this.Profile)
 			{
 
-				this.EditorTreeView.Nodes.Add(db.GetTreeNodes());
+				this.EditorTreeView.Nodes.Add(Utils.GetTreeNodesFromSDB(sdb));
 
 			}
 
@@ -1115,35 +1114,15 @@ namespace Binary
 				this.ManageButtonScriptNode(null);
 
 			}
-		}
 
-		private async void LoadAllDB(Launch launch)
-		{
-			var tasks = new List<Task>(launch.Files.Count);
-
-			foreach (var file in launch.Files)
-			{
-
-				var sdb = new SynchronizedDatabase(launch.GameID, launch.Directory, file);
-				this.SyncDBs.Add(sdb);
-				tasks.Add(this.LoadOneDB(sdb));
-
-			}
-
-			await Task.WhenAll(tasks);
-		}
-
-		private Task LoadOneDB(SynchronizedDatabase sdb)
-		{
-			sdb.Load();
-			return Task.CompletedTask;
+			this.EditorTreeView.EndUpdate();
 		}
 
 		#endregion
 
 		#region Saving
 
-		private void SaveSynchronizedDatabases()
+		private void SaveProfile()
 		{
 			try
 			{
@@ -1151,11 +1130,11 @@ namespace Binary
 				var watch = new Stopwatch();
 				watch.Start();
 
-				this.SaveAllDB();
+				this.Profile.Save();
 
 				watch.Stop();
 				var filename = Configurations.Default.LaunchFile;
-				this.EditorStatusLabel.Text = $"Files: {this.SyncDBs.Count} | Saving Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
+				this.EditorStatusLabel.Text = $"Files: {this.Profile.Count} | Saving Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
 
 			}
 			catch (Exception ex)
@@ -1164,26 +1143,6 @@ namespace Binary
 				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 			}
-		}
-
-		private async void SaveAllDB()
-		{
-			var tasks = new List<Task>(this.SyncDBs.Count);
-
-			foreach (var sdb in this.SyncDBs)
-			{
-
-				tasks.Add(this.SaveOneDB(sdb));
-
-			}
-
-			await Task.WhenAll(tasks);
-		}
-
-		private Task SaveOneDB(SynchronizedDatabase sdb)
-		{
-			sdb.Save();
-			return Task.CompletedTask;
 		}
 
 		#endregion
@@ -1215,7 +1174,7 @@ namespace Binary
 		private void EditorTreeView_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			Console.WriteLine(e.Node.FullPath);
-			var selected = Utils.GetReflective(e.Node.FullPath, this.EditorTreeView.PathSeparator, this.SyncDBs);
+			var selected = Utils.GetReflective(e.Node.FullPath, this.EditorTreeView.PathSeparator, this.Profile);
 
 			this.ManageButtonOpenEditor(selected);
 			this.ManageButtonAddNode(e.Node);
@@ -1353,12 +1312,12 @@ namespace Binary
 		{
 			var file = Configurations.Default.LaunchFile;
 			if (!File.Exists(file)) return;
-			else this.LoadSynchronizedDatabases(file, false);
+			else this.LoadProfile(file, false);
 		}
 
 		private void Editor_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			this.SyncDBs = null;
+			this.Profile = null;
 
 			foreach (var form in this._openforms)
 			{
@@ -1381,7 +1340,7 @@ namespace Binary
 
 			Directory.CreateDirectory(backup);
 
-			foreach (var sdb in this.SyncDBs)
+			foreach (var sdb in this.Profile)
 			{
 
 				var filepath = $"{backup}\\{sdb.Filename.Replace('\\', '_')}";

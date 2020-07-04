@@ -61,6 +61,7 @@ namespace Binary.Tools
         {
             if (!this.BinHashInput.ReadOnly && this.BinHashInput.Text.IsHexString())
             {
+                if (this.BinHashInput.Text.Length > 10) return;
 
                 var key = Convert.ToUInt32(this.BinHashInput.Text, 16);
                 this.BinFileInput.Text = $"0x{key.Reverse():X8}";
@@ -76,6 +77,8 @@ namespace Binary.Tools
         {
             if (!this.BinFileInput.ReadOnly && this.BinFileInput.Text.IsHexString())
             {
+
+                if (this.BinHashInput.Text.Length > 10) return;
 
                 var key = Convert.ToUInt32(this.BinFileInput.Text, 16);
                 key = key.Reverse();

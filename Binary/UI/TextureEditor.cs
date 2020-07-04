@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using Binary.Tools;
-using Binary.Interact;
+using Binary.Prompt;
 using Binary.Properties;
 using Nikki.Utils;
 using Nikki.Utils.EA;

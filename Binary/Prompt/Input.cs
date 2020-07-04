@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 
 
-namespace Binary.Interact
+namespace Binary.Prompt
 {
 	public partial class Input : Form
 	{

@@ -2,12 +2,15 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Binary.Tools;
+using Binary.Prompt;
 using Binary.Interact;
 using Binary.Properties;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
-using System.Text.RegularExpressions;
+
+
 
 namespace Binary.UI
 {
@@ -167,13 +170,69 @@ namespace Binary.UI
 			this.StrEditorListView.Items[index].EnsureVisible();
 		}
 
+		private void GenericFindSelection()
+		{
+			if (!String.IsNullOrEmpty(this.TextBoxKey.Text))
+			{
+
+				this.TextBoxKey_TextChanged(this.TextBoxKey, EventArgs.Empty);
+
+			}
+			else if (!String.IsNullOrEmpty(this.TextBoxLabel.Text))
+			{
+
+				this.TextBoxLabel_TextChanged(this.TextBoxLabel, EventArgs.Empty);
+
+			}
+			else if (!String.IsNullOrEmpty(this.TextBoxText.Text))
+			{
+
+				this.TextBoxText_TextChanged(this.TextBoxText, EventArgs.Empty);
+
+			}
+		}
+
 		#endregion
 
 		#region Menu Strip
 
 		private void AddStringToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			using var creator = new StringCreator();
 
+			while (true)
+			{
+
+				if (creator.ShowDialog() == DialogResult.OK)
+				{
+
+					try
+					{
+
+						this.STR.AddRecord(creator.Key, creator.Label, creator.Value);
+						this.LoadListView();
+						var index = this.FastFindIndex(Convert.ToUInt32(creator.Key, 16));
+						this.FastItemSelection(index);
+						this.GenericFindSelection();
+						break;
+
+					}
+					catch (Exception ex)
+					{
+
+						MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+					}
+
+				}
+				else
+				{
+
+					break;
+
+				}
+
+			}
 		}
 
 		private void RemoveStringToolStripMenuItem_Click(object sender, EventArgs e)
@@ -209,7 +268,47 @@ namespace Binary.UI
 
 		private void EditStringToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			var record = this.STR.GetRecord(this.StrEditorListView.SelectedItems[0].SubItems[1].Text);
+			using var creator = new StringCreator(record);
 
+			while (true)
+			{
+
+				if (creator.ShowDialog() == DialogResult.OK)
+				{
+
+					try
+					{
+
+						record.SetValue("Key", creator.Key);
+						record.SetValue("Label", creator.Label);
+						record.SetValue("Text", creator.Value);
+
+						var item = this.StrEditorListView.SelectedItems[0];
+						item.SubItems[1].Text = creator.Key;
+						item.SubItems[2].Text = creator.Label;
+						item.SubItems[3].Text = creator.Value;
+
+						this.GenericFindSelection();
+						break;
+
+					}
+					catch (Exception ex)
+					{
+
+						MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+					}
+
+				}
+				else
+				{
+
+					break;
+					
+				}
+
+			}
 		}
 
 		private void ReplaceStringToolStripMenuItem_Click(object sender, EventArgs e)
@@ -246,6 +345,7 @@ namespace Binary.UI
 
 					}
 
+					this.GenericFindSelection();
 					this.StrEditorListView.EndUpdate();
 
 				}
@@ -424,24 +524,7 @@ namespace Binary.UI
 
 			}
 
-			if (!String.IsNullOrEmpty(this.TextBoxKey.Text))
-			{
-
-				this.TextBoxKey_TextChanged(this.TextBoxKey, EventArgs.Empty);
-
-			}
-			else if (!String.IsNullOrEmpty(this.TextBoxLabel.Text))
-			{
-
-				this.TextBoxLabel_TextChanged(this.TextBoxLabel, EventArgs.Empty);
-
-			}
-			else if (!String.IsNullOrEmpty(this.TextBoxText.Text))
-			{
-
-				this.TextBoxText_TextChanged(this.TextBoxText, EventArgs.Empty);
-
-			}
+			this.GenericFindSelection();
 		}
 
 		#endregion

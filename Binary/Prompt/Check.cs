@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 
 
-namespace Binary.Interact
+namespace Binary.Prompt
 {
 	public partial class Check : Form
 	{
-		public bool Value { get; set; }
+		public bool Value { get; private set; }
 
 		public Check()
 		{

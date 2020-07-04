@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using Binary.Endscript;
+using Endscript.Core;
 
 
 
@@ -85,8 +85,8 @@ namespace Binary.Interact
 				var directory = this.LanMakerTextBoxDir.Text;
 				var game = this.LanMakerGame.Text;
 				var usage = this.LanMakerUsage.Text;
-				var launch = Parser.GenerateSample(directory, game, usage);
-				Parser.Serialize(dialog.FileName, launch);
+				var launch = Utils.GenerateSample(directory, game, usage);
+				Launch.Serialize(dialog.FileName, launch);
 				MessageBox.Show($"File {dialog.FileName} has been saved.", "Success",
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
 

@@ -17,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Endscript\Endscript\Endscript.csproj" />
     <ProjectReference Include="..\..\ILWrapper\ILWrapper\ILWrapper.csproj" />
     <ProjectReference Include="..\..\Nikki\Nikki\Nikki.csproj" />
   </ItemGroup>
