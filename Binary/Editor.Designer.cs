@@ -39,9 +39,7 @@
 			this.EMSMainExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStripDatabase = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSDatabaseLoadDB = new System.Windows.Forms.ToolStripMenuItem();
-			this.EMSDatabaseReloadDB = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSDatabaseSaveDB = new System.Windows.Forms.ToolStripMenuItem();
-			this.EMSDatabaseCombineDB = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStripTools = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSToolsHasher = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSToolsRaider = new System.Windows.Forms.ToolStripMenuItem();
@@ -203,9 +201,7 @@
 			// 
 			this.EditorMenuStripDatabase.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.EMSDatabaseLoadDB,
-            this.EMSDatabaseReloadDB,
-            this.EMSDatabaseSaveDB,
-            this.EMSDatabaseCombineDB});
+            this.EMSDatabaseSaveDB});
 			this.EditorMenuStripDatabase.Name = "EditorMenuStripDatabase";
 			this.EditorMenuStripDatabase.Size = new System.Drawing.Size(67, 20);
 			this.EditorMenuStripDatabase.Text = "Database";
@@ -215,19 +211,9 @@
 			this.EMSDatabaseLoadDB.Name = "EMSDatabaseLoadDB";
 			this.EMSDatabaseLoadDB.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
-			this.EMSDatabaseLoadDB.Size = new System.Drawing.Size(253, 22);
+			this.EMSDatabaseLoadDB.Size = new System.Drawing.Size(226, 22);
 			this.EMSDatabaseLoadDB.Text = "Load Database";
 			this.EMSDatabaseLoadDB.Click += new System.EventHandler(this.EMSDatabaseLoadDB_Click);
-			// 
-			// EMSDatabaseReloadDB
-			// 
-			this.EMSDatabaseReloadDB.Enabled = false;
-			this.EMSDatabaseReloadDB.Name = "EMSDatabaseReloadDB";
-			this.EMSDatabaseReloadDB.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.R)));
-			this.EMSDatabaseReloadDB.Size = new System.Drawing.Size(253, 22);
-			this.EMSDatabaseReloadDB.Text = "Reload Database";
-			this.EMSDatabaseReloadDB.Click += new System.EventHandler(this.EMSDatabaseReloadDB_Click);
 			// 
 			// EMSDatabaseSaveDB
 			// 
@@ -235,19 +221,9 @@
 			this.EMSDatabaseSaveDB.Name = "EMSDatabaseSaveDB";
 			this.EMSDatabaseSaveDB.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-			this.EMSDatabaseSaveDB.Size = new System.Drawing.Size(253, 22);
+			this.EMSDatabaseSaveDB.Size = new System.Drawing.Size(226, 22);
 			this.EMSDatabaseSaveDB.Text = "Save Database";
 			this.EMSDatabaseSaveDB.Click += new System.EventHandler(this.EMSDatabaseSaveDB_Click);
-			// 
-			// EMSDatabaseCombineDB
-			// 
-			this.EMSDatabaseCombineDB.Enabled = false;
-			this.EMSDatabaseCombineDB.Name = "EMSDatabaseCombineDB";
-			this.EMSDatabaseCombineDB.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
-			this.EMSDatabaseCombineDB.Size = new System.Drawing.Size(253, 22);
-			this.EMSDatabaseCombineDB.Text = "Combine Databases";
-			this.EMSDatabaseCombineDB.Click += new System.EventHandler(this.EMSDatabaseCombineDB_Click);
 			// 
 			// EditorMenuStripTools
 			// 
@@ -920,8 +896,6 @@
 		private System.Windows.Forms.ToolStripMenuItem EditorMenuStripHelp;
 		private System.Windows.Forms.ToolStripMenuItem EMSHelpAbout;
 		private System.Windows.Forms.ToolStripMenuItem EMSHelpTutorials;
-		private System.Windows.Forms.ToolStripMenuItem EMSDatabaseReloadDB;
-		private System.Windows.Forms.ToolStripMenuItem EMSDatabaseCombineDB;
 		private System.Windows.Forms.ToolStripMenuItem EMSOptionsCreate;
 		private System.Windows.Forms.ToolStripMenuItem EMSOptionsRestore;
 		private System.Windows.Forms.ToolStripMenuItem EMSOptionsUnlock;

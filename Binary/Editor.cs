@@ -21,8 +21,7 @@ using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
-
-
+using System.Windows.Forms.Design;
 
 namespace Binary
 {
@@ -86,12 +85,8 @@ namespace Binary
 			this.EMSMainExit.ForeColor = Theme.MenuItemForeColor;
 			this.EMSDatabaseLoadDB.BackColor = Theme.MenuItemBackColor;
 			this.EMSDatabaseLoadDB.ForeColor = Theme.MenuItemForeColor;
-			this.EMSDatabaseReloadDB.BackColor = Theme.MenuItemBackColor;
-			this.EMSDatabaseReloadDB.ForeColor = Theme.MenuItemForeColor;
 			this.EMSDatabaseSaveDB.BackColor = Theme.MenuItemBackColor;
 			this.EMSDatabaseSaveDB.ForeColor = Theme.MenuItemForeColor;
-			this.EMSDatabaseCombineDB.BackColor = Theme.MenuItemBackColor;
-			this.EMSDatabaseCombineDB.ForeColor = Theme.MenuItemForeColor;
 			this.EMSToolsHasher.BackColor = Theme.MenuItemBackColor;
 			this.EMSToolsHasher.ForeColor = Theme.MenuItemForeColor;
 			this.EMSToolsRaider.BackColor = Theme.MenuItemBackColor;
@@ -212,9 +207,7 @@ namespace Binary
 		{
 			this.EMSMainReloadFiles.Enabled = enable;
 			this.EMSMainSaveFiles.Enabled = enable;
-			this.EMSDatabaseReloadDB.Enabled = enable;
 			this.EMSDatabaseSaveDB.Enabled = enable;
-			this.EMSDatabaseCombineDB.Enabled = enable;
 			this.EMSOptionsCreate.Enabled = enable;
 			this.EMSOptionsRestore.Enabled = enable;
 			this.EMSOptionsUnlock.Enabled = enable;
@@ -456,8 +449,15 @@ namespace Binary
 				try
 				{
 
+					var watch = new Stopwatch();
+					watch.Start();
+
 					var deserializer = new EndDeserializer(browser.FileName);
 					this.Profile = deserializer.Deserialize();
+
+					watch.Stop();
+					this.EditorStatusLabel.Text = $"DB Loading Time: {watch.ElapsedMilliseconds}ms | Script: {browser.FileName}";
+					if (Configurations.Default.AutoBackups) this.CreateBackupsForFiles(false);
 
 				}
 				catch (Exception ex)
@@ -470,19 +470,53 @@ namespace Binary
 			}
 		}
 
-		private void EMSDatabaseReloadDB_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-		}
-
 		private void EMSDatabaseSaveDB_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-		}
+			if (this.Profile is null || this.Profile.Count == 0)
+			{
 
-		private void EMSDatabaseCombineDB_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				MessageBox.Show("No files are loaded or no directory was chosen", "Warning",
+					MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			using var dialog = new SaveFileDialog()
+			{
+				AddExtension = true,
+				AutoUpgradeEnabled = true,
+				CheckPathExists = true,
+				DefaultExt = ".end",
+				Filter = "Endscript Files|*.end",
+				OverwritePrompt = true,
+				SupportMultiDottedExtensions = true,
+				Title = "Select directory and filename of the endscript to be saved",
+			};
+
+			if (dialog.ShowDialog() == DialogResult.OK)
+			{
+
+				try
+				{
+
+					var watch = new Stopwatch();
+					watch.Start();
+
+					var serializer = new EndSerializer(this.Profile, dialog.FileName);
+					serializer.Serialize();
+
+					watch.Stop();
+					this.EditorStatusLabel.Text = $"Saving Time: {watch.ElapsedMilliseconds}ms | Script: {dialog.FileName}";
+
+				}
+				catch (Exception ex)
+				{
+
+					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+
+			}
 		}
 
 		private void EMSToolsHasher_Click(object sender, EventArgs e)
@@ -519,7 +553,7 @@ namespace Binary
 			try
 			{
 
-				if (this.Profile.Count > 0)
+				if (this.Profile?.Count > 0)
 				{
 
 					var path = this.Profile[0].Folder;
@@ -561,11 +595,12 @@ namespace Binary
 			// Execute line
 			var index = this.EditorCommandPrompt.GetLineFromCharIndex(this.EditorCommandPrompt.SelectionStart);
 			var line = this.EditorCommandPrompt.Lines[index];
+			eCommandType result;
 
 			try
 			{
 
-				EndScriptParser.ExecuteSingleCommand(line, this.Profile);
+				result = EndScriptParser.ExecuteSingleCommand(line, this.Profile);
 
 			}
 			catch (Exception ex)
@@ -576,11 +611,25 @@ namespace Binary
 
 			}
 
+			if (result == eCommandType.empty) return;
+
 			// Analize and check if refreshing is required
-			if (line.StartsWith(eCommandType.update_collection.ToString()))
+			if (result == eCommandType.update_collection)
 			{
 
-				this.EditorPropertyGrid.Refresh();
+				// Two options: we are updating current CollectionName or not
+				if (line.Contains("CollectionName"))
+				{
+
+					this.LoadTreeView(this.EditorTreeView.SelectedNode?.FullPath);
+
+				}
+				else
+				{
+
+					this.EditorPropertyGrid.Refresh();
+
+				}
 
 			}
 			else
@@ -1393,41 +1442,13 @@ namespace Binary
 		internal void EmergencySaveDatabase()
 		{
 			var date = DateTime.Now.ToString("MM_dd_yyyy_HH_mm_ss");
+
 			string backup = $"DB_{date}";
-
-
 			Directory.CreateDirectory(backup);
+			string end = Path.Combine(backup, "info.end");
 
-			foreach (var sdb in this.Profile)
-			{
-
-				var filepath = $"{backup}\\{sdb.Filename.Replace('\\', '_')}";
-				Directory.CreateDirectory(filepath);
-
-				foreach (var manager in sdb.Database.Managers)
-				{
-
-					var managedpath = $"{filepath}\\{manager.Name}";
-					Directory.CreateDirectory(managedpath);
-
-					foreach (Collectable collection in manager)
-					{
-
-						if (collection is IAssembly asm)
-						{
-
-							var cpath = $"{managedpath}\\{collection.CollectionName}.bin";
-
-							using var bw = new BinaryWriter(File.Open(cpath, FileMode.Create));
-							asm.Serialize(bw);
-
-						}
-
-					}
-
-				}
-
-			}
+			var serializer = new EndSerializer(this.Profile, end);
+			serializer.Serialize();
 		}
 
 		#endregion

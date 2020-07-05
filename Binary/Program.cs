@@ -55,6 +55,9 @@ namespace Binary
 			CultureInfo.DefaultThreadCurrentCulture = culture;
 			CultureInfo.DefaultThreadCurrentUICulture = culture;
 
+			var version = Assembly.GetExecutingAssembly().GetName().Version;
+			Endscript.Version.Value = version;
+
 			var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 			path = Path.Combine(path, "keys.txt");
 			Loader.LoadBinKeys(new string[] { path });
