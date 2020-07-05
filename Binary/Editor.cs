@@ -6,13 +6,13 @@ using System.Drawing;
 using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using Binary.UI;
 using Binary.Tools;
 using Binary.Prompt;
 using Binary.Interact;
 using Binary.Properties;
+using Endscript.Core;
 using Endscript.Enums;
 using Endscript.Profiles;
 using Nikki.Core;
@@ -21,7 +21,8 @@ using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
-using Endscript.Core;
+
+
 
 namespace Binary
 {
@@ -438,9 +439,35 @@ namespace Binary
 		}
 
 		private void EMSDatabaseLoadDB_Click(object sender, EventArgs e)
-
 		{
-			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			using var browser = new OpenFileDialog()
+			{
+				AutoUpgradeEnabled = true,
+				CheckFileExists = true,
+				CheckPathExists = true,
+				Filter = "Endscript Files | *.end",
+				Multiselect = false,
+				Title = "Select Version 4 .end launcher to load",
+			};
+
+			if (browser.ShowDialog() == DialogResult.OK)
+			{
+
+				try
+				{
+
+					var deserializer = new EndDeserializer(browser.FileName);
+					this.Profile = deserializer.Deserialize();
+
+				}
+				catch (Exception ex)
+				{
+
+					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+
+			}
 		}
 
 		private void EMSDatabaseReloadDB_Click(object sender, EventArgs e)
@@ -531,7 +558,37 @@ namespace Binary
 
 		private void EMSScriptingProcess_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			// Execute line
+			var index = this.EditorCommandPrompt.GetLineFromCharIndex(this.EditorCommandPrompt.SelectionStart);
+			var line = this.EditorCommandPrompt.Lines[index];
+
+			try
+			{
+
+				EndScriptParser.ExecuteSingleCommand(line, this.Profile);
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+
+			}
+
+			// Analize and check if refreshing is required
+			if (line.StartsWith(eCommandType.update_collection.ToString()))
+			{
+
+				this.EditorPropertyGrid.Refresh();
+
+			}
+			else
+			{
+
+				this.LoadTreeView(this.EditorTreeView.SelectedNode?.FullPath);
+
+			}
 		}
 
 		private void EMSScriptingGenerate_Click(object sender, EventArgs e)
@@ -549,7 +606,7 @@ namespace Binary
 
 				if (type != typeof(string) && typeof(IEnumerable).IsAssignableFrom(type)) return;
 
-				var str = this.GenerateEndCommand(eCommandType.update, path, property, value.ToString());
+				var str = this.GenerateEndCommand(eCommandType.update_collection, path, property, value.ToString());
 				this.WriteLineToEndCommandPrompt(str);
 
 			}
@@ -647,9 +704,9 @@ namespace Binary
 
 						manager.Add(input.Value);
 						var path = this.EditorTreeView.SelectedNode.FullPath;
-						var str = this.GenerateEndCommand(eCommandType.add, path, input.Value);
+						var str = this.GenerateEndCommand(eCommandType.add_collection, path, input.Value);
 						this.WriteLineToEndCommandPrompt(str);
-						this.LoadTreeView(path);
+						this.EditorTreeView.SelectedNode.Nodes.Add(new TreeNode(input.Value));
 						break;
 
 					}
@@ -688,9 +745,9 @@ namespace Binary
 
 				this.EditorPropertyGrid.SelectedObject = null;
 				manager.Remove(cname);
-				var str = this.GenerateEndCommand(eCommandType.remove, this.EditorTreeView.SelectedNode.FullPath);
+				var str = this.GenerateEndCommand(eCommandType.remove_collection, this.EditorTreeView.SelectedNode.FullPath);
 				this.WriteLineToEndCommandPrompt(str);
-				this.LoadTreeView(this.EditorTreeView.SelectedNode.Parent.FullPath);
+				this.EditorTreeView.SelectedNode.Remove();
 
 			}
 			catch (Exception ex)
@@ -726,9 +783,9 @@ namespace Binary
 
 						manager.Clone(input.Value, cname);
 						var path = this.EditorTreeView.SelectedNode.FullPath;
-						var str = this.GenerateEndCommand(eCommandType.copy, path, input.Value);
+						var str = this.GenerateEndCommand(eCommandType.copy_collection, path, input.Value);
 						this.WriteLineToEndCommandPrompt(str);
-						this.LoadTreeView(path);
+						this.EditorTreeView.SelectedNode.Parent.Nodes.Add(new TreeNode(input.Value));
 						break;
 
 					}
@@ -935,7 +992,7 @@ namespace Binary
 				if (property.Equals("CollectionName", StringComparison.InvariantCulture)) continue;
 				var value = collection.GetValue(property);
 				if (String.IsNullOrEmpty(value)) value = empty;
-				lines.Add(this.GenerateEndCommand(eCommandType.update, path, property, value));
+				lines.Add(this.GenerateEndCommand(eCommandType.update_collection, path, property, value));
 
 			}
 
@@ -958,7 +1015,7 @@ namespace Binary
 
 						var value = part.GetValue(property);
 						if (String.IsNullOrEmpty(value)) value = empty;
-						lines.Add(this.GenerateEndCommand(eCommandType.update, path, property, value));
+						lines.Add(this.GenerateEndCommand(eCommandType.update_collection, path, property, value));
 
 					}
 
@@ -978,6 +1035,7 @@ namespace Binary
 				{
 
 					this.EditorTreeView.SelectedNode = node;
+					this.EditorTreeView.SelectedNode.EnsureVisible();
 					return;
 
 				}
@@ -1285,7 +1343,7 @@ namespace Binary
 			var value = e.ChangedItem.Value.ToString();
 			if (String.IsNullOrEmpty(value)) value = empty;
 			
-			var str = this.GenerateEndCommand(eCommandType.update, this.EditorTreeView.SelectedNode.FullPath,
+			var str = this.GenerateEndCommand(eCommandType.update_collection, this.EditorTreeView.SelectedNode.FullPath,
 				e.ChangedItem.Label, value);
 			
 			this.WriteLineToEndCommandPrompt(str);
