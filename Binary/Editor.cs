@@ -21,7 +21,8 @@ using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
-using System.Windows.Forms.Design;
+
+
 
 namespace Binary
 {
@@ -446,9 +447,11 @@ namespace Binary
 			if (browser.ShowDialog() == DialogResult.OK)
 			{
 
+				#if !DEBUG
 				try
 				{
-
+				#endif
+				
 					var watch = new Stopwatch();
 					watch.Start();
 
@@ -458,7 +461,9 @@ namespace Binary
 					watch.Stop();
 					this.EditorStatusLabel.Text = $"DB Loading Time: {watch.ElapsedMilliseconds}ms | Script: {browser.FileName}";
 					if (Configurations.Default.AutoBackups) this.CreateBackupsForFiles(false);
+					this.LoadTreeView();
 
+				#if !DEBUG
 				}
 				catch (Exception ex)
 				{
@@ -466,6 +471,7 @@ namespace Binary
 					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 				}
+				#endif
 
 			}
 		}
@@ -496,8 +502,10 @@ namespace Binary
 			if (dialog.ShowDialog() == DialogResult.OK)
 			{
 
+				#if !DEBUG
 				try
 				{
+				#endif
 
 					var watch = new Stopwatch();
 					watch.Start();
@@ -506,8 +514,9 @@ namespace Binary
 					serializer.Serialize();
 
 					watch.Stop();
-					this.EditorStatusLabel.Text = $"Saving Time: {watch.ElapsedMilliseconds}ms | Script: {dialog.FileName}";
+					this.EditorStatusLabel.Text = $"DB Saving Time: {watch.ElapsedMilliseconds}ms | Script: {dialog.FileName}";
 
+				#if !DEBUG
 				}
 				catch (Exception ex)
 				{
@@ -515,6 +524,7 @@ namespace Binary
 					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 				}
+				#endif
 
 			}
 		}
@@ -550,8 +560,10 @@ namespace Binary
 
 		private void EMSOptionsUnlock_Click(object sender, EventArgs e)
 		{
+			#if !DEBUG
 			try
 			{
+			#endif
 
 				if (this.Profile?.Count > 0)
 				{
@@ -574,6 +586,7 @@ namespace Binary
 
 				}
 
+			#if !DEBUG
 			}
 			catch (Exception ex)
 			{
@@ -581,6 +594,7 @@ namespace Binary
 				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 			}
+			#endif
 		}
 
 		private void EMSOptionsToggle_Click(object sender, EventArgs e)
@@ -597,11 +611,14 @@ namespace Binary
 			var line = this.EditorCommandPrompt.Lines[index];
 			eCommandType result;
 
+			#if !DEBUG
 			try
 			{
+			#endif
 
 				result = EndScriptParser.ExecuteSingleCommand(line, this.Profile);
 
+			#if !DEBUG
 			}
 			catch (Exception ex)
 			{
@@ -610,6 +627,7 @@ namespace Binary
 				return;
 
 			}
+			#endif
 
 			if (result == eCommandType.empty) return;
 
@@ -937,14 +955,17 @@ namespace Binary
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
 
+					#if !DEBUG
 					try
 					{
+					#endif
 
 						using var bw = new BinaryWriter(File.Open(dialog.FileName, FileMode.Create));
 						manager.Export(cname, bw, exporter.Serialized);
 						MessageBox.Show($"Collection {cname} has been exported to path {dialog.FileName}", "Info",
 							MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+					#if !DEBUG
 					}
 					catch (Exception ex)
 					{
@@ -953,6 +974,7 @@ namespace Binary
 						return;
 
 					}
+					#endif
 
 				}
 
@@ -992,8 +1014,10 @@ namespace Binary
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
 
+					#if !DEBUG
 					try
 					{
+					#endif
 
 						var type = (Nikki.Reflection.Enum.eSerializeType)importer.SerializationIndex;
 						using var br = new BinaryReader(File.Open(dialog.FileName, FileMode.Open));
@@ -1002,6 +1026,7 @@ namespace Binary
 							MessageBoxButtons.OK, MessageBoxIcon.Information);
 						this.LoadTreeView(this.EditorTreeView.SelectedNode.FullPath);
 
+					#if !DEBUG
 					}
 					catch (Exception ex)
 					{
@@ -1010,6 +1035,7 @@ namespace Binary
 						return;
 					
 					}
+					#endif
 
 				}
 
@@ -1104,7 +1130,7 @@ namespace Binary
 			foreach (TreeNode node in nodes)
 			{
 
-				node.BackColor = String.IsNullOrEmpty(match) || !node.Text.Contains(match)
+				node.BackColor = String.IsNullOrEmpty(match) || !node.Text.Contains(match, StringComparison.OrdinalIgnoreCase)
 					? this.EditorTreeView.BackColor
 					: Configurations.Default.DarkTheme
 						? Color.FromArgb(160, 20, 30)
@@ -1122,8 +1148,10 @@ namespace Binary
 
 		private void LoadProfile(string filename, bool showerrors)
 		{
+			#if !DEBUG
 			try
 			{
+			#endif
 
 				Launch.Deserialize(filename, out Launch launch);
 
@@ -1173,6 +1201,7 @@ namespace Binary
 				Configurations.Default.LaunchFile = filename;
 				Configurations.Default.Save();
 
+			#if !DEBUG
 			}
 			catch (Exception e)
 			{
@@ -1187,6 +1216,7 @@ namespace Binary
 				this.ToggleControlsAfterLoad(false);
 			
 			}
+			#endif
 		}
 
 		private void LoadTreeView(string selected = null)
@@ -1231,8 +1261,10 @@ namespace Binary
 
 		private void SaveProfile()
 		{
+			#if !DEBUG
 			try
 			{
+			#endif
 
 				var watch = new Stopwatch();
 				watch.Start();
@@ -1243,6 +1275,7 @@ namespace Binary
 				var filename = Configurations.Default.LaunchFile;
 				this.EditorStatusLabel.Text = $"Files: {this.Profile.Count} | Saving Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
 
+			#if !DEBUG
 			}
 			catch (Exception ex)
 			{
@@ -1250,6 +1283,7 @@ namespace Binary
 				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 			}
+			#endif
 		}
 
 		#endregion
