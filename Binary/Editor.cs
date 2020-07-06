@@ -31,6 +31,7 @@ namespace Binary
 		private BaseProfile Profile { get; set; }
 		private readonly List<Form> _openforms;
 		private const string empty = "\"\"";
+		private const string space = " ";
 
 		public Editor()
 		{
@@ -773,7 +774,8 @@ namespace Binary
 						var path = this.EditorTreeView.SelectedNode.FullPath;
 						var str = this.GenerateEndCommand(eCommandType.add_collection, path, input.Value);
 						this.WriteLineToEndCommandPrompt(str);
-						this.EditorTreeView.SelectedNode.Nodes.Add(new TreeNode(input.Value));
+						var collection = manager[manager.IndexOf(input.Value)] as Collectable;
+						this.EditorTreeView.SelectedNode.Nodes.Add(Utils.GetCollectionNodes(collection));
 						break;
 
 					}
@@ -852,7 +854,8 @@ namespace Binary
 						var path = this.EditorTreeView.SelectedNode.FullPath;
 						var str = this.GenerateEndCommand(eCommandType.copy_collection, path, input.Value);
 						this.WriteLineToEndCommandPrompt(str);
-						this.EditorTreeView.SelectedNode.Parent.Nodes.Add(new TreeNode(input.Value));
+						var collection = manager[manager.IndexOf(input.Value)] as Collectable;
+						this.EditorTreeView.SelectedNode.Parent.Nodes.Add(Utils.GetCollectionNodes(collection));
 						break;
 
 					}
@@ -887,6 +890,7 @@ namespace Binary
 			var manager = sdb.Database.GetManager(mname);
 
 			var collection = manager[manager.FindIndex(cname)];
+			var path = this.GetCurrentSeparatedPath();
 
 			if (collection is DBModelPart model)
 			{
@@ -905,17 +909,19 @@ namespace Binary
 			else if (collection is TPKBlock tpk)
 			{
 
-				using var editor = new TextureEditor(tpk);
+				using var editor = new TextureEditor(tpk, path);
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
+				this.WriteLineToEndCommandPrompt(editor.Commands);
 
 			}
 			else if (collection is STRBlock str)
 			{
 
-				using var editor = new StringEditor(str);
+				using var editor = new StringEditor(str, path);
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
+				this.WriteLineToEndCommandPrompt(editor.Commands);
 
 			}
 		}
@@ -1374,13 +1380,37 @@ namespace Binary
 			var size = lines.Aggregate(0, (result, str) => result += str.Length + 2);
 			var sb = new StringBuilder(size);
 
-			foreach (var line in lines) sb.Append(line + Environment.NewLine);
+			foreach (var line in lines)
+			{
+
+				if (String.IsNullOrWhiteSpace(line)) continue;
+				sb.Append(line + Environment.NewLine);
+
+			}
+
 			this.WriteLineToEndCommandPrompt(sb.ToString());
+		}
+
+		private string GetCurrentSeparatedPath()
+		{
+			string line = String.Empty;
+			if (this.EditorTreeView.SelectedNode == null) return line;
+			var splits = this.EditorTreeView.SelectedNode.FullPath.Split(this.EditorTreeView.PathSeparator);
+
+			for (int loop = 0; loop < splits.Length - 1; ++loop)
+			{
+
+				var split = splits[loop];
+				line += split.Contains(' ') ? $"\"{split}\"" + space : split + space;
+
+			}
+
+			line += splits[^1].Contains(' ') ? $"\"{splits[^1]}\"" : splits[^1];
+			return line;
 		}
 
 		private string GenerateEndCommand(eCommandType type, string nodepath)
 		{
-			const string space = " ";
 			var line = type.ToString() + space;
 			var splits = nodepath.Split(this.EditorTreeView.PathSeparator);
 
@@ -1398,7 +1428,6 @@ namespace Binary
 
 		private string GenerateEndCommand(eCommandType type, string nodepath, params string[] args)
 		{
-			const string space = " ";
 			var line = type.ToString() + space;
 			var splits = nodepath.Split(this.EditorTreeView.PathSeparator);
 

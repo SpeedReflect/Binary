@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Text;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Endscript.Core;
 using Endscript.Enums;
 using Endscript.Helpers;
@@ -9,8 +11,10 @@ using Endscript.Profiles;
 using Nikki.Core;
 using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
+using CoreExtensions.Text;
 using CoreExtensions.Management;
-using System.Windows.Forms;
+
+
 
 namespace Binary
 {
@@ -188,7 +192,7 @@ namespace Binary
 			return result;
 		}
 
-		private static TreeNode GetCollectionNodes(Collectable collection)
+		public static TreeNode GetCollectionNodes(Collectable collection)
 		{
 			var result = new TreeNode(collection.CollectionName);
 
@@ -210,6 +214,18 @@ namespace Binary
 			}
 
 			return result;
+		}
+	
+		public static string UTF8toISO(string convert)
+		{
+			var bytes = convert.GetBytes();
+			return Encoding.GetEncoding("ISO-8859-1").GetString(bytes);
+		}
+
+		public static string ISOtoUTF8(string convert)
+		{
+			var bytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(convert);
+			return bytes.GetString();
 		}
 	}
 }

@@ -93,12 +93,12 @@ namespace Binary
 				{
 
 					editor.EmergencySaveDatabase();
+					MessageBox.Show("Database backup up.", "Done");
 
 				}
 
 			}
 
-			MessageBox.Show("Database backup up.", "Done");
 		}
 	}
 }

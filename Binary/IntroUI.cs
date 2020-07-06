@@ -7,8 +7,7 @@ using Endscript.Core;
 using Endscript.Enums;
 using Nikki.Core;
 using CoreExtensions.Management;
-
-
+using Endscript.Profiles;
 
 namespace Binary
 {
@@ -61,11 +60,14 @@ namespace Binary
 
 		private void IntroPictureUser_Click(object sender, EventArgs e)
 		{
+			#if !DEBUG
 			try
 			{
+			#endif
 
 				this.UserInteract();
 
+			#if !DEBUG
 			}
 			catch (Exception ex)
 			{
@@ -73,6 +75,7 @@ namespace Binary
 				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 			}
+			#endif
 		}
 
 		private void IntroPictureModder_Click(object sender, EventArgs e)
@@ -139,9 +142,24 @@ namespace Binary
 			launch.CheckFiles();
 			launch.LoadLinks();
 
-			MessageBox.Show("User-oriented launcher is valid, parsing is coming soon TM", "Validation",
-				MessageBoxButtons.OK, MessageBoxIcon.Information);
+			var endscript = Path.Combine(launch.ThisDir, launch.Endscript);
+			var parser = new EndScriptParser(endscript);
 
+			var commands = parser.Read();
+			var profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
+			profile.Load(launch);
+			var manager = new EndScriptManager(profile, commands, endscript);
+
+			while (!manager.ProcessScript())
+			{
+
+				var command = manager.CurrentCommand;
+			
+			}
+
+			int aaa = 0;
+
+			MessageBox.Show($"Script {Path.GetFileName(dialog.FileName)} has been applied");
 		}
 	
 		private void ModderInteract()

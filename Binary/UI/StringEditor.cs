@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -9,24 +10,28 @@ using Binary.Interact;
 using Binary.Properties;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
-
-
+using Endscript.Enums;
 
 namespace Binary.UI
 {
 	public partial class StringEditor : Form
 	{
+		private const string Key = "Key";
+		private const string Label = "Label";
+		private const string TText = "Text";
 		private STRBlock STR { get; }
 		private readonly List<Form> _openforms;
 		public List<string> Commands { get; }
+		private readonly string _strpath;
 
 		private static readonly Color _highlight_light = Color.FromArgb(60, 255, 60);
 		private static readonly Color _highlight_dark = Color.FromArgb(160, 20, 30);
 
-		public StringEditor(STRBlock str)
+		public StringEditor(STRBlock str, string path)
 		{
 			this.InitializeComponent();
 			this.STR = str;
+			this._strpath = path;
 			this._openforms = new List<Form>();
 			this.Commands = new List<string>();
 			this.Text = $"{this.STR.CollectionName} Editor";
@@ -108,7 +113,7 @@ namespace Binary.UI
 
 				item.SubItems.Add($"0x{record.Key:X8}");
 				item.SubItems.Add(record.Label);
-				item.SubItems.Add(record.Text);
+				item.SubItems.Add(Utils.UTF8toISO(record.Text));
 				this.StrEditorListView.Items.Add(item);
 
 			}
@@ -209,7 +214,9 @@ namespace Binary.UI
 					try
 					{
 
-						this.STR.AddRecord(creator.Key, creator.Label, creator.Value);
+						var text = Utils.ISOtoUTF8(creator.Value);
+						this.STR.AddRecord(creator.Key, creator.Label, text);
+						this.GenerateAddStringCommand(creator.Key, creator.Label, text);
 						this.LoadListView();
 						var index = this.FastFindIndex(Convert.ToUInt32(creator.Key, 16));
 						this.FastItemSelection(index);
@@ -243,6 +250,7 @@ namespace Binary.UI
 				var index = this.StrEditorListView.SelectedIndices[0];
 				var key = this.GetSelectedKey();
 				this.STR.RemoveRecord(key);
+				this.GenerateRemoveStringCommand(this.StrEditorListView.Items[index].SubItems[1].Text);
 
 				if (this.STR.StringRecordCount == 0)
 				{
@@ -268,7 +276,8 @@ namespace Binary.UI
 
 		private void EditStringToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var record = this.STR.GetRecord(this.StrEditorListView.SelectedItems[0].SubItems[1].Text);
+			var prev = this.StrEditorListView.SelectedItems[0].SubItems[1].Text;
+			var record = this.STR.GetRecord(prev);
 			using var creator = new StringCreator(record);
 
 			while (true)
@@ -280,14 +289,19 @@ namespace Binary.UI
 					try
 					{
 
+						var text = Utils.ISOtoUTF8(creator.Value);
 						record.SetValue("Key", creator.Key);
 						record.SetValue("Label", creator.Label);
-						record.SetValue("Text", creator.Value);
+						record.SetValue("Text", text);
+						this.GenerateUpdateStringCommand(prev, TText, text);
+						this.GenerateUpdateStringCommand(prev, Label, creator.Label);
+						this.GenerateUpdateStringCommand(prev, Key, creator.Key);
 
 						var item = this.StrEditorListView.SelectedItems[0];
 						item.SubItems[1].Text = creator.Key;
 						item.SubItems[2].Text = creator.Label;
 						item.SubItems[3].Text = creator.Value;
+						this.StringEditorTextBox.Text = creator.Value;
 
 						this.GenericFindSelection();
 						break;
@@ -334,14 +348,16 @@ namespace Binary.UI
 					{
 
 						var item = this.StrEditorListView.Items[i];
-						var record = this.STR.GetRecord(item.SubItems[1].Text);
+						var key = item.SubItems[1].Text;
+						var record = this.STR.GetRecord(key);
 
 						var options = check.Value
 							? RegexOptions.Multiline | RegexOptions.CultureInvariant
 							: RegexOptions.Multiline | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase;
 
 						record.Text = Regex.Replace(record.Text, input.Value, with.Value, options);
-						item.SubItems[3].Text = record.Text;
+						this.GenerateUpdateStringCommand(key, TText, record.Text);
+						item.SubItems[3].Text = Utils.UTF8toISO(record.Text);
 
 					}
 
@@ -458,7 +474,7 @@ namespace Binary.UI
 
 			if (record == null) return;
 
-			this.StringEditorTextBox.Text = record.Text;
+			this.StringEditorTextBox.Text = this.StrEditorListView.SelectedItems[0].SubItems[3].Text;
 			this.ToggleMenuStripControls();
 		}
 
@@ -682,8 +698,8 @@ namespace Binary.UI
 			if (record == null) return;
 
 			var selected = this.StrEditorListView.SelectedItems[0];
-			record.Text = this.StringEditorTextBox.Text ?? String.Empty;
-			selected.SubItems[3].Text = record.Text;
+			selected.SubItems[3].Text = this.StringEditorTextBox.Text ?? String.Empty;
+			record.Text = Utils.ISOtoUTF8(selected.SubItems[3].Text);
 
 			var upper = record.Text.ToUpperInvariant();
 
@@ -711,5 +727,43 @@ namespace Binary.UI
 		}
 
 		#endregion
+
+		#region Commands
+
+		private void GenerateUpdateStringCommand(string key, string property, string value)
+		{
+			if (value.Contains(' ')) value = $"\"{value}\"";
+			var command = $"{eCommandType.update_string} {this._strpath} {key} {property} {value}";
+			this.Commands.Add(command);
+		}
+
+		private void GenerateAddStringCommand(string key, string label, string text)
+		{
+			if (label.Contains(' ')) label = $"\"{label}\"";
+			if (text.Contains(' ')) text = $"\"{text}\"";
+			var command = $"{eCommandType.add_string} {this._strpath} {key} {label} {text}";
+			this.Commands.Add(command);
+		}
+
+		private void GenerateRemoveStringCommand(string key)
+		{
+			var command = $"{eCommandType.remove_string} {this._strpath} {key}";
+			this.Commands.Add(command);
+		}
+
+		#endregion
+
+		private void StringEditorTextBox_Validated(object sender, EventArgs e)
+		{
+			// Considering it is enabled because string record was selected
+
+			var key = this.GetSelectedKey();
+			var record = this.STR.GetRecord(key);
+
+			if (record == null) return;
+
+			var selected = this.StrEditorListView.SelectedItems[0];
+			this.GenerateUpdateStringCommand(selected.SubItems[1].Text, TText, record.Text);
+		}
 	}
 }

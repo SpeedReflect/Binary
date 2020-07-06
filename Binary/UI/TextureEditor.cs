@@ -13,6 +13,7 @@ using Nikki.Utils.EA;
 using Nikki.Reflection.Enum;
 using Nikki.Support.Shared.Class;
 using ILWrapper.Enums;
+using Endscript.Enums;
 using CoreExtensions.Management;
 
 
@@ -23,12 +24,14 @@ namespace Binary.UI
 	{
 		private TPKBlock TPK { get; }
 		private readonly List<Form> _openforms;
+		private readonly string _tpkpath;
 		public List<string> Commands { get; }
 
-		public TextureEditor(TPKBlock tpk)
+		public TextureEditor(TPKBlock tpk, string path)
 		{
 			this.InitializeComponent();
 			this.TPK = tpk;
+			this._tpkpath = path;
 			this._openforms = new List<Form>();
 			this.Commands = new List<string>();
 			this.Text = $"{this.TPK.CollectionName} Editor";
@@ -239,6 +242,7 @@ namespace Binary.UI
 				var index = this.TexEditorListView.SelectedIndices[0];
 				var key = this.GetSelectedKey();
 				this.TPK.RemoveTexture(key, eKeyType.BINKEY);
+				this.GenerateRemoveTextureCommand(this.TexEditorListView.Items[index].SubItems[1].Text);
 
 				if (this.TPK.TextureCount == 0)
 				{
@@ -279,6 +283,7 @@ namespace Binary.UI
 						var index = this.TexEditorListView.SelectedIndices[0];
 						var key = this.GetSelectedKey();
 						this.TPK.CloneTexture(input.Value, key, eKeyType.BINKEY);
+						this.GenerateCopyTextureCommand(this.TexEditorListView.Items[index].SubItems[1].Text, input.Value);
 						this.LoadListView(index);
 						break;
 
@@ -486,6 +491,8 @@ namespace Binary.UI
 
 		private void TexEditorPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 		{
+			var key = this.TexEditorListView.SelectedItems[0].SubItems[1].Text;
+
 			if (e.ChangedItem.Label == "CollectionName")
 			{
 
@@ -495,6 +502,8 @@ namespace Binary.UI
 				this.TexEditorPropertyGrid.Refresh();
 
 			}
+
+			this.GenerateUpdateTextureCommand(key, e.ChangedItem.Label, e.ChangedItem.Value.ToString());
 		}
 
 		private void AddTextureDialog_FileOk(object sender, CancelEventArgs e)
@@ -558,6 +567,30 @@ namespace Binary.UI
 				catch { }
 
 			}
+		}
+
+		#endregion
+
+		#region Commands
+
+		private void GenerateUpdateTextureCommand(string key, string property, string value)
+		{
+			if (property.Contains(' ')) property = $"\"{property}\"";
+			if (value.Contains(' ')) property = $"\"{value}\"";
+			var command = $"{eCommandType.update_texture} {this._tpkpath} {key} {property} {value}";
+			this.Commands.Add(command);
+		}
+
+		private void GenerateRemoveTextureCommand(string key)
+		{
+			var command = $"{eCommandType.remove_texture} {this._tpkpath} {key}";
+			this.Commands.Add(command);
+		}
+
+		private void GenerateCopyTextureCommand(string key, string name)
+		{
+			var command = $"{eCommandType.copy_texture} {this._tpkpath} {key} {name}";
+			this.Commands.Add(command);
 		}
 
 		#endregion

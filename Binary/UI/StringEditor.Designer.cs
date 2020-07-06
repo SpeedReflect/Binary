@@ -221,6 +221,9 @@
 			// 
 			// label3
 			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(12, 68);
 			this.label3.Name = "label3";
@@ -230,6 +233,9 @@
 			// 
 			// label2
 			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(12, 39);
 			this.label2.Name = "label2";
@@ -239,6 +245,9 @@
 			// 
 			// label1
 			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(12, 10);
 			this.label1.Name = "label1";
@@ -248,7 +257,8 @@
 			// 
 			// TextBoxText
 			// 
-			this.TextBoxText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.TextBoxText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextBoxText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TextBoxText.Location = new System.Drawing.Point(103, 65);
@@ -259,7 +269,8 @@
 			// 
 			// TextBoxLabel
 			// 
-			this.TextBoxLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.TextBoxLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextBoxLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TextBoxLabel.Location = new System.Drawing.Point(103, 36);
@@ -270,7 +281,8 @@
 			// 
 			// TextBoxKey
 			// 
-			this.TextBoxKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.TextBoxKey.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextBoxKey.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TextBoxKey.Location = new System.Drawing.Point(103, 7);
@@ -293,6 +305,7 @@
 			this.StringEditorTextBox.Size = new System.Drawing.Size(395, 81);
 			this.StringEditorTextBox.TabIndex = 0;
 			this.StringEditorTextBox.TextChanged += new System.EventHandler(this.StringEditorTextBox_TextChanged);
+			this.StringEditorTextBox.Validated += new System.EventHandler(this.StringEditorTextBox_Validated);
 			// 
 			// StrEditorListView
 			// 
@@ -350,6 +363,7 @@
 			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.StrEditorMenuStrip;
+			this.MinimumSize = new System.Drawing.Size(700, 400);
 			this.Name = "StringEditor";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "String Editor";
