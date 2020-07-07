@@ -7,7 +7,7 @@ namespace Binary.Prompt
 {
 	public partial class Check : Form
 	{
-		public bool Value { get; private set; }
+		public bool Value { get; private set; } = false;
 
 		public Check()
 		{
@@ -15,8 +15,10 @@ namespace Binary.Prompt
 			this.ToggleTheme();
 		}
 
-		public Check(string desc) : this()
+		public Check(string desc, bool prompt) : this()
 		{
+			this.CheckButtonCancel.Enabled = !prompt;
+			this.ControlBox = !prompt;
 			this.CheckBoxSelection.Text = desc ?? String.Empty;
 		}
 

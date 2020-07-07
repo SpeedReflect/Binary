@@ -8,6 +8,8 @@ using Endscript.Enums;
 using Nikki.Core;
 using CoreExtensions.Management;
 using Endscript.Profiles;
+using Endscript.Commands;
+using Binary.Prompt;
 
 namespace Binary
 {
@@ -66,6 +68,7 @@ namespace Binary
 			#endif
 
 				this.UserInteract();
+				ForcedX.GCCollect();
 
 			#if !DEBUG
 			}
@@ -95,7 +98,7 @@ namespace Binary
 			}
 
 			this.ModderInteract();
-			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
+			ForcedX.GCCollect();
 		}
 
 		private void UserInteract()
@@ -154,6 +157,23 @@ namespace Binary
 			{
 
 				var command = manager.CurrentCommand;
+
+				if (command is CheckboxCommand checkbox)
+				{
+
+					using var input = new Check(checkbox.Description, true);
+					input.ShowDialog();
+					checkbox.Choice = input.Value ? 1 : 0;
+
+				}
+				else if (command is ComboboxCommand combobox)
+				{
+
+					using var input = new Combo(combobox.Options, combobox.Description, true);
+					input.ShowDialog();
+					combobox.Choice = input.Value < 0 ? 0 : input.Value;
+
+				}
 			
 			}
 

@@ -337,7 +337,7 @@ namespace Binary.UI
 			if (input.ShowDialog() == DialogResult.OK && with.ShowDialog() == DialogResult.OK)
 			{
 
-				using var check = new Check("Make case-sensitive replace?");
+				using var check = new Check("Make case-sensitive replace?", false);
 
 				if (check.ShowDialog() == DialogResult.OK)
 				{

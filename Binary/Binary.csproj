@@ -23,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Prompt\Combo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Configurations.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>

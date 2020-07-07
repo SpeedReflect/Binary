@@ -42,26 +42,26 @@
 			this.CheckBoxSelection.TabIndex = 0;
 			this.CheckBoxSelection.Text = "Custom Text";
 			// 
-			// CheckButtonCancel
+			// ComboButtonCancel
 			// 
 			this.CheckButtonCancel.AutoSize = true;
 			this.CheckButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.CheckButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.CheckButtonCancel.Location = new System.Drawing.Point(262, 62);
-			this.CheckButtonCancel.Name = "CheckButtonCancel";
+			this.CheckButtonCancel.Name = "ComboButtonCancel";
 			this.CheckButtonCancel.Size = new System.Drawing.Size(94, 27);
 			this.CheckButtonCancel.TabIndex = 1;
 			this.CheckButtonCancel.Text = "Cancel";
 			this.CheckButtonCancel.UseVisualStyleBackColor = true;
 			this.CheckButtonCancel.Click += new System.EventHandler(this.CheckButtonCancel_Click);
 			// 
-			// CheckButtonOK
+			// ComboButtonOK
 			// 
 			this.CheckButtonOK.AutoSize = true;
 			this.CheckButtonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.CheckButtonOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.CheckButtonOK.Location = new System.Drawing.Point(162, 62);
-			this.CheckButtonOK.Name = "CheckButtonOK";
+			this.CheckButtonOK.Name = "ComboButtonOK";
 			this.CheckButtonOK.Size = new System.Drawing.Size(94, 27);
 			this.CheckButtonOK.TabIndex = 1;
 			this.CheckButtonOK.Text = "OK";
