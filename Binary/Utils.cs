@@ -13,8 +13,8 @@ using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
 using CoreExtensions.Text;
 using CoreExtensions.Management;
-
-
+using System.IO;
+using CoreExtensions.IO;
 
 namespace Binary
 {
@@ -226,6 +226,22 @@ namespace Binary
 		{
 			var bytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(convert);
 			return bytes.GetString();
+		}
+	
+		public static void WriteErrorsToLog(IEnumerable<EndError> errors, string filename)
+		{
+			using var logger = new Logger("EndError.log", $"Endscript : {filename}", true);
+
+			foreach (var error in errors)
+			{
+
+				logger.WriteLine($"File: {error.Filename}, Line: {error.Index}");
+				logger.WriteLine($"Command: [{error.Line}]");
+				logger.WriteLine($"Error: {error.Error}");
+				logger.WriteLine(String.Empty);
+
+			}
+
 		}
 	}
 }

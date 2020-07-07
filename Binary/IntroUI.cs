@@ -1,15 +1,19 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Binary.Interact;
 using Binary.Properties;
+using Binary.Prompt;
 using Endscript.Core;
 using Endscript.Enums;
-using Nikki.Core;
-using CoreExtensions.Management;
 using Endscript.Profiles;
 using Endscript.Commands;
-using Binary.Prompt;
+using Nikki.Core;
+using CoreExtensions.Management;
+
+
 
 namespace Binary
 {
@@ -177,9 +181,27 @@ namespace Binary
 			
 			}
 
-			int aaa = 0;
+			profile.Save();
+			var script = Path.GetFileName(dialog.FileName);
 
-			MessageBox.Show($"Script {Path.GetFileName(dialog.FileName)} has been applied");
+			if (manager.Errors.Any())
+			{
+
+				Utils.WriteErrorsToLog(manager.Errors, dialog.FileName);
+				MessageBox.Show($"Script {script} has been applied, however, {manager.Errors.Count()} errors " +
+					$"has been detected. Check EndError.log for more information", "Information",
+					MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+			}
+			else
+			{
+
+				MessageBox.Show($"Script {script} has been successfully applied",
+					"Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				this.AskForGameRun(profile);
+
+			}
 		}
 	
 		private void ModderInteract()
@@ -200,6 +222,45 @@ namespace Binary
 			this.Show();
 		}
 	
+		private void AskForGameRun(BaseProfile profile)
+		{
+			var result = MessageBox.Show("Do you wish to run the game?", "Prompt",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+			if (result == DialogResult.Yes)
+			{
+
+				try
+				{
+
+					var path = profile.Directory;
+					var game = profile.GameINT;
+					var exe = path;
+
+					exe += game switch
+					{
+						GameINT.Carbon => @"\NFSC.EXE",
+						GameINT.MostWanted => @"\SPEED.EXE",
+						GameINT.Prostreet => @"\NFS.EXE",
+						GameINT.Undercover => @"\NFS.EXE",
+						GameINT.Underground1 => @"\SPEED.EXE",
+						GameINT.Underground2 => @"\SPEED2.EXE",
+						_ => throw new Exception($"Game {game} is an invalid game type")
+					};
+
+					Process.Start(new ProcessStartInfo(exe) { WorkingDirectory = path });
+
+				}
+				catch (Exception e)
+				{
+
+					MessageBox.Show(e.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+
+			}
+		}
+
 		private void PictureBoxDiscord_Click(object sender, EventArgs e)
 		{
 			Utils.OpenBrowser("https://discord.gg/jzksXXn");

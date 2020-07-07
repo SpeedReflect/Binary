@@ -640,6 +640,7 @@ namespace Binary
 				if (line.Contains("CollectionName"))
 				{
 
+					this.EditorPropertyGrid.SelectedObject = null;
 					this.LoadTreeView(this.EditorTreeView.SelectedNode?.FullPath);
 
 				}
@@ -654,6 +655,7 @@ namespace Binary
 			else
 			{
 
+				this.EditorPropertyGrid.SelectedObject = null;
 				this.LoadTreeView(this.EditorTreeView.SelectedNode?.FullPath);
 
 			}
