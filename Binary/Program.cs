@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
 using Nikki.Core;
+using Endscript.Core;
 using CoreExtensions.IO;
 using CoreExtensions.Native;
 
@@ -57,6 +58,7 @@ namespace Binary
 
 			var version = Assembly.GetExecutingAssembly().GetName().Version;
 			Endscript.Version.Value = version;
+			SynchronizedDatabase.Watermark = "Binary by MaxHwoy | Automated";
 
 			var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 			path = Path.Combine(path, "keys.txt");

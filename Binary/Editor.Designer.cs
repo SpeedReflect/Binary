@@ -317,7 +317,7 @@
 			this.EMSScriptingProcess.Name = "EMSScriptingProcess";
 			this.EMSScriptingProcess.ShortcutKeys = System.Windows.Forms.Keys.F5;
 			this.EMSScriptingProcess.Size = new System.Drawing.Size(200, 22);
-			this.EMSScriptingProcess.Text = "Process Command";
+			this.EMSScriptingProcess.Text = "Run Command";
 			this.EMSScriptingProcess.Click += new System.EventHandler(this.EMSScriptingProcess_Click);
 			// 
 			// EMSScriptingGenerate

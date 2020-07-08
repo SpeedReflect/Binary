@@ -178,6 +178,7 @@
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
 			this.splitContainer1.IsSplitterFixed = true;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
 			this.splitContainer1.Name = "splitContainer1";
@@ -186,6 +187,7 @@
 			// splitContainer1.Panel1
 			// 
 			this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+			this.splitContainer1.Panel1MinSize = 95;
 			// 
 			// splitContainer1.Panel2
 			// 
