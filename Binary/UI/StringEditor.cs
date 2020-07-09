@@ -30,6 +30,7 @@ namespace Binary.UI
 		public StringEditor(STRBlock str, string path)
 		{
 			this.InitializeComponent();
+			this.splitContainer1.FixedPanel = FixedPanel.Panel1;
 			this.STR = str;
 			this._strpath = path;
 			this._openforms = new List<Form>();

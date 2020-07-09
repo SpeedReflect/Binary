@@ -68,6 +68,7 @@
 			// 
 			// StrEditorMenuStrip
 			// 
+			this.StrEditorMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.StrEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StringToolStripMenuItem,
             this.OptionsToolStripMenuItem,
@@ -178,7 +179,6 @@
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
 			this.splitContainer1.IsSplitterFixed = true;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
 			this.splitContainer1.Name = "splitContainer1";
@@ -217,7 +217,7 @@
 			this.splitContainer2.Panel2.Controls.Add(this.StringEditorTextBox);
 			this.splitContainer2.Panel2MinSize = 300;
 			this.splitContainer2.Size = new System.Drawing.Size(767, 95);
-			this.splitContainer2.SplitterDistance = 342;
+			this.splitContainer2.SplitterDistance = 341;
 			this.splitContainer2.TabIndex = 0;
 			// 
 			// label3
@@ -264,7 +264,7 @@
 			this.TextBoxText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TextBoxText.Location = new System.Drawing.Point(103, 65);
 			this.TextBoxText.Name = "TextBoxText";
-			this.TextBoxText.Size = new System.Drawing.Size(229, 23);
+			this.TextBoxText.Size = new System.Drawing.Size(227, 23);
 			this.TextBoxText.TabIndex = 2;
 			this.TextBoxText.TextChanged += new System.EventHandler(this.TextBoxText_TextChanged);
 			// 
@@ -276,7 +276,7 @@
 			this.TextBoxLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TextBoxLabel.Location = new System.Drawing.Point(103, 36);
 			this.TextBoxLabel.Name = "TextBoxLabel";
-			this.TextBoxLabel.Size = new System.Drawing.Size(229, 23);
+			this.TextBoxLabel.Size = new System.Drawing.Size(227, 23);
 			this.TextBoxLabel.TabIndex = 1;
 			this.TextBoxLabel.TextChanged += new System.EventHandler(this.TextBoxLabel_TextChanged);
 			// 
@@ -288,14 +288,13 @@
 			this.TextBoxKey.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TextBoxKey.Location = new System.Drawing.Point(103, 7);
 			this.TextBoxKey.Name = "TextBoxKey";
-			this.TextBoxKey.Size = new System.Drawing.Size(229, 23);
+			this.TextBoxKey.Size = new System.Drawing.Size(227, 23);
 			this.TextBoxKey.TabIndex = 0;
 			this.TextBoxKey.TextChanged += new System.EventHandler(this.TextBoxKey_TextChanged);
 			// 
 			// StringEditorTextBox
 			// 
-			this.StringEditorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this.StringEditorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.StringEditorTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.StringEditorTextBox.Enabled = false;
@@ -303,7 +302,7 @@
 			this.StringEditorTextBox.Multiline = true;
 			this.StringEditorTextBox.Name = "StringEditorTextBox";
 			this.StringEditorTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.StringEditorTextBox.Size = new System.Drawing.Size(395, 81);
+			this.StringEditorTextBox.Size = new System.Drawing.Size(394, 81);
 			this.StringEditorTextBox.TabIndex = 0;
 			this.StringEditorTextBox.TextChanged += new System.EventHandler(this.StringEditorTextBox_TextChanged);
 			this.StringEditorTextBox.Validated += new System.EventHandler(this.StringEditorTextBox_Validated);
@@ -321,11 +320,11 @@
             this.ColumnText});
 			this.StrEditorListView.FullRowSelect = true;
 			this.StrEditorListView.HideSelection = false;
-			this.StrEditorListView.Location = new System.Drawing.Point(3, 3);
+			this.StrEditorListView.Location = new System.Drawing.Point(3, 1);
 			this.StrEditorListView.MultiSelect = false;
 			this.StrEditorListView.Name = "StrEditorListView";
 			this.StrEditorListView.OwnerDraw = true;
-			this.StrEditorListView.Size = new System.Drawing.Size(761, 241);
+			this.StrEditorListView.Size = new System.Drawing.Size(761, 242);
 			this.StrEditorListView.TabIndex = 0;
 			this.StrEditorListView.UseCompatibleStateImageBehavior = false;
 			this.StrEditorListView.View = System.Windows.Forms.View.Details;
@@ -361,10 +360,9 @@
 			this.ClientSize = new System.Drawing.Size(767, 370);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.StrEditorMenuStrip);
-			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.StrEditorMenuStrip;
-			this.MinimumSize = new System.Drawing.Size(700, 400);
+			this.MinimumSize = new System.Drawing.Size(699, 398);
 			this.Name = "StringEditor";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "String Editor";
