@@ -1256,6 +1256,7 @@ namespace Binary
 
 				Configurations.Default.LaunchFile = filename;
 				Configurations.Default.Save();
+				this.Text = $"Binary by MaxHwoy - {this.Profile.GameSTR}";
 
 			#if !DEBUG
 			}
