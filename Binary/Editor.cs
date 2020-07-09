@@ -556,7 +556,52 @@ namespace Binary
 
 		private void EMSOptionsRestore_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			try
+			{
+
+				if (this.Profile.Count > 0)
+				{
+
+					int count = 0;
+
+					foreach (var sdb in this.Profile)
+					{
+
+						var from = $"{sdb.FullPath}.bacc";
+						var to = sdb.FullPath;
+						if (File.Exists(from)) { File.Copy(from, to, true); ++count; }
+
+					}
+
+					if (count == 0)
+					{
+
+						MessageBox.Show("No backup files were found.", "Warning",
+							MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						return;
+
+					}
+
+					this.LoadProfile(Configurations.Default.LaunchFile, true);
+
+					MessageBox.Show("All backups have been successfully restored.", "Success",
+						MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				}
+				else
+				{
+
+					throw new Exception("No files are open and directory is not chosen");
+
+				}
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
 		}
 
 		private void EMSOptionsUnlock_Click(object sender, EventArgs e)
