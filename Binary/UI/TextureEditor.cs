@@ -91,8 +91,6 @@ namespace Binary.UI
 			this.TexEditorExportAllItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorExportTextureItem.BackColor = Theme.MenuItemBackColor;
 			this.TexEditorExportTextureItem.ForeColor = Theme.MenuItemForeColor;
-			this.TexEditorFindTextureItem.BackColor = Theme.MenuItemBackColor;
-			this.TexEditorFindTextureItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorHasherItem.BackColor = Theme.MenuItemBackColor;
 			this.TexEditorHasherItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorRaiderItem.BackColor = Theme.MenuItemBackColor;
@@ -360,14 +358,33 @@ namespace Binary.UI
 			}
 		}
 
-		private void TexEditorFindTextureItem_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Coming Soon TM", "Soon", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-
 		private void TexEditorExportAllItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Coming Soon TM", "Soon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			using var browser = new FolderBrowserDialog()
+			{
+				AutoUpgradeEnabled = false,
+				Description = "Select directory where all textures should be exported",
+				RootFolder = Environment.SpecialFolder.MyComputer,
+				ShowNewFolderButton = true,
+			};
+
+			if (browser.ShowDialog() == DialogResult.OK)
+			{
+
+				var textures = this.TPK.GetTextures() as IEnumerable;
+				foreach (Texture texture in textures)
+				{
+
+					var path = Path.Combine(browser.SelectedPath, texture.CollectionName) + ".dds";
+					var data = texture.GetDDSArray(false);
+					using var bw = new BinaryWriter(File.Open(path, FileMode.Create));
+					bw.Write(data);
+
+				}
+
+				MessageBox.Show($"All textures have been exported", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+			}
 		}
 
 		private void TexEditorHasherItem_Click(object sender, EventArgs e)

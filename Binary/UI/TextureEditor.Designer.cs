@@ -37,7 +37,6 @@
 			this.TexEditorReplaceTextureItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorExportTextureItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorOptionsStrip = new System.Windows.Forms.ToolStripMenuItem();
-			this.TexEditorFindTextureItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorExportAllItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorToolsStrip = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorHasherItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -136,19 +135,10 @@
 			// TexEditorOptionsStrip
 			// 
 			this.TexEditorOptionsStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TexEditorFindTextureItem,
             this.TexEditorExportAllItem});
 			this.TexEditorOptionsStrip.Name = "TexEditorOptionsStrip";
 			this.TexEditorOptionsStrip.Size = new System.Drawing.Size(61, 20);
 			this.TexEditorOptionsStrip.Text = "Options";
-			// 
-			// TexEditorFindTextureItem
-			// 
-			this.TexEditorFindTextureItem.Name = "TexEditorFindTextureItem";
-			this.TexEditorFindTextureItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-			this.TexEditorFindTextureItem.Size = new System.Drawing.Size(197, 22);
-			this.TexEditorFindTextureItem.Text = "Find Texture";
-			this.TexEditorFindTextureItem.Click += new System.EventHandler(this.TexEditorFindTextureItem_Click);
 			// 
 			// TexEditorExportAllItem
 			// 
@@ -371,7 +361,6 @@
 		private System.Windows.Forms.ToolStripMenuItem TexEditorReplaceTextureItem;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorExportTextureItem;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorOptionsStrip;
-		private System.Windows.Forms.ToolStripMenuItem TexEditorFindTextureItem;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorExportAllItem;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorToolsStrip;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorHasherItem;
