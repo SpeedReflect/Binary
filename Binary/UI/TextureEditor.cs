@@ -209,6 +209,7 @@ namespace Binary.UI
 
 							}
 							else this.LoadListView();
+							this.GenerateAddTextureCommand(input.Value, this.AddTextureDialog.FileName);
 							break;
 
 						}
@@ -547,7 +548,8 @@ namespace Binary.UI
 
 		private void ReplaceTextureDialog_FileOk(object sender, CancelEventArgs e)
 		{
-			var key = Convert.ToUInt32(this.TexEditorListView.SelectedItems[0].SubItems[1].Text, 16);
+			var hash = this.TexEditorListView.SelectedItems[0].SubItems[1].Text;
+			var key = Convert.ToUInt32(hash, 16);
 
 			try
 			{
@@ -562,6 +564,7 @@ namespace Binary.UI
 				var texture = this.TPK.FindTexture(key, eKeyType.BINKEY);
 				texture.Reload(this.ReplaceTextureDialog.FileName);
 				this.LoadListView(this.TexEditorListView.SelectedIndices[0]);
+				this.GenerateReplaceTextureCommand(hash, this.ReplaceTextureDialog.FileName);
 
 			}
 			catch (Exception ex)
@@ -598,6 +601,14 @@ namespace Binary.UI
 			this.Commands.Add(command);
 		}
 
+		private void GenerateAddTextureCommand(string name, string file)
+		{
+			if (name.Contains(' ')) name = $"\"{name}\"";
+			if (file.Contains(' ')) file = $"\"{file}\"";
+			var command = $"{eCommandType.add_texture} {this._tpkpath} {name} {file}";
+			this.Commands.Add(command);
+		}
+
 		private void GenerateRemoveTextureCommand(string key)
 		{
 			var command = $"{eCommandType.remove_texture} {this._tpkpath} {key}";
@@ -607,6 +618,13 @@ namespace Binary.UI
 		private void GenerateCopyTextureCommand(string key, string name)
 		{
 			var command = $"{eCommandType.copy_texture} {this._tpkpath} {key} {name}";
+			this.Commands.Add(command);
+		}
+
+		private void GenerateReplaceTextureCommand(string key, string file)
+		{
+			if (file.Contains(' ')) file = $"\"{file}\"";
+			var command = $"{eCommandType.replace_texture} {this._tpkpath} {key} {file}";
 			this.Commands.Add(command);
 		}
 
