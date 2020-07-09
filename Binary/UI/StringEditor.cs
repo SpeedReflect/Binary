@@ -717,6 +717,13 @@ namespace Binary.UI
 
 		private void StringEditor_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (this.StringEditorTextBox.ContainsFocus)
+			{
+
+				this.StringEditorTextBox_Validated(this.StringEditorTextBox, EventArgs.Empty);
+
+			}
+
 			foreach (var form in this._openforms)
 			{
 
