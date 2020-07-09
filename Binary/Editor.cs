@@ -547,7 +547,9 @@ namespace Binary
 
 		private void EMSToolsSwatcher_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Not ready yet. Stay for the updates!", "Not Yet", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			var swatcher = new Swatcher() { StartPosition = FormStartPosition.CenterScreen };
+			this._openforms.Add(swatcher);
+			swatcher.Show();
 		}
 
 		private void EMSOptionsCreate_Click(object sender, EventArgs e)
