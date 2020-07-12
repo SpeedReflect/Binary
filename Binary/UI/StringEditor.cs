@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -8,9 +7,11 @@ using Binary.Tools;
 using Binary.Prompt;
 using Binary.Interact;
 using Binary.Properties;
+using Endscript.Enums;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Management;
-using Endscript.Enums;
+
+
 
 namespace Binary.UI
 {
@@ -692,6 +693,8 @@ namespace Binary.UI
 		private void StringEditorTextBox_TextChanged(object sender, EventArgs e)
 		{
 			// Considering it is enabled because string record was selected
+
+			if (this.StrEditorListView.SelectedItems.Count == 0) return;
 
 			var key = this.GetSelectedKey();
 			var record = this.STR.GetRecord(key);

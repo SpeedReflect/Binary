@@ -108,12 +108,12 @@ namespace Binary.UI
 		private void LoadListView(int index = -1)
 		{
 			this.TexEditorListView.Items.Clear();
-			var list = this.TPK.GetTextures() as IEnumerable;
+			var list = this.TPK.GetTextures();
 			this.TexEditorListView.BeginUpdate();
 
 			var count = 0;
 
-			foreach (Texture texture in list)
+			foreach (var texture in list)
 			{
 
 				var item = new ListViewItem
