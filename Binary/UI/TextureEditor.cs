@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using Binary.Tools;
 using Binary.Prompt;
+using Binary.Interact;
 using Binary.Properties;
 using Nikki.Utils;
 using Nikki.Utils.EA;
@@ -26,6 +27,7 @@ namespace Binary.UI
 		private readonly List<Form> _openforms;
 		private readonly string _tpkpath;
 		public List<string> Commands { get; }
+		private int _last_column_clicked = -1;
 
 		public TextureEditor(TPKBlock tpk, string path)
 		{
@@ -89,6 +91,8 @@ namespace Binary.UI
 			this.TexEditorCopyTextureItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorExportAllItem.BackColor = Theme.MenuItemBackColor;
 			this.TexEditorExportAllItem.ForeColor = Theme.MenuItemForeColor;
+			this.TexEditorImportFromItem.BackColor = Theme.MenuItemBackColor;
+			this.TexEditorImportFromItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorExportTextureItem.BackColor = Theme.MenuItemBackColor;
 			this.TexEditorExportTextureItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorHasherItem.BackColor = Theme.MenuItemBackColor;
@@ -240,7 +244,7 @@ namespace Binary.UI
 
 				var index = this.TexEditorListView.SelectedIndices[0];
 				var key = this.GetSelectedKey();
-				this.TPK.RemoveTexture(key, eKeyType.BINKEY);
+				this.TPK.RemoveTexture(key, KeyType.BINKEY);
 				this.GenerateRemoveTextureCommand(this.TexEditorListView.Items[index].SubItems[1].Text);
 
 				if (this.TPK.TextureCount == 0)
@@ -281,7 +285,7 @@ namespace Binary.UI
 
 						var index = this.TexEditorListView.SelectedIndices[0];
 						var key = this.GetSelectedKey();
-						this.TPK.CloneTexture(input.Value, key, eKeyType.BINKEY);
+						this.TPK.CloneTexture(input.Value, key, KeyType.BINKEY);
 						this.GenerateCopyTextureCommand(this.TexEditorListView.Items[index].SubItems[1].Text, input.Value);
 						this.LoadListView(index);
 						break;
@@ -330,7 +334,7 @@ namespace Binary.UI
 
 					var index = this.TexEditorListView.SelectedIndices[0];
 					var key = this.GetSelectedKey();
-					var texture = this.TPK.FindTexture(key, eKeyType.BINKEY);
+					var texture = this.TPK.FindTexture(key, KeyType.BINKEY);
 
 					if (ext == ImageType.DDS)
 					{
@@ -364,7 +368,7 @@ namespace Binary.UI
 			using var browser = new FolderBrowserDialog()
 			{
 				AutoUpgradeEnabled = false,
-				Description = "Select directory where all textures should be exported",
+				Description = "Select directory where all textures should be exported.",
 				RootFolder = Environment.SpecialFolder.MyComputer,
 				ShowNewFolderButton = true,
 			};
@@ -384,6 +388,79 @@ namespace Binary.UI
 				}
 
 				MessageBox.Show($"All textures have been exported", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+			}
+		}
+
+		private void TexEditorImportFromItem_Click(object sender, EventArgs e)
+		{
+			using var importer = new Importer()
+			{
+				StartPosition = FormStartPosition.CenterScreen
+			};
+
+			if (importer.ShowDialog() == DialogResult.OK)
+			{
+
+				using var browser = new FolderBrowserDialog()
+				{
+					AutoUpgradeEnabled = false,
+					Description = "Select directory to import textures from.",
+					RootFolder = Environment.SpecialFolder.MyComputer,
+					ShowNewFolderButton = false,
+				};
+
+				if (browser.ShowDialog() == DialogResult.OK)
+				{
+
+					try
+					{
+
+						var type = (SerializeType)importer.SerializationIndex;
+
+						foreach (var file in Directory.GetFiles(browser.SelectedPath))
+						{
+
+							var name = Path.GetFileNameWithoutExtension(file);
+							var key = name.BinHash();
+							var texture = this.TPK.FindTexture(key, KeyType.BINKEY);
+
+							if (texture is null)
+							{
+
+								this.TPK.AddTexture(name, file);
+
+							}
+							else if (type == SerializeType.Synchronize)
+							{
+
+								texture.Reload(file);
+
+							}
+							else if (type == SerializeType.Override)
+							{
+
+								this.TPK.RemoveTexture(key, KeyType.BINKEY);
+								this.TPK.AddTexture(name, file);
+	
+							}
+
+						}
+
+						MessageBox.Show($"All textures have been imported", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						this.GenerateBindTexturesCommand(type, browser.SelectedPath);
+						if (this.TexEditorListView.SelectedIndices.Count == 0) this.LoadListView();
+						else this.LoadListView(this.TexEditorListView.SelectedIndices[0]);
+
+					}
+					catch (Exception ex)
+					{
+
+						MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+					}
+
+				}
 
 			}
 		}
@@ -424,7 +501,7 @@ namespace Binary.UI
 			var item = this.TexEditorListView.SelectedItems[0];
 			var key = Convert.ToUInt32(item.SubItems[1].Text, 16);
 
-			var texture = this.TPK.FindTexture(key, eKeyType.BINKEY);
+			var texture = this.TPK.FindTexture(key, KeyType.BINKEY);
 
 			if (texture == null) return;
 
@@ -487,13 +564,33 @@ namespace Binary.UI
 			{
 				case 1: // BinKey
 					this.TPK.SortTexturesByType(false);
-					if (index == 0) index = this.TPK.GetTextureIndex(key, eKeyType.BINKEY);
+
+					if (this._last_column_clicked == 1)
+					{
+
+						this.TPK.Textures.Reverse();
+						this._last_column_clicked = -1;
+
+					}
+					else this._last_column_clicked = 1;
+						
+					if (index == 0) index = this.TPK.GetTextureIndex(key, KeyType.BINKEY);
 					this.LoadListView(index);
 					break;
 
 				case 2: // CollectionName
 					this.TPK.SortTexturesByType(true);
-					if (index == 0) index = this.TPK.GetTextureIndex(key, eKeyType.BINKEY);
+					
+					if (this._last_column_clicked == 2)
+					{
+
+						this.TPK.Textures.Reverse();
+						this._last_column_clicked = -1;
+
+					}
+					else this._last_column_clicked = 2;
+
+					if (index == 0) index = this.TPK.GetTextureIndex(key, KeyType.BINKEY);
 					this.LoadListView(index);
 					break;
 
@@ -561,7 +658,7 @@ namespace Binary.UI
 
 				}
 
-				var texture = this.TPK.FindTexture(key, eKeyType.BINKEY);
+				var texture = this.TPK.FindTexture(key, KeyType.BINKEY);
 				texture.Reload(this.ReplaceTextureDialog.FileName);
 				this.LoadListView(this.TexEditorListView.SelectedIndices[0]);
 				this.GenerateReplaceTextureCommand(hash, this.ReplaceTextureDialog.FileName);
@@ -625,6 +722,14 @@ namespace Binary.UI
 		{
 			if (file.Contains(' ')) file = $"\"{file}\"";
 			var command = $"{eCommandType.replace_texture} {this._tpkpath} {key} {file}";
+			this.Commands.Add(command);
+		}
+
+		private void GenerateBindTexturesCommand(SerializeType type, string directory)
+		{
+			string import = type.ToString().ToLowerInvariant();
+			if (directory.Contains(' ')) directory = $"\"{directory}\"";
+			var command = $"{eCommandType.bind_textures} {import} {this._tpkpath} {directory}";
 			this.Commands.Add(command);
 		}
 

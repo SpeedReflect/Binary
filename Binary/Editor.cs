@@ -106,6 +106,8 @@ namespace Binary
 			this.EMSOptionsToggle.ForeColor = Theme.MenuItemForeColor;
 			this.EMSScriptingProcess.BackColor = Theme.MenuItemBackColor;
 			this.EMSScriptingProcess.ForeColor = Theme.MenuItemForeColor;
+			this.EMSScriptingRunAll.BackColor = Theme.MenuItemBackColor;
+			this.EMSScriptingRunAll.ForeColor = Theme.MenuItemForeColor;
 			this.EMSScriptingGenerate.BackColor = Theme.MenuItemBackColor;
 			this.EMSScriptingGenerate.ForeColor = Theme.MenuItemForeColor;
 			this.EMSScriptingClear.BackColor = Theme.MenuItemBackColor;
@@ -223,7 +225,8 @@ namespace Binary
 				reflective is FNGroup ||
 				reflective is STRBlock ||
 				reflective is TPKBlock ||
-				reflective is DBModelPart;
+				reflective is DBModelPart ||
+				reflective is GCareer;
 		}
 
 		private void ManageButtonAddNode(TreeNode node)
@@ -655,8 +658,16 @@ namespace Binary
 
 		private void EMSScriptingProcess_Click(object sender, EventArgs e)
 		{
-			// Execute line
+			if (this.Profile is null)
+			{
+
+				MessageBox.Show("No profile was loaded.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
 			var index = this.EditorCommandPrompt.GetLineFromCharIndex(this.EditorCommandPrompt.SelectionStart);
+			if (index < 0 || index >= this.EditorCommandPrompt.Lines.Length) return;
 			var line = this.EditorCommandPrompt.Lines[index];
 			eCommandType result;
 
@@ -707,6 +718,48 @@ namespace Binary
 				this.LoadTreeView(this.EditorTreeView.SelectedNode?.FullPath);
 
 			}
+		}
+
+		private void EMSScriptingRunAll_Click(object sender, EventArgs e)
+		{
+			if (this.Profile is null)
+			{
+
+				MessageBox.Show("No profile was loaded.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			if (this.EditorCommandPrompt.Lines.Length == 0) return;
+			this.EditorPropertyGrid.SelectedObject = null;
+
+			string command = String.Empty;
+			int count = 0;
+
+			try
+			{
+
+				foreach (var line in this.EditorCommandPrompt.Lines)
+				{
+
+					command = line;
+					EndScriptParser.ExecuteSingleCommand(line, this.Profile);
+					++count;
+
+				}
+
+			}
+			catch (Exception ex)
+			{
+
+				var error = $"Error has occured -> Line: {count}" + Environment.NewLine +
+					$"Command: [{command}]" + Environment.NewLine + $"Error: {ex.GetLowestMessage()}";
+
+				MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
+
+			this.LoadTreeView(this.EditorTreeView.SelectedNode?.FullPath);
 		}
 
 		private void EMSScriptingGenerate_Click(object sender, EventArgs e)
@@ -974,6 +1027,12 @@ namespace Binary
 				this.WriteLineToEndCommandPrompt(editor.Commands);
 
 			}
+			else if (collection is GCareer gcr)
+			{
+
+				MessageBox.Show("Coming Soon M3", "SoonTM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+			}
 		}
 
 		private void EditorButtonExportNode_Click(object sender, EventArgs e)
@@ -1075,7 +1134,7 @@ namespace Binary
 					{
 					#endif
 
-						var type = (Nikki.Reflection.Enum.eSerializeType)importer.SerializationIndex;
+						var type = (Nikki.Reflection.Enum.SerializeType)importer.SerializationIndex;
 						using var br = new BinaryReader(File.Open(dialog.FileName, FileMode.Open));
 						manager.Import(type, br);
 						MessageBox.Show($"File {dialog.FileName} has been imported with type {type}", "Info",
@@ -1428,6 +1487,7 @@ namespace Binary
 
 		private void WriteLineToEndCommandPrompt(IEnumerable<string> lines)
 		{
+			if (lines == null || lines.Count() == 0) return;
 			var size = lines.Aggregate(0, (result, str) => result += str.Length + 2);
 			var sb = new StringBuilder(size);
 

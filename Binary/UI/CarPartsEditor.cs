@@ -2,9 +2,12 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Binary.Tools;
+using Binary.Prompt;
 using Binary.Interact;
 using Binary.Properties;
+using Nikki.Core;
 using Nikki.Support.Shared.Class;
 using Nikki.Support.Shared.Parts.CarParts;
 
@@ -26,6 +29,13 @@ namespace Binary.UI
 			this.Text = $"{this.Model.CollectionName} Editor";
 			this.LoadTreeView();
 			this.ToggleMenuStripControls(null);
+
+			if (this.Model.GameINT != GameINT.MostWanted && this.Model.GameINT != GameINT.Underground2)
+			{
+
+				this.FindAndReplaceToolStripMenuItem.Enabled = false;
+
+			}
 		}
 
 		#region Theme
@@ -81,6 +91,8 @@ namespace Binary.UI
 			this.ReversePartsToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.SortPartsByNameToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
 			this.SortPartsByNameToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.FindAndReplaceToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.FindAndReplaceToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.AddAttributeToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
 			this.AddAttributeToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.RemoveAttributeToolStripMenuItem.BackColor = Theme.MenuItemBackColor;			
@@ -459,6 +471,48 @@ namespace Binary.UI
 		{
 			this.Model.SortByProperty(nameof(RealCarPart.PartName));
 			this.LoadTreeView(this.CarPartsTreeView.SelectedNode.FullPath);
+		}
+
+		private void FindAndReplaceToolStripMenuItem_Click(object sende, EventArgs e)
+		{
+			if (this.CarPartsTreeView.Nodes.Count == 0) return;
+
+			using var with = new Input("Enter string to replace with");
+			using var input = new Input("Enter string to search for",
+										new Predicate<string>(_ => !String.IsNullOrEmpty(_)),
+										"Input string cannot be null or empty");
+
+			if (input.ShowDialog() == DialogResult.OK && with.ShowDialog() == DialogResult.OK)
+			{
+
+				using var check = new Check("Make case-sensitive replace?", false);
+
+				if (check.ShowDialog() == DialogResult.OK)
+				{
+
+					var options = check.Value
+						? RegexOptions.Multiline | RegexOptions.CultureInvariant
+						: RegexOptions.Multiline | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase;
+
+					this.CarPartsTreeView.BeginUpdate();
+
+					for (int i = 0; i < this.Model.CarPartsCount; ++i)
+					{
+
+						// Very quick and dirty way to replace node's and part's name
+						var part = this.Model.GetRealPart(i);
+						var value = part.GetValue("PartLabel");
+						value = Regex.Replace(value, input.Value, with.Value, options);
+						part.SetValue("PartLabel", value);
+						this.CarPartsTreeView.Nodes[i].Text = value;
+
+					}
+
+					this.CarPartsTreeView.EndUpdate();
+
+				}
+
+			}
 		}
 
 		private void AddAttributeToolStripMenuItem_Click(object sender, EventArgs e)

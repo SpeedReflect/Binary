@@ -151,8 +151,26 @@ namespace Binary
 
 			var endscript = Path.Combine(launch.ThisDir, launch.Endscript);
 			var parser = new EndScriptParser(endscript);
+			BaseCommand[] commands;
 
-			var commands = parser.Read();
+			try
+			{
+
+				commands = parser.Read();
+
+			}
+			catch (Exception ex)
+			{
+
+				var error = $"Error has occured -> File: {parser.CurrentFile}, Line: {parser.CurrentIndex}" +
+					Environment.NewLine + $"Command: [{parser.CurrentLine}]" + Environment.NewLine +
+					$"Error: {ex.GetLowestMessage()}";
+
+				MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+
+			}
+
 			var profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
 			profile.Load(launch);
 			var manager = new EndScriptManager(profile, commands, endscript);

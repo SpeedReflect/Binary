@@ -92,7 +92,7 @@
 			// AddStringToolStripMenuItem
 			// 
 			this.AddStringToolStripMenuItem.Name = "AddStringToolStripMenuItem";
-			this.AddStringToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+			this.AddStringToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
 			this.AddStringToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.AddStringToolStripMenuItem.Text = "Add String";
 			this.AddStringToolStripMenuItem.Click += new System.EventHandler(this.AddStringToolStripMenuItem_Click);
