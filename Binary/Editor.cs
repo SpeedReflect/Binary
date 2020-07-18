@@ -14,6 +14,7 @@ using Binary.Interact;
 using Binary.Properties;
 using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Commands;
 using Endscript.Profiles;
 using Nikki.Core;
 using Nikki.Utils;
@@ -32,6 +33,7 @@ namespace Binary
 		private readonly List<Form> _openforms;
 		private const string empty = "\"\"";
 		private const string space = " ";
+		private bool _edited = false;
 
 		public Editor()
 		{
@@ -84,12 +86,10 @@ namespace Binary
 			this.EMSMainReloadFiles.ForeColor = Theme.MenuItemForeColor;
 			this.EMSMainSaveFiles.BackColor = Theme.MenuItemBackColor;
 			this.EMSMainSaveFiles.ForeColor = Theme.MenuItemForeColor;
+			this.EMSMainImportEndscript.BackColor = Theme.MenuItemBackColor;
+			this.EMSMainImportEndscript.ForeColor = Theme.MenuItemForeColor;
 			this.EMSMainExit.BackColor = Theme.MenuItemBackColor;
 			this.EMSMainExit.ForeColor = Theme.MenuItemForeColor;
-			this.EMSDatabaseLoadDB.BackColor = Theme.MenuItemBackColor;
-			this.EMSDatabaseLoadDB.ForeColor = Theme.MenuItemForeColor;
-			this.EMSDatabaseSaveDB.BackColor = Theme.MenuItemBackColor;
-			this.EMSDatabaseSaveDB.ForeColor = Theme.MenuItemForeColor;
 			this.EMSToolsHasher.BackColor = Theme.MenuItemBackColor;
 			this.EMSToolsHasher.ForeColor = Theme.MenuItemForeColor;
 			this.EMSToolsRaider.BackColor = Theme.MenuItemBackColor;
@@ -212,7 +212,7 @@ namespace Binary
 		{
 			this.EMSMainReloadFiles.Enabled = enable;
 			this.EMSMainSaveFiles.Enabled = enable;
-			this.EMSDatabaseSaveDB.Enabled = enable;
+			this.EMSMainImportEndscript.Enabled = enable;
 			this.EMSOptionsCreate.Enabled = enable;
 			this.EMSOptionsRestore.Enabled = enable;
 			this.EMSOptionsUnlock.Enabled = enable;
@@ -389,6 +389,16 @@ namespace Binary
 
 		private void EMSMainLoadFiles_Click(object sender, EventArgs e)
 		{
+			if (this._edited)
+			{
+
+				var result = MessageBox.Show("You have unsaved changes. Are you sure you want to load " +
+					"another database?", "Prompt", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+				if (result == DialogResult.No) return;
+
+			}
+
 			using var browser = new OpenFileDialog()
 			{
 				AutoUpgradeEnabled = true,
@@ -414,6 +424,16 @@ namespace Binary
 			if (File.Exists(file))
 			{
 
+				if (this._edited)
+				{
+
+					var result = MessageBox.Show("You have unsaved changes. Are you sure you reload " +
+						"database?", "Prompt", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+					if (result == DialogResult.No) return;
+
+				}
+
 				this.LoadProfile(file, true);
 
 			}
@@ -431,107 +451,90 @@ namespace Binary
 			this.SaveProfile();
 		}
 
-		private void EMSMainExit_Click(object sender, EventArgs e)
+		private void EMSMainImportEndscript_Click(object sender, EventArgs e)
 		{
-			this.Editor_FormClosing(this, null);
-			this.Close();
-		}
-
-		private void EMSDatabaseLoadDB_Click(object sender, EventArgs e)
-		{
-			using var browser = new OpenFileDialog()
+			using var dialog = new OpenFileDialog()
 			{
-				AutoUpgradeEnabled = true,
 				CheckFileExists = true,
-				CheckPathExists = true,
-				Filter = "Endscript Files | *.end",
+				Filter = "Endscript Files|*.end",
 				Multiselect = false,
-				Title = "Select Version 4 .end launcher to load",
+				Title = "Select main Endscript (.end) file to import",
 			};
 
-			if (browser.ShowDialog() == DialogResult.OK)
+			if (dialog.ShowDialog() != DialogResult.OK) return;
+			var parser = new EndScriptParser(dialog.FileName);
+			BaseCommand[] commands;
+
+			try
 			{
 
-				#if !DEBUG
-				try
-				{
-				#endif
-				
-					var watch = new Stopwatch();
-					watch.Start();
-
-					var deserializer = new EndDeserializer(browser.FileName);
-					this.Profile = deserializer.Deserialize();
-
-					watch.Stop();
-					this.EditorStatusLabel.Text = $"DB Loading Time: {watch.ElapsedMilliseconds}ms | Script: {browser.FileName}";
-					if (Configurations.Default.AutoBackups) this.CreateBackupsForFiles(false);
-					this.LoadTreeView();
-
-				#if !DEBUG
-				}
-				catch (Exception ex)
-				{
-
-					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-				}
-				#endif
+				commands = parser.Read();
 
 			}
-		}
-
-		private void EMSDatabaseSaveDB_Click(object sender, EventArgs e)
-		{
-			if (this.Profile is null || this.Profile.Count == 0)
+			catch (Exception ex)
 			{
 
-				MessageBox.Show("No files are loaded or no directory was chosen", "Warning",
-					MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				var error = $"Error has occured -> File: {parser.CurrentFile}, Line: {parser.CurrentIndex}" +
+					Environment.NewLine + $"Command: [{parser.CurrentLine}]" + Environment.NewLine +
+					$"Error: {ex.GetLowestMessage()}";
+
+				MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 
 			}
 
-			using var dialog = new SaveFileDialog()
-			{
-				AddExtension = true,
-				AutoUpgradeEnabled = true,
-				CheckPathExists = true,
-				DefaultExt = ".end",
-				Filter = "Endscript Files|*.end",
-				OverwritePrompt = true,
-				SupportMultiDottedExtensions = true,
-				Title = "Select directory and filename of the endscript to be saved",
-			};
+			var manager = new EndScriptManager(this.Profile, commands, dialog.FileName);
 
-			if (dialog.ShowDialog() == DialogResult.OK)
+			while (!manager.ProcessScript())
 			{
 
-				#if !DEBUG
-				try
-				{
-				#endif
+				var command = manager.CurrentCommand;
 
-					var watch = new Stopwatch();
-					watch.Start();
-
-					var serializer = new EndSerializer(this.Profile, dialog.FileName);
-					serializer.Serialize();
-
-					watch.Stop();
-					this.EditorStatusLabel.Text = $"DB Saving Time: {watch.ElapsedMilliseconds}ms | Script: {dialog.FileName}";
-
-				#if !DEBUG
-				}
-				catch (Exception ex)
+				if (command is CheckboxCommand checkbox)
 				{
 
-					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					using var input = new Check(checkbox.Description, true);
+					input.ShowDialog();
+					checkbox.Choice = input.Value ? 1 : 0;
 
 				}
-				#endif
+				else if (command is ComboboxCommand combobox)
+				{
+
+					using var input = new Combo(combobox.Options, combobox.Description, true);
+					input.ShowDialog();
+					combobox.Choice = input.Value < 0 ? 0 : input.Value;
+
+				}
 
 			}
+
+			var script = Path.GetFileName(dialog.FileName);
+
+			if (manager.Errors.Any())
+			{
+
+				Utils.WriteErrorsToLog(manager.Errors, dialog.FileName);
+				MessageBox.Show($"Script {script} has been applied, however, {manager.Errors.Count()} errors " +
+					$"has been detected. Check EndError.log for more information. Do not forget to save changes!", 
+					"Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+			}
+			else
+			{
+
+				MessageBox.Show($"Script {script} has been successfully applied. Do not forget to save changes!",
+					"Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+			}
+
+			this.LoadTreeView(this.EditorTreeView.SelectedNode?.FullPath);
+		}
+
+		private void EMSMainExit_Click(object sender, EventArgs e)
+		{
+			this.Editor_FormClosing(this, null);
+			this.Close();
 		}
 
 		private void EMSToolsHasher_Click(object sender, EventArgs e)
@@ -879,6 +882,7 @@ namespace Binary
 						this.WriteLineToEndCommandPrompt(str);
 						var collection = manager[manager.IndexOf(input.Value)] as Collectable;
 						this.EditorTreeView.SelectedNode.Nodes.Add(Utils.GetCollectionNodes(collection));
+						this._edited = true;
 						break;
 
 					}
@@ -920,6 +924,7 @@ namespace Binary
 				var str = this.GenerateEndCommand(eCommandType.remove_collection, this.EditorTreeView.SelectedNode.FullPath);
 				this.WriteLineToEndCommandPrompt(str);
 				this.EditorTreeView.SelectedNode.Remove();
+				this._edited = true;
 
 			}
 			catch (Exception ex)
@@ -959,6 +964,7 @@ namespace Binary
 						this.WriteLineToEndCommandPrompt(str);
 						var collection = manager[manager.IndexOf(input.Value)] as Collectable;
 						this.EditorTreeView.SelectedNode.Parent.Nodes.Add(Utils.GetCollectionNodes(collection));
+						this._edited = true;
 						break;
 
 					}
@@ -1001,6 +1007,7 @@ namespace Binary
 				using var editor = new CarPartsEditor(model);
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
+				this._edited = true;
 
 			}
 			else if (collection is FNGroup fng)
@@ -1016,6 +1023,7 @@ namespace Binary
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
 				this.WriteLineToEndCommandPrompt(editor.Commands);
+				this._edited = true;
 
 			}
 			else if (collection is STRBlock str)
@@ -1025,6 +1033,7 @@ namespace Binary
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
 				this.WriteLineToEndCommandPrompt(editor.Commands);
+				this._edited = true;
 
 			}
 			else if (collection is GCareer gcr)
@@ -1140,6 +1149,7 @@ namespace Binary
 						MessageBox.Show($"File {dialog.FileName} has been imported with type {type}", "Info",
 							MessageBoxButtons.OK, MessageBoxIcon.Information);
 						this.LoadTreeView(this.EditorTreeView.SelectedNode.FullPath);
+						this._edited = true;
 
 					#if !DEBUG
 					}
@@ -1268,6 +1278,7 @@ namespace Binary
 			{
 			#endif
 
+				this._edited = false;
 				Launch.Deserialize(filename, out Launch launch);
 
 				if (launch.UsageID != eUsage.Modder)
@@ -1288,13 +1299,6 @@ namespace Binary
 				{
 
 					throw new DirectoryNotFoundException($"Directory named {launch.Directory} does not exist");
-
-				}
-
-				if (launch.Files.Count == 0)
-				{
-
-					throw new ArgumentException("No files has been specified to load");
 
 				}
 
@@ -1369,6 +1373,13 @@ namespace Binary
 			}
 
 			this.EditorTreeView.EndUpdate();
+
+			if (!(this.EditorTreeView.SelectedNode is null))
+			{
+
+				this.EditorTreeView.SelectedNode.EnsureVisible();
+
+			}
 		}
 
 		#endregion
@@ -1390,6 +1401,7 @@ namespace Binary
 				watch.Stop();
 				var filename = Configurations.Default.LaunchFile;
 				this.EditorStatusLabel.Text = $"Files: {this.Profile.Count} | Saving Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
+				this._edited = false;
 
 			#if !DEBUG
 			}
@@ -1570,6 +1582,7 @@ namespace Binary
 				e.ChangedItem.Label, value);
 			
 			this.WriteLineToEndCommandPrompt(str);
+			this._edited = true;
 
 			if (e.ChangedItem.Label == "CollectionName")
 			{
@@ -1598,6 +1611,16 @@ namespace Binary
 
 		private void Editor_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (this._edited)
+			{
+
+				var result = MessageBox.Show("You have unsaved changes. Are you sure you want to quit the editor?",
+					"Prompt", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+				if (result == DialogResult.No) { e.Cancel = true; return; }
+
+			}
+
 			this.Profile = null;
 
 			foreach (var form in this._openforms)

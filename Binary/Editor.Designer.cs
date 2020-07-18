@@ -36,10 +36,8 @@
 			this.EMSMainLoadFiles = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSMainReloadFiles = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSMainSaveFiles = new System.Windows.Forms.ToolStripMenuItem();
+			this.EMSMainImportEndscript = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSMainExit = new System.Windows.Forms.ToolStripMenuItem();
-			this.EditorMenuStripDatabase = new System.Windows.Forms.ToolStripMenuItem();
-			this.EMSDatabaseLoadDB = new System.Windows.Forms.ToolStripMenuItem();
-			this.EMSDatabaseSaveDB = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStripTools = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSToolsHasher = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSToolsRaider = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,6 +49,7 @@
 			this.EMSOptionsToggle = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStripScripting = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSScriptingProcess = new System.Windows.Forms.ToolStripMenuItem();
+			this.EMSScriptingRunAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSScriptingGenerate = new System.Windows.Forms.ToolStripMenuItem();
 			this.EMSScriptingClear = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStripWindows = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +82,6 @@
 			this.EditorCommandPrompt = new System.Windows.Forms.TextBox();
 			this.EditorStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.EditorStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.EMSScriptingRunAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.EditorMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -133,7 +131,6 @@
 			this.EditorMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.EditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.EditorMenuStripMain,
-            this.EditorMenuStripDatabase,
             this.EditorMenuStripTools,
             this.EditorMenuStripOptions,
             this.EditorMenuStripScripting,
@@ -152,6 +149,7 @@
             this.EMSMainLoadFiles,
             this.EMSMainReloadFiles,
             this.EMSMainSaveFiles,
+            this.EMSMainImportEndscript,
             this.EMSMainExit});
 			this.EditorMenuStripMain.Name = "EditorMenuStripMain";
 			this.EditorMenuStripMain.Size = new System.Drawing.Size(46, 20);
@@ -161,7 +159,7 @@
 			// 
 			this.EMSMainNewLauncher.Name = "EMSMainNewLauncher";
 			this.EMSMainNewLauncher.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.EMSMainNewLauncher.Size = new System.Drawing.Size(193, 22);
+			this.EMSMainNewLauncher.Size = new System.Drawing.Size(199, 22);
 			this.EMSMainNewLauncher.Text = "New Launcher";
 			this.EMSMainNewLauncher.Click += new System.EventHandler(this.EMSMainNewLauncher_Click);
 			// 
@@ -169,7 +167,7 @@
 			// 
 			this.EMSMainLoadFiles.Name = "EMSMainLoadFiles";
 			this.EMSMainLoadFiles.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.EMSMainLoadFiles.Size = new System.Drawing.Size(193, 22);
+			this.EMSMainLoadFiles.Size = new System.Drawing.Size(199, 22);
 			this.EMSMainLoadFiles.Text = "Load Files";
 			this.EMSMainLoadFiles.Click += new System.EventHandler(this.EMSMainLoadFiles_Click);
 			// 
@@ -178,7 +176,7 @@
 			this.EMSMainReloadFiles.Enabled = false;
 			this.EMSMainReloadFiles.Name = "EMSMainReloadFiles";
 			this.EMSMainReloadFiles.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-			this.EMSMainReloadFiles.Size = new System.Drawing.Size(193, 22);
+			this.EMSMainReloadFiles.Size = new System.Drawing.Size(199, 22);
 			this.EMSMainReloadFiles.Text = "Reload Files";
 			this.EMSMainReloadFiles.Click += new System.EventHandler(this.EMSMainReloadFiles_Click);
 			// 
@@ -187,45 +185,26 @@
 			this.EMSMainSaveFiles.Enabled = false;
 			this.EMSMainSaveFiles.Name = "EMSMainSaveFiles";
 			this.EMSMainSaveFiles.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.EMSMainSaveFiles.Size = new System.Drawing.Size(193, 22);
+			this.EMSMainSaveFiles.Size = new System.Drawing.Size(199, 22);
 			this.EMSMainSaveFiles.Text = "Save Files";
 			this.EMSMainSaveFiles.Click += new System.EventHandler(this.EMSMainSaveFiles_Click);
+			// 
+			// EMSMainImportEndscript
+			// 
+			this.EMSMainImportEndscript.Enabled = false;
+			this.EMSMainImportEndscript.Name = "EMSMainImportEndscript";
+			this.EMSMainImportEndscript.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+			this.EMSMainImportEndscript.Size = new System.Drawing.Size(199, 22);
+			this.EMSMainImportEndscript.Text = "Import Endscript";
+			this.EMSMainImportEndscript.Click += new System.EventHandler(this.EMSMainImportEndscript_Click);
 			// 
 			// EMSMainExit
 			// 
 			this.EMSMainExit.Name = "EMSMainExit";
 			this.EMSMainExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-			this.EMSMainExit.Size = new System.Drawing.Size(193, 22);
+			this.EMSMainExit.Size = new System.Drawing.Size(199, 22);
 			this.EMSMainExit.Text = "Exit";
 			this.EMSMainExit.Click += new System.EventHandler(this.EMSMainExit_Click);
-			// 
-			// EditorMenuStripDatabase
-			// 
-			this.EditorMenuStripDatabase.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.EMSDatabaseLoadDB,
-            this.EMSDatabaseSaveDB});
-			this.EditorMenuStripDatabase.Name = "EditorMenuStripDatabase";
-			this.EditorMenuStripDatabase.Size = new System.Drawing.Size(67, 20);
-			this.EditorMenuStripDatabase.Text = "Database";
-			// 
-			// EMSDatabaseLoadDB
-			// 
-			this.EMSDatabaseLoadDB.Name = "EMSDatabaseLoadDB";
-			this.EMSDatabaseLoadDB.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.O)));
-			this.EMSDatabaseLoadDB.Size = new System.Drawing.Size(226, 22);
-			this.EMSDatabaseLoadDB.Text = "Load Database";
-			this.EMSDatabaseLoadDB.Click += new System.EventHandler(this.EMSDatabaseLoadDB_Click);
-			// 
-			// EMSDatabaseSaveDB
-			// 
-			this.EMSDatabaseSaveDB.Enabled = false;
-			this.EMSDatabaseSaveDB.Name = "EMSDatabaseSaveDB";
-			this.EMSDatabaseSaveDB.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
-			this.EMSDatabaseSaveDB.Size = new System.Drawing.Size(226, 22);
-			this.EMSDatabaseSaveDB.Text = "Save Database";
-			this.EMSDatabaseSaveDB.Click += new System.EventHandler(this.EMSDatabaseSaveDB_Click);
 			// 
 			// EditorMenuStripTools
 			// 
@@ -898,9 +877,6 @@
 		private System.Windows.Forms.ToolStripMenuItem EMSMainSaveFiles;
 		private System.Windows.Forms.ToolStripMenuItem EMSMainReloadFiles;
 		private System.Windows.Forms.ToolStripMenuItem EMSMainExit;
-		private System.Windows.Forms.ToolStripMenuItem EditorMenuStripDatabase;
-		private System.Windows.Forms.ToolStripMenuItem EMSDatabaseLoadDB;
-		private System.Windows.Forms.ToolStripMenuItem EMSDatabaseSaveDB;
 		private System.Windows.Forms.ToolStripMenuItem EMSWindowsRun;
 		private System.Windows.Forms.ToolStripMenuItem EditorMenuStripHelp;
 		private System.Windows.Forms.ToolStripMenuItem EMSHelpAbout;
@@ -916,6 +892,7 @@
 		private System.Windows.Forms.ImageList EditorImageList;
 		private System.Windows.Forms.ToolStripMenuItem EMSOptionsToggle;
 		private System.Windows.Forms.ToolStripMenuItem EMSScriptingRunAll;
+		private System.Windows.Forms.ToolStripMenuItem EMSMainImportEndscript;
 	}
 }
 
