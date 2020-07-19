@@ -485,27 +485,39 @@ namespace Binary
 
 			var manager = new EndScriptManager(this.Profile, commands, dialog.FileName);
 
-			while (!manager.ProcessScript())
+			try
 			{
 
-				var command = manager.CurrentCommand;
-
-				if (command is CheckboxCommand checkbox)
+				while (!manager.ProcessScript())
 				{
 
-					using var input = new Check(checkbox.Description, true);
-					input.ShowDialog();
-					checkbox.Choice = input.Value ? 1 : 0;
+					var command = manager.CurrentCommand;
+
+					if (command is CheckboxCommand checkbox)
+					{
+
+						using var input = new Check(checkbox.Description, true);
+						input.ShowDialog();
+						checkbox.Choice = input.Value ? 1 : 0;
+
+					}
+					else if (command is ComboboxCommand combobox)
+					{
+
+						using var input = new Combo(combobox.Options, combobox.Description, true);
+						input.ShowDialog();
+						combobox.Choice = input.Value < 0 ? 0 : input.Value;
+
+					}
 
 				}
-				else if (command is ComboboxCommand combobox)
-				{
 
-					using var input = new Combo(combobox.Options, combobox.Description, true);
-					input.ShowDialog();
-					combobox.Choice = input.Value < 0 ? 0 : input.Value;
+			}
+			catch (Exception ex)
+			{
 
-				}
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
 
 			}
 
@@ -1306,6 +1318,7 @@ namespace Binary
 				this.Profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
 
 				var watch = new Stopwatch();
+				this.EditorStatusLabel.Text = "Loading... Please wait...";
 				watch.Start();
 
 				this.Profile.Load(launch);
@@ -1394,6 +1407,7 @@ namespace Binary
 			#endif
 
 				var watch = new Stopwatch();
+				this.EditorStatusLabel.Text = "Saving... Please wait...";
 				watch.Start();
 
 				this.Profile.Save();
@@ -1454,6 +1468,7 @@ namespace Binary
 			this.ManageButtonScriptNode(e.Node);
 
 			this.EditorPropertyGrid.SelectedObject = selected;
+			this.EditorNodeInfo.Text = $"| {e.Node.Nodes.Count} subnodes";
 		}
 
 		private void EditorTreeView_DoubleClick(object sender, EventArgs e)

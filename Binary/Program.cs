@@ -7,8 +7,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
-using Nikki.Core;
 using Endscript.Core;
+using Endscript.Profiles;
 using CoreExtensions.IO;
 using CoreExtensions.Native;
 
@@ -61,8 +61,7 @@ namespace Binary
 			SynchronizedDatabase.Watermark = "Binary by MaxHwoy | Automated";
 
 			var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-			path = Path.Combine(path, "keys.txt");
-			Loader.LoadBinKeys(new string[] { path });
+			SetDependencyPaths(path);
 
 			Application.ThreadException += new ThreadExceptionEventHandler(ThreadExceptionHandler);
 			Application.Run(new IntroUI());
@@ -70,6 +69,18 @@ namespace Binary
 			#if DEBUG
 			NativeCallerX.FreeConsole();
 			#endif
+		}
+
+		private static void SetDependencyPaths(string thispath)
+		{
+			CarbonProfile.MainHashList = Path.Combine(thispath, @"mainkeys\carbon.txt");
+			CarbonProfile.CustomHashList = Path.Combine(thispath, @"userkeys\carbon.txt");
+			MostWantedProfile.MainHashList = Path.Combine(thispath, @"mainkeys\mostwanted.txt");
+			MostWantedProfile.CustomHashList = Path.Combine(thispath, @"userkeys\mostwanted.txt");
+			Underground2Profile.MainHashList = Path.Combine(thispath, @"mainkeys\underground2.txt");
+			Underground2Profile.CustomHashList = Path.Combine(thispath, @"userkeys\underground2.txt");
+			ProstreetProfile.MainHashList = Path.Combine(thispath, @"mainkeys\prostreet.txt");
+			ProstreetProfile.CustomHashList = Path.Combine(thispath, @"userkeys\prostreet.txt");
 		}
 
 		public static void ThreadExceptionHandler(object sender, ThreadExceptionEventArgs e)

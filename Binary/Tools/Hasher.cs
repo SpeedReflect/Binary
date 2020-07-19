@@ -57,6 +57,8 @@ namespace Binary.Tools
 
             uint result = 0;
             string _0x = "0x";
+            var state = Hashing.PauseHashSave;
+            Hashing.PauseHashSave = true;
 
             // Bin memory hash
             result = str.BinHash();
@@ -73,6 +75,8 @@ namespace Binary.Tools
             // Vlt file hash
             result = result.Reverse();
             this.VltFileTextbox.Text = $"{_0x}{result:X8}";
+
+            Hashing.PauseHashSave = state;
         }
 
         private void CopyString_Click(object sender, EventArgs e)

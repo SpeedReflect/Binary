@@ -172,37 +172,51 @@ namespace Binary
 			}
 
 			var profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
+			this.EnsureBackups(profile);
 			profile.Load(launch);
 			var manager = new EndScriptManager(profile, commands, endscript);
 
-			while (!manager.ProcessScript())
+			try
 			{
 
-				var command = manager.CurrentCommand;
-
-				if (command is CheckboxCommand checkbox)
+				while (!manager.ProcessScript())
 				{
 
-					using var input = new Check(checkbox.Description, true);
-					input.ShowDialog();
-					checkbox.Choice = input.Value ? 1 : 0;
+					var command = manager.CurrentCommand;
+
+					if (command is CheckboxCommand checkbox)
+					{
+
+						using var input = new Check(checkbox.Description, true);
+						input.ShowDialog();
+						checkbox.Choice = input.Value ? 1 : 0;
+
+					}
+					else if (command is ComboboxCommand combobox)
+					{
+
+						using var input = new Combo(combobox.Options, combobox.Description, true);
+						input.ShowDialog();
+						combobox.Choice = input.Value < 0 ? 0 : input.Value;
+
+					}
 
 				}
-				else if (command is ComboboxCommand combobox)
-				{
 
-					using var input = new Combo(combobox.Options, combobox.Description, true);
-					input.ShowDialog();
-					combobox.Choice = input.Value < 0 ? 0 : input.Value;
+			}
+			catch (Exception ex)
+			{
 
-				}
-			
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Execution has been interrupted", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
 			}
 
-			profile.Save();
+			var any = manager.Errors.Any();
 			var script = Path.GetFileName(dialog.FileName);
 
-			if (manager.Errors.Any())
+			if (any)
 			{
 
 				Utils.WriteErrorsToLog(manager.Errors, dialog.FileName);
@@ -217,7 +231,16 @@ namespace Binary
 				MessageBox.Show($"Script {script} has been successfully applied",
 					"Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-				this.AskForGameRun(profile);
+			}
+
+			var save = MessageBox.Show("Would you like to save files?", "Prompt", 
+				MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+			if (save == DialogResult.Yes)
+			{
+
+				profile.Save();
+				if (!any) this.AskForGameRun(profile);
 
 			}
 		}
@@ -240,6 +263,18 @@ namespace Binary
 			this.Show();
 		}
 	
+		private void EnsureBackups(BaseProfile profile)
+		{
+			foreach (var sdb in profile)
+			{
+
+				var orig = sdb.FullPath;
+				var back = $"{orig}.bacc";
+				if (!File.Exists(back)) File.Copy(orig, back, true);
+
+			}
+		}
+
 		private void AskForGameRun(BaseProfile profile)
 		{
 			var result = MessageBox.Show("Do you wish to run the game?", "Prompt",

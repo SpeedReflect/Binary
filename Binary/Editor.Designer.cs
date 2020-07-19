@@ -82,6 +82,7 @@
 			this.EditorCommandPrompt = new System.Windows.Forms.TextBox();
 			this.EditorStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.EditorStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.EditorNodeInfo = new System.Windows.Forms.ToolStripStatusLabel();
 			this.EditorMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -756,7 +757,8 @@
 			// 
 			this.EditorStatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.EditorStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.EditorStatusLabel});
+            this.EditorStatusLabel,
+            this.EditorNodeInfo});
 			this.EditorStatusStrip.Location = new System.Drawing.Point(0, 442);
 			this.EditorStatusStrip.Name = "EditorStatusStrip";
 			this.EditorStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
@@ -767,10 +769,16 @@
 			// EditorStatusLabel
 			// 
 			this.EditorStatusLabel.Name = "EditorStatusLabel";
-			this.EditorStatusLabel.Size = new System.Drawing.Size(879, 17);
+			this.EditorStatusLabel.Size = new System.Drawing.Size(834, 17);
 			this.EditorStatusLabel.Spring = true;
 			this.EditorStatusLabel.Text = "Waiting...";
 			this.EditorStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// EditorNodeInfo
+			// 
+			this.EditorNodeInfo.Name = "EditorNodeInfo";
+			this.EditorNodeInfo.Size = new System.Drawing.Size(45, 17);
+			this.EditorNodeInfo.Text = "| Ready";
 			// 
 			// Editor
 			// 
@@ -893,6 +901,7 @@
 		private System.Windows.Forms.ToolStripMenuItem EMSOptionsToggle;
 		private System.Windows.Forms.ToolStripMenuItem EMSScriptingRunAll;
 		private System.Windows.Forms.ToolStripMenuItem EMSMainImportEndscript;
+		private System.Windows.Forms.ToolStripStatusLabel EditorNodeInfo;
 	}
 }
 
