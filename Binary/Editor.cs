@@ -545,7 +545,6 @@ namespace Binary
 
 		private void EMSMainExit_Click(object sender, EventArgs e)
 		{
-			this.Editor_FormClosing(this, null);
 			this.Close();
 		}
 
@@ -1017,8 +1016,10 @@ namespace Binary
 			{
 
 				using var editor = new CarPartsEditor(model);
+				this.Hide();
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
+				this.Show();
 				this._edited = true;
 
 			}
@@ -1032,8 +1033,10 @@ namespace Binary
 			{
 
 				using var editor = new TextureEditor(tpk, path);
+				this.Hide();
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
+				this.Show();
 				this.WriteLineToEndCommandPrompt(editor.Commands);
 				this._edited = true;
 
@@ -1042,8 +1045,10 @@ namespace Binary
 			{
 
 				using var editor = new StringEditor(str, path);
+				this.Hide();
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
+				this.Show();
 				this.WriteLineToEndCommandPrompt(editor.Commands);
 				this._edited = true;
 
@@ -1051,7 +1056,13 @@ namespace Binary
 			else if (collection is GCareer gcr)
 			{
 
-				MessageBox.Show("Coming Soon M3", "SoonTM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				using var editor = new CareerEditor(gcr, path);
+				this.Hide();
+				editor.ShowDialog();
+				this.EditorPropertyGrid.Refresh();
+				this.Show();
+				this.WriteLineToEndCommandPrompt(editor.Commands);
+				this._edited = true;
 
 			}
 		}

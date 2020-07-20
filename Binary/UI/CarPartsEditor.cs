@@ -532,6 +532,7 @@ namespace Binary.UI
 				realpart.AddAttribute(creator.KeyChosen);
 				var attribute = realpart.Attributes[^1];
 				node.Nodes.Add(attribute.ToString());
+				this.CarPartsPropertyGrid.Refresh();
 
 			}
 		}
@@ -616,28 +617,7 @@ namespace Binary.UI
 		private void SortAttributesByKeyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var realpart = this.Model.GetRealPart(this.CarPartsTreeView.SelectedNode.Index);
-
-			// I have no idea why List.Sort does not work, so just do our own
-			for (int i = 0; i < realpart.Length - 1; i++)
-			{
-
-				for (int j = 0; j < realpart.Length - i - 1; j++)
-				{
-
-					if (realpart.Attributes[j].Key > realpart.Attributes[j + 1].Key)
-					{
-					
-						// swap temp and arr[i] 
-						var temp = realpart.Attributes[j];
-						realpart.Attributes[j] = realpart.Attributes[j + 1];
-						realpart.Attributes[j + 1] = temp;
-				
-					}
-				
-				}
-
-			}
-
+			realpart.Attributes.Sort((x, y) => x.Key.CompareTo(y.Key));
 			this.LoadTreeView(this.CarPartsTreeView.SelectedNode.FullPath);
 		}
 
