@@ -199,7 +199,8 @@
 			this.CareerTreeView.Location = new System.Drawing.Point(14, 3);
 			this.CareerTreeView.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.CareerTreeView.Name = "CareerTreeView";
-			this.CareerTreeView.Size = new System.Drawing.Size(348, 336);
+			this.CareerTreeView.PathSeparator = "|";
+			this.CareerTreeView.Size = new System.Drawing.Size(348, 335);
 			this.CareerTreeView.TabIndex = 0;
 			this.CareerTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.CareerTreeView_BeforeSelect);
 			this.CareerTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.CareerTreeView_AfterSelect);
@@ -212,7 +213,7 @@
 			this.CareerPropertyGrid.Location = new System.Drawing.Point(4, 3);
 			this.CareerPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.CareerPropertyGrid.Name = "CareerPropertyGrid";
-			this.CareerPropertyGrid.Size = new System.Drawing.Size(521, 380);
+			this.CareerPropertyGrid.Size = new System.Drawing.Size(520, 380);
 			this.CareerPropertyGrid.TabIndex = 0;
 			this.CareerPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.CareerPropertyGrid_PropertyValueChanged);
 			// 

@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
-
+using System.Collections.Generic;
+using Binary.Tools;
 using Binary.Prompt;
 using Binary.Properties;
-using Binary.Tools;
-
-using CoreExtensions.Management;
-
+using Endscript.Enums;
 using Nikki.Reflection.Abstract;
 using Nikki.Support.Shared.Class;
+using CoreExtensions.Management;
+
+
 
 namespace Binary.UI
 {
@@ -24,12 +21,12 @@ namespace Binary.UI
 		private readonly List<Form> _openforms;
 		private readonly string _careerpath;
 		private const string empty = "\"\"";
-		private const string space = " ";
 		public List<string> Commands { get; }
 
 		public CareerEditor(GCareer career, string path)
 		{
 			this._openforms = new List<Form>();
+			this.Commands = new List<string>();
 			this.Career = career;
 			this._careerpath = path;
 			this.InitializeComponent();
@@ -94,6 +91,8 @@ namespace Binary.UI
 		}
 
 		#endregion
+
+		#region Methods
 
 		private object GetSelectedObject(TreeNode node)
 		{
@@ -220,16 +219,24 @@ namespace Binary.UI
 			}
 		}
 
+		#endregion
+
+		#region Editing
+
 		private void CareerPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 		{
+			var value = e.ChangedItem.Value.ToString();
+			var node = this.CareerTreeView.SelectedNode;
+
 			if (e.ChangedItem.Label == "CollectionName")
 			{
 
-				this.CareerTreeView.SelectedNode.Text = e.ChangedItem.Value.ToString();
+				node.Text = value;
 				this.CareerPropertyGrid.Refresh();
 
 			}
 
+			this.GenerateUpdateInCareerCommand(node.FullPath, e.ChangedItem.Label, value);
 			this.CareerPropertyGrid.Refresh();
 		}
 
@@ -268,6 +275,10 @@ namespace Binary.UI
 			this.RecursiveTreeHiglights(this.CareerSearchBar.Text, this.CareerTreeView.Nodes);
 		}
 
+		#endregion
+
+		#region Menu Strip
+
 		private void AddCollectionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			// Considering this option is enabled only in roots
@@ -286,10 +297,9 @@ namespace Binary.UI
 
 						this.Career.AddCollection(input.Value, text);
 						var path = this.CareerTreeView.SelectedNode.FullPath;
-						//var str = this.GenerateEndCommand(eCommandType.add_collection, path, input.Value);
-						//this.WriteLineToEndCommandPrompt(str);
 						var collection = this.Career.GetCollection(input.Value, text);
 						this.CareerTreeView.SelectedNode.Nodes.Add(Utils.GetCollectionNodes(collection));
+						this.GenerateAddInCareerCommand(text, input.Value);
 						break;
 
 					}
@@ -318,11 +328,10 @@ namespace Binary.UI
 			try
 			{
 
-				this.CareerPropertyGrid.SelectedObject = null;
 				var node = this.CareerTreeView.SelectedNode;
 				this.Career.RemoveCollection(node.Text, node.Parent.Text);
-				//var str = this.GenerateEndCommand(eCommandType.remove_collection, this.EditorTreeView.SelectedNode.FullPath);
-				//this.WriteLineToEndCommandPrompt(str);
+				this.CareerPropertyGrid.SelectedObject = null;
+				this.GenerateRemoveInCareerCommand(node.Parent.Text, node.Text);
 				this.CareerTreeView.SelectedNode.Remove();
 
 			}
@@ -352,10 +361,9 @@ namespace Binary.UI
 
 						this.Career.CloneCollection(input.Value, node.Text, node.Parent.Text);
 						var path = node.FullPath;
-						//var str = this.GenerateEndCommand(eCommandType.copy_collection, path, input.Value);
-						//this.WriteLineToEndCommandPrompt(str);
 						var collection = this.Career.GetCollection(input.Value, node.Parent.Text);
 						node.Parent.Nodes.Add(Utils.GetCollectionNodes(collection));
+						this.GenerateCopyInCareerCommand(node.Parent.Text, node.Text, input.Value);
 						break;
 
 					}
@@ -396,7 +404,7 @@ namespace Binary.UI
 				if (property.Equals("CollectionName", StringComparison.InvariantCulture)) continue;
 				var value = collection.GetValue(property);
 				if (String.IsNullOrEmpty(value)) value = empty;
-				//lines.Add(this.GenerateEndCommand(eCommandType.update_collection, path, property, value));
+				this.GenerateUpdateInCareerCommand(path, property, value);
 
 			}
 
@@ -419,15 +427,13 @@ namespace Binary.UI
 
 						var value = part.GetValue(property);
 						if (String.IsNullOrEmpty(value)) value = empty;
-						//lines.Add(this.GenerateEndCommand(eCommandType.update_collection, path, property, value));
+						this.GenerateUpdateInCareerCommand(path, property, value);
 
 					}
 
 				}
 
 			}
-
-			//this.WriteLineToEndCommandPrompt(lines);
 		}
 
 		private void HasherToolStripMenuItem_Click(object sender, EventArgs e)
@@ -444,6 +450,10 @@ namespace Binary.UI
 			raider.Show();
 		}
 
+		#endregion
+
+		#region Events
+
 		private void CareerEditor_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			foreach (var form in this._openforms)
@@ -454,5 +464,65 @@ namespace Binary.UI
 
 			}
 		}
+
+		private void GenerateUpdateInCareerCommand(string nodepath, string property, string value)
+		{
+			var splits = nodepath.Split(this.CareerTreeView.PathSeparator, StringSplitOptions.RemoveEmptyEntries);
+
+			// Always 2 options: 2-split path of 4-splits path
+			string command = String.Empty;
+			if (property.Contains(' ')) property = $"\"{property}\"";
+			if (value.Contains(' ')) property = $"\"{value}\"";
+
+			if (splits.Length == 2)
+			{
+
+				if (splits[0].Contains(' ')) splits[0] = $"\"{splits[0]}\"";
+				if (splits[1].Contains(' ')) splits[1] = $"\"{splits[1]}\"";
+				command = $"{eCommandType.update_incareer} {this._careerpath} {splits[0]} " +
+					$"{splits[1]} {property} {value}";
+
+			}
+			else if (splits.Length == 4)
+			{
+
+				if (splits[0].Contains(' ')) splits[0] = $"\"{splits[0]}\"";
+				if (splits[1].Contains(' ')) splits[1] = $"\"{splits[1]}\"";
+				if (splits[2].Contains(' ')) splits[2] = $"\"{splits[2]}\"";
+				if (splits[3].Contains(' ')) splits[3] = $"\"{splits[3]}\"";
+				command = $"{eCommandType.update_incareer} {this._careerpath} {splits[0]} " +
+					$"{splits[1]} {splits[2]} {splits[3]} {property} {value}";
+
+			}
+
+			this.Commands.Add(command);
+		}
+
+		private void GenerateAddInCareerCommand(string root, string cname)
+		{
+			if (root.Contains(' ')) root = $"\"{root}\"";
+			if (cname.Contains(' ')) cname = $"\"{cname}\"";
+			var command = $"{eCommandType.add_incareer} {this._careerpath} {root} {cname}";
+			this.Commands.Add(command);
+		}
+
+		private void GenerateRemoveInCareerCommand(string root, string cname)
+		{
+			if (root.Contains(' ')) root = $"\"{root}\"";
+			if (cname.Contains(' ')) cname = $"\"{cname}\"";
+			var command = $"{eCommandType.remove_incareer} {this._careerpath} {root} {cname}";
+			this.Commands.Add(command);
+		}
+
+		private void GenerateCopyInCareerCommand(string root, string copyname, string newname)
+		{
+			if (root.Contains(' ')) root = $"\"{root}\"";
+			if (copyname.Contains(' ')) copyname = $"\"{copyname}\"";
+			if (newname.Contains(' ')) newname = $"\"{newname}\"";
+			var command = $"{eCommandType.copy_incareer} {this._careerpath} {root} {copyname} {newname}";
+			this.Commands.Add(command);
+		}
+
+		#endregion
 	}
 }
