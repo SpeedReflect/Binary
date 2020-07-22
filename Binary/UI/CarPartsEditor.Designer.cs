@@ -43,6 +43,7 @@
 			this.MoveLastPartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ReversePartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SortPartsByNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.FindAndReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.AttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.AddAttributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.RemoveAttributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +54,6 @@
 			this.ToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.HasherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.RaiderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.FindAndReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -106,7 +106,7 @@
 			this.CarPartsPropertyGrid.Location = new System.Drawing.Point(4, 3);
 			this.CarPartsPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.CarPartsPropertyGrid.Name = "CarPartsPropertyGrid";
-			this.CarPartsPropertyGrid.Size = new System.Drawing.Size(581, 379);
+			this.CarPartsPropertyGrid.Size = new System.Drawing.Size(580, 379);
 			this.CarPartsPropertyGrid.TabIndex = 0;
 			this.CarPartsPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.CarPartsPropertyGrid_PropertyValueChanged);
 			// 

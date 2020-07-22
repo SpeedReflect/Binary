@@ -746,6 +746,7 @@
 			this.EditorCommandPrompt.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.EditorCommandPrompt.Location = new System.Drawing.Point(0, 0);
 			this.EditorCommandPrompt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.EditorCommandPrompt.MaxLength = 100000;
 			this.EditorCommandPrompt.Multiline = true;
 			this.EditorCommandPrompt.Name = "EditorCommandPrompt";
 			this.EditorCommandPrompt.ScrollBars = System.Windows.Forms.ScrollBars.Both;

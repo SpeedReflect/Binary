@@ -5,6 +5,7 @@ using System.Collections;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Binary.Tools;
 using Binary.Prompt;
 using Binary.Interact;
@@ -91,10 +92,12 @@ namespace Binary.UI
 			this.TexEditorCopyTextureItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorExportAllItem.BackColor = Theme.MenuItemBackColor;
 			this.TexEditorExportAllItem.ForeColor = Theme.MenuItemForeColor;
-			this.TexEditorImportFromItem.BackColor = Theme.MenuItemBackColor;
-			this.TexEditorImportFromItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorExportTextureItem.BackColor = Theme.MenuItemBackColor;
 			this.TexEditorExportTextureItem.ForeColor = Theme.MenuItemForeColor;
+			this.TexEditorFindReplaceItem.BackColor = Theme.MenuItemBackColor;
+			this.TexEditorFindReplaceItem.ForeColor = Theme.MenuItemForeColor;
+			this.TexEditorImportFromItem.BackColor = Theme.MenuItemBackColor;
+			this.TexEditorImportFromItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorHasherItem.BackColor = Theme.MenuItemBackColor;
 			this.TexEditorHasherItem.ForeColor = Theme.MenuItemForeColor;
 			this.TexEditorRaiderItem.BackColor = Theme.MenuItemBackColor;
@@ -129,6 +132,15 @@ namespace Binary.UI
 				item.SubItems.Add($"0x{texture.BinKey:X8}");
 				item.SubItems.Add(texture.CollectionName);
 				item.SubItems.Add(compression);
+
+				if (texture.BinKey != texture.CollectionName.BinHash())
+				{
+
+					item.BackColor = Configurations.Default.DarkTheme
+						? Color.FromArgb(70, 0, 20) : Color.FromArgb(255, 100, 100);
+
+				}
+
 				this.TexEditorListView.Items.Add(item);
 
 			}
@@ -459,6 +471,57 @@ namespace Binary.UI
 						MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 					}
+
+				}
+
+			}
+		}
+
+		private void TexEditorFindReplaceItem_Click(object sender, EventArgs e)
+		{
+			if (this.TexEditorListView.Items.Count == 0) return;
+
+			using var with = new Input("Enter string to replace with");
+			using var input = new Input("Enter string to search for",
+										new Predicate<string>(_ => !String.IsNullOrEmpty(_)),
+										"Input string cannot be null or empty");
+
+			if (input.ShowDialog() == DialogResult.OK && with.ShowDialog() == DialogResult.OK)
+			{
+
+				using var check = new Check("Make case-sensitive replace?", false);
+
+				if (check.ShowDialog() == DialogResult.OK)
+				{
+
+					var options = check.Value
+						? RegexOptions.Multiline | RegexOptions.CultureInvariant
+						: RegexOptions.Multiline | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase;
+
+					this.TexEditorListView.BeginUpdate();
+
+					for (int i = 0; i < this.TPK.TextureCount; ++i)
+					{
+
+						var texture = this.TPK.Textures[i];
+						var key = $"0x{texture.BinKey:X8}";
+						var oname = texture.CollectionName;
+						if (oname.Contains(' ')) oname = $"\"{oname}\"";
+
+						if (texture.BinKey != texture.CollectionName.BinHash()) continue;
+						var cname = Regex.Replace(texture.CollectionName, input.Value, with.Value, options);
+						if (cname == texture.CollectionName) continue;
+
+						texture.CollectionName = cname;
+						this.TexEditorListView.Items[i].SubItems[1].Text = $"0x{texture.BinKey:X8}";
+						this.TexEditorListView.Items[i].SubItems[2].Text = texture.CollectionName;
+
+						this.GenerateUpdateTextureCommand(oname, "CollectionName", cname);
+
+					}
+
+					this.TexEditorListView.EndUpdate();
+					this.TexEditorPropertyGrid.Refresh();
 
 				}
 

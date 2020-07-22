@@ -38,6 +38,7 @@
 			this.TexEditorExportTextureItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorOptionsStrip = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorExportAllItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.TexEditorImportFromItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorToolsStrip = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorHasherItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorRaiderItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +55,7 @@
 			this.AddTextureDialog = new System.Windows.Forms.OpenFileDialog();
 			this.ReplaceTextureDialog = new System.Windows.Forms.OpenFileDialog();
 			this.ExportTextureDialog = new System.Windows.Forms.SaveFileDialog();
-			this.TexEditorImportFromItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.TexEditorFindReplaceItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TexEditorMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -137,7 +138,8 @@
 			// 
 			this.TexEditorOptionsStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TexEditorExportAllItem,
-            this.TexEditorImportFromItem});
+            this.TexEditorImportFromItem,
+            this.TexEditorFindReplaceItem});
 			this.TexEditorOptionsStrip.Name = "TexEditorOptionsStrip";
 			this.TexEditorOptionsStrip.Size = new System.Drawing.Size(61, 20);
 			this.TexEditorOptionsStrip.Text = "Options";
@@ -147,18 +149,27 @@
 			this.TexEditorExportAllItem.Name = "TexEditorExportAllItem";
 			this.TexEditorExportAllItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.E)));
-			this.TexEditorExportAllItem.Size = new System.Drawing.Size(197, 22);
+			this.TexEditorExportAllItem.Size = new System.Drawing.Size(246, 22);
 			this.TexEditorExportAllItem.Text = "Export All";
 			this.TexEditorExportAllItem.Click += new System.EventHandler(this.TexEditorExportAllItem_Click);
 			// 
 			// TexEditorImportFromItem
 			// 
 			this.TexEditorImportFromItem.Name = "TexEditorImportFromItem";
-			this.TexEditorImportFromItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-			| System.Windows.Forms.Keys.I)));
-			this.TexEditorImportFromItem.Size = new System.Drawing.Size(197, 22);
+			this.TexEditorImportFromItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.I)));
+			this.TexEditorImportFromItem.Size = new System.Drawing.Size(246, 22);
 			this.TexEditorImportFromItem.Text = "Import From Folder";
 			this.TexEditorImportFromItem.Click += new System.EventHandler(this.TexEditorImportFromItem_Click);
+			// 
+			// TexEditorFindReplaceItem
+			// 
+			this.TexEditorFindReplaceItem.Name = "TexEditorFindReplaceItem";
+			this.TexEditorFindReplaceItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+			| System.Windows.Forms.Keys.R)));
+			this.TexEditorFindReplaceItem.Size = new System.Drawing.Size(246, 22);
+			this.TexEditorFindReplaceItem.Text = "Find And Replace";
+			this.TexEditorFindReplaceItem.Click += new System.EventHandler(this.TexEditorFindReplaceItem_Click);
 			// 
 			// TexEditorToolsStrip
 			// 
@@ -286,7 +297,7 @@
 			this.TexEditorPropertyGrid.Location = new System.Drawing.Point(14, 3);
 			this.TexEditorPropertyGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.TexEditorPropertyGrid.Name = "TexEditorPropertyGrid";
-			this.TexEditorPropertyGrid.Size = new System.Drawing.Size(512, 289);
+			this.TexEditorPropertyGrid.Size = new System.Drawing.Size(512, 288);
 			this.TexEditorPropertyGrid.TabIndex = 0;
 			this.TexEditorPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.TexEditorPropertyGrid_PropertyValueChanged);
 			// 
@@ -299,7 +310,7 @@
 			this.panel1.Controls.Add(this.TexEditorImage);
 			this.panel1.Location = new System.Drawing.Point(6, 3);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(567, 570);
+			this.panel1.Size = new System.Drawing.Size(566, 570);
 			this.panel1.TabIndex = 1;
 			// 
 			// TexEditorImage
@@ -374,6 +385,7 @@
 		private System.Windows.Forms.ToolStripMenuItem TexEditorOptionsStrip;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorExportAllItem;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorImportFromItem;
+		private System.Windows.Forms.ToolStripMenuItem TexEditorFindReplaceItem;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorToolsStrip;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorHasherItem;
 		private System.Windows.Forms.ToolStripMenuItem TexEditorRaiderItem;

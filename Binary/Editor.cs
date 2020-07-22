@@ -1015,7 +1015,11 @@ namespace Binary
 			if (collection is DBModelPart model)
 			{
 
-				using var editor = new CarPartsEditor(model);
+				using var editor = new CarPartsEditor(model)
+				{
+					WindowState = this.WindowState 
+				};
+
 				this.Hide();
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
@@ -1032,7 +1036,11 @@ namespace Binary
 			else if (collection is TPKBlock tpk)
 			{
 
-				using var editor = new TextureEditor(tpk, path);
+				using var editor = new TextureEditor(tpk, path)
+				{
+					WindowState = this.WindowState
+				};
+
 				this.Hide();
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
@@ -1044,7 +1052,11 @@ namespace Binary
 			else if (collection is STRBlock str)
 			{
 
-				using var editor = new StringEditor(str, path);
+				using var editor = new StringEditor(str, path)
+				{
+					WindowState = this.WindowState
+				};
+
 				this.Hide();
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();
@@ -1056,7 +1068,11 @@ namespace Binary
 			else if (collection is GCareer gcr)
 			{
 
-				using var editor = new CareerEditor(gcr, path);
+				using var editor = new CareerEditor(gcr, path)
+				{
+					WindowState = this.WindowState
+				};
+
 				this.Hide();
 				editor.ShowDialog();
 				this.EditorPropertyGrid.Refresh();

@@ -185,7 +185,7 @@ namespace Binary.UI
 			foreach (TreeNode node in nodes)
 			{
 
-				node.BackColor = String.IsNullOrEmpty(match) || !node.Text.Contains(match)
+				node.BackColor = String.IsNullOrEmpty(match) || !node.Text.Contains(match, StringComparison.OrdinalIgnoreCase)
 					? this.CareerTreeView.BackColor
 					: Configurations.Default.DarkTheme
 						? Color.FromArgb(160, 20, 30)
