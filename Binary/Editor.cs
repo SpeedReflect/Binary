@@ -1319,6 +1319,7 @@ namespace Binary
 
 				this._edited = false;
 				Launch.Deserialize(filename, out Launch launch);
+				launch.ThisDir = Path.GetDirectoryName(filename);
 
 				if (launch.UsageID != eUsage.Modder)
 				{
