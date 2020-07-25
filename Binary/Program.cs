@@ -61,8 +61,8 @@ namespace Binary
 			Endscript.Version.Value = version;
 			SynchronizedDatabase.Watermark = "Binary by MaxHwoy | Automated";
 
-			if (!File.Exists("MainLog.txt")) File.Create("MainLog.txt");
-			if (!File.Exists("EndError.log")) File.Create("EndError.log");
+			if (!File.Exists("MainLog.txt")) { using var str = File.Create("MainLog.txt"); }
+			if (!File.Exists("EndError.log")) { using var str = File.Create("EndError.log"); }
 			var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 			SetDependencyPaths(path);
 
