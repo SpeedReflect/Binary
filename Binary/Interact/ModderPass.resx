@@ -58,13 +58,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ModderPassLabel.Text" xml:space="preserve">
-    <value>If you are a modder, Binary requires a password that allows you to 
-use its modding  and UI features. You can find the password in one 
-of the channels of discord modding server, just click the icon to the 
-right. This is one time entry per version, every new version might 
-have a new password because all modders should be kept up to 
-date about new features and what they can do for people who will 
-be using their mods.</value>
+    <value>If you are a modder, Binary requires a password that allows you 
+to use its modding and UI features. You can find the password 
+in one of the channels of discord modding server, just click the 
+icon to the right. This is one time entry per version, every new 
+version might have a new password because all modders 
+should be kept up to date about new features and what they 
+can do for people who will be using their mods.</value>
   </data>
   <assembly alias="System.Drawing.Common" name="System.Drawing.Common, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">

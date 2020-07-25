@@ -853,7 +853,7 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.0.0.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v2.1.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)
@@ -1340,6 +1340,13 @@ namespace Binary
 					throw new DirectoryNotFoundException($"Directory named {launch.Directory} does not exist");
 
 				}
+
+				//if (launch.Files.Count > 10)
+				//{
+				//
+				//	throw new Exception($"Cannot load more than 10 files at a time");
+				//
+				//}
 
 				this.EditorPropertyGrid.SelectedObject = null;
 				this.Profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);

@@ -570,18 +570,31 @@ namespace Binary.UI
 
 			this.TexEditorPropertyGrid.SelectedObject = texture;
 
-			var data = texture.GetDDSArray(true);
-			var image = new ILWrapper.Image(data);
+			try
+			{
 
-			using var ms = new MemoryStream();
-			image.Save(ms, ImageType.PNG);
+				var data = texture.GetDDSArray(true);
+				var image = new ILWrapper.Image(data);
 
-			this.DisposeImage();
+				using var ms = new MemoryStream();
+				image.Save(ms, ImageType.PNG);
 
-			this.TexEditorImage.BorderStyle = BorderStyle.None;
-			this.TexEditorImage.Image = Image.FromStream(ms);
-			this.TexEditorImage.BorderStyle = BorderStyle.FixedSingle;
-			this.panel1.AutoScroll = true;
+				this.DisposeImage();
+
+				this.TexEditorImage.BorderStyle = BorderStyle.None;
+				this.TexEditorImage.Image = Image.FromStream(ms);
+				this.TexEditorImage.BorderStyle = BorderStyle.FixedSingle;
+				this.panel1.AutoScroll = true;
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show($"Unable to preview texture: {ex.GetLowestMessage()}", "Error",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
+
 			this.ToggleMenuStripControls();
 		}
 

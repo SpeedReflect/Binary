@@ -172,8 +172,8 @@ namespace Binary
 			}
 
 			var profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
-			this.EnsureBackups(profile);
 			profile.Load(launch);
+			this.EnsureBackups(profile);
 			var manager = new EndScriptManager(profile, commands, endscript);
 
 			try
@@ -359,7 +359,7 @@ namespace Binary
 
 		private void LabelBinary_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.0.0.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v2.1.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

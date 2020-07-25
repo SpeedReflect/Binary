@@ -31,34 +31,27 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModderPass));
 			this.ModderPassTextBox = new System.Windows.Forms.TextBox();
-			this.ModderPassLabel = new System.Windows.Forms.Label();
 			this.ModderPassPictureBox = new System.Windows.Forms.PictureBox();
 			this.ModderPassToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.ModderPassButtonConfirm = new System.Windows.Forms.Button();
 			this.ModderPassButtonExit = new System.Windows.Forms.Button();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.ModderPassLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.ModderPassPictureBox)).BeginInit();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// ModderPassTextBox
 			// 
 			this.ModderPassTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.ModderPassTextBox.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.ModderPassTextBox.Location = new System.Drawing.Point(12, 117);
+			this.ModderPassTextBox.Location = new System.Drawing.Point(12, 139);
 			this.ModderPassTextBox.Name = "ModderPassTextBox";
 			this.ModderPassTextBox.ShortcutsEnabled = false;
 			this.ModderPassTextBox.Size = new System.Drawing.Size(461, 27);
 			this.ModderPassTextBox.TabIndex = 0;
 			this.ModderPassTextBox.UseSystemPasswordChar = true;
 			this.ModderPassTextBox.WordWrap = false;
-			// 
-			// ModderPassLabel
-			// 
-			this.ModderPassLabel.AutoSize = true;
-			this.ModderPassLabel.Location = new System.Drawing.Point(12, 9);
-			this.ModderPassLabel.Name = "ModderPassLabel";
-			this.ModderPassLabel.Size = new System.Drawing.Size(365, 105);
-			this.ModderPassLabel.TabIndex = 1;
-			this.ModderPassLabel.Text = resources.GetString("ModderPassLabel.Text");
 			// 
 			// ModderPassPictureBox
 			// 
@@ -75,7 +68,7 @@
 			// 
 			this.ModderPassButtonConfirm.AutoSize = true;
 			this.ModderPassButtonConfirm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.ModderPassButtonConfirm.Location = new System.Drawing.Point(39, 150);
+			this.ModderPassButtonConfirm.Location = new System.Drawing.Point(39, 172);
 			this.ModderPassButtonConfirm.Name = "ModderPassButtonConfirm";
 			this.ModderPassButtonConfirm.Size = new System.Drawing.Size(200, 35);
 			this.ModderPassButtonConfirm.TabIndex = 3;
@@ -87,7 +80,7 @@
 			// 
 			this.ModderPassButtonExit.AutoSize = true;
 			this.ModderPassButtonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.ModderPassButtonExit.Location = new System.Drawing.Point(245, 150);
+			this.ModderPassButtonExit.Location = new System.Drawing.Point(245, 172);
 			this.ModderPassButtonExit.Name = "ModderPassButtonExit";
 			this.ModderPassButtonExit.Size = new System.Drawing.Size(200, 35);
 			this.ModderPassButtonExit.TabIndex = 3;
@@ -95,15 +88,33 @@
 			this.ModderPassButtonExit.UseVisualStyleBackColor = false;
 			this.ModderPassButtonExit.Click += new System.EventHandler(this.ModderPassButtonExit_Click);
 			// 
+			// panel1
+			// 
+			this.panel1.AutoScroll = true;
+			this.panel1.Controls.Add(this.ModderPassLabel);
+			this.panel1.Location = new System.Drawing.Point(12, 11);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(365, 122);
+			this.panel1.TabIndex = 4;
+			// 
+			// ModderPassLabel
+			// 
+			this.ModderPassLabel.AutoSize = true;
+			this.ModderPassLabel.Location = new System.Drawing.Point(0, 1);
+			this.ModderPassLabel.Name = "ModderPassLabel";
+			this.ModderPassLabel.Size = new System.Drawing.Size(342, 105);
+			this.ModderPassLabel.TabIndex = 0;
+			this.ModderPassLabel.Text = resources.GetString("ModderPassLabel.Text");
+			// 
 			// ModderPass
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(485, 197);
+			this.ClientSize = new System.Drawing.Size(485, 216);
+			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.ModderPassButtonExit);
 			this.Controls.Add(this.ModderPassButtonConfirm);
 			this.Controls.Add(this.ModderPassPictureBox);
-			this.Controls.Add(this.ModderPassLabel);
 			this.Controls.Add(this.ModderPassTextBox);
 			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -113,6 +124,8 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Password Protection";
 			((System.ComponentModel.ISupportInitialize)(this.ModderPassPictureBox)).EndInit();
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -121,10 +134,11 @@
 		#endregion
 
 		private System.Windows.Forms.TextBox ModderPassTextBox;
-		private System.Windows.Forms.Label ModderPassLabel;
 		private System.Windows.Forms.PictureBox ModderPassPictureBox;
 		private System.Windows.Forms.ToolTip ModderPassToolTip;
 		private System.Windows.Forms.Button ModderPassButtonConfirm;
 		private System.Windows.Forms.Button ModderPassButtonExit;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Label ModderPassLabel;
 	}
 }
