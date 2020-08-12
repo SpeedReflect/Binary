@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
-
 using Binary.Properties;
-
 using Nikki.Support.Shared.Class;
+using CoreExtensions.Management;
+
+
 
 namespace Binary.UI
 {
@@ -195,14 +191,81 @@ namespace Binary.UI
 
 		#endregion
 
+		#region Menu Strip
+
 		private void ImportSVGToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			using var browser = new OpenFileDialog()
+			{
+				AutoUpgradeEnabled = true,
+				CheckFileExists = true,
+				CheckPathExists = true,
+				Filter = "Scalable Vector Graphics Files | *.svg",
+				Multiselect = false,
+				Title = "Select .svg file to import",
+			};
 
+			if (browser.ShowDialog() == DialogResult.OK)
+			{
+
+				#if !DEBUG
+				try
+				{
+				#endif
+
+					this.Vector.ReadFromFile(browser.FileName);
+					this.LoadTreeView();
+					MessageBox.Show($"File {browser.FileName} has been successfully imported.", "Info", 
+						MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				#if !DEBUG
+				}
+				catch (Exception ex)
+				{
+
+					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+				#endif
+
+			}
 		}
 
 		private void ExportSVGToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			using var dialog = new SaveFileDialog()
+			{
+				AddExtension = true,
+				AutoUpgradeEnabled = true,
+				CheckPathExists = true,
+				DefaultExt = ".svg",
+				Filter = "Scalable Vector Graphics Files|*.svg|Any Files|*.*",
+				OverwritePrompt = true,
+				SupportMultiDottedExtensions = true,
+				Title = "Select filename where vector should be exported",
+			};
 
+			if (dialog.ShowDialog() == DialogResult.OK)
+			{
+
+				try
+				{
+
+					var svg = this.Vector.GetSVGString(1024);
+					File.WriteAllText(dialog.FileName, svg);
+					MessageBox.Show($"Vector {this.Vector.CollectionName} has been successfully exported.", "Info", 
+						MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+				}
+				catch (Exception ex)
+				{
+
+					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+
+			}
 		}
 
 		private void PreviewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -227,13 +290,67 @@ namespace Binary.UI
 
 		private void MoveUpPathSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (this.VectorTreeView.SelectedNode is null) return;
 
+			var path = this.VectorTreeView.SelectedNode.FullPath;
+			var index1 = this.VectorTreeView.SelectedNode.Index;
+			var index2 = index1 - 1;
+
+			if (index2 < 0)
+			{
+
+				MessageBox.Show("Unable to move up because selected node is the up most node",
+					"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			// Switch parts
+			this.VectorTreeView.BeginUpdate();
+			this.Vector.SwitchPaths(index1, index2);
+
+			var node1 = this.VectorTreeView.Nodes[index1];
+			var node2 = this.VectorTreeView.Nodes[index2];
+
+			node1.Text = $"PathSet{index1}";
+			node2.Text = $"PathSet{index2}";
+
+			this.VectorTreeView.SelectedNode = this.VectorTreeView.Nodes[index2];
+			this.VectorTreeView.EndUpdate();
 		}
 
 		private void MoveDownPathSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (this.VectorTreeView.SelectedNode is null) return;
 
+			var path = this.VectorTreeView.SelectedNode.FullPath;
+			var index1 = this.VectorTreeView.SelectedNode.Index;
+			var index2 = index1 + 1;
+
+			if (index2 >= this.Vector.NumberOfPaths)
+			{
+
+				MessageBox.Show("Unable to move down because selected node is the down most node",
+					"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			// Switch parts
+			this.VectorTreeView.BeginUpdate();
+			this.Vector.SwitchPaths(index1, index2);
+
+			var node1 = this.VectorTreeView.Nodes[index1];
+			var node2 = this.VectorTreeView.Nodes[index2];
+
+			node1.Text = $"PathSet{index1}";
+			node2.Text = $"PathSet{index2}";
+
+			this.VectorTreeView.SelectedNode = this.VectorTreeView.Nodes[index2];
+			this.VectorTreeView.EndUpdate();
 		}
+
+		#endregion
 
 		#region TreeView and Grid
 

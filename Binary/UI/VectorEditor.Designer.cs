@@ -73,6 +73,7 @@
 			// ImportSVGToolStripMenuItem
 			// 
 			this.ImportSVGToolStripMenuItem.Name = "ImportSVGToolStripMenuItem";
+			this.ImportSVGToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
 			this.ImportSVGToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
 			this.ImportSVGToolStripMenuItem.Text = "Import SVG";
 			this.ImportSVGToolStripMenuItem.Click += new System.EventHandler(this.ImportSVGToolStripMenuItem_Click);
@@ -80,6 +81,7 @@
 			// ExportSVGToolStripMenuItem
 			// 
 			this.ExportSVGToolStripMenuItem.Name = "ExportSVGToolStripMenuItem";
+			this.ExportSVGToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
 			this.ExportSVGToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
 			this.ExportSVGToolStripMenuItem.Text = "Export SVG";
 			this.ExportSVGToolStripMenuItem.Click += new System.EventHandler(this.ExportSVGToolStripMenuItem_Click);
@@ -87,6 +89,7 @@
 			// PreviewToolStripMenuItem
 			// 
 			this.PreviewToolStripMenuItem.Name = "PreviewToolStripMenuItem";
+			this.PreviewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
 			this.PreviewToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
 			this.PreviewToolStripMenuItem.Text = "Preview";
 			this.PreviewToolStripMenuItem.Click += new System.EventHandler(this.PreviewToolStripMenuItem_Click);
@@ -105,6 +108,7 @@
 			// AddPathSetToolStripMenuItem
 			// 
 			this.AddPathSetToolStripMenuItem.Name = "AddPathSetToolStripMenuItem";
+			this.AddPathSetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
 			this.AddPathSetToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.AddPathSetToolStripMenuItem.Text = "Add PathSet";
 			this.AddPathSetToolStripMenuItem.Click += new System.EventHandler(this.AddPathSetToolStripMenuItem_Click);
@@ -112,6 +116,7 @@
 			// RemovePathSetToolStripMenuItem
 			// 
 			this.RemovePathSetToolStripMenuItem.Name = "RemovePathSetToolStripMenuItem";
+			this.RemovePathSetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
 			this.RemovePathSetToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.RemovePathSetToolStripMenuItem.Text = "Remove PathSet";
 			this.RemovePathSetToolStripMenuItem.Click += new System.EventHandler(this.RemovePathSetToolStripMenuItem_Click);
@@ -119,6 +124,7 @@
 			// MoveUpPathSetToolStripMenuItem
 			// 
 			this.MoveUpPathSetToolStripMenuItem.Name = "MoveUpPathSetToolStripMenuItem";
+			this.MoveUpPathSetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
 			this.MoveUpPathSetToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.MoveUpPathSetToolStripMenuItem.Text = "Move PathSet Up";
 			this.MoveUpPathSetToolStripMenuItem.Click += new System.EventHandler(this.MoveUpPathSetToolStripMenuItem_Click);
@@ -126,6 +132,7 @@
 			// MoveDownPathSetToolStripMenuItem
 			// 
 			this.MoveDownPathSetToolStripMenuItem.Name = "MoveDownPathSetToolStripMenuItem";
+			this.MoveDownPathSetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
 			this.MoveDownPathSetToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.MoveDownPathSetToolStripMenuItem.Text = "Move PathSet Down";
 			this.MoveDownPathSetToolStripMenuItem.Click += new System.EventHandler(this.MoveDownPathSetToolStripMenuItem_Click);
