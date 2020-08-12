@@ -226,7 +226,8 @@ namespace Binary
 				reflective is STRBlock ||
 				reflective is TPKBlock ||
 				reflective is DBModelPart ||
-				reflective is GCareer;
+				reflective is GCareer ||
+				reflective is VectorVinyl;
 		}
 
 		private void ManageButtonAddNode(TreeNode node)
@@ -504,7 +505,9 @@ namespace Binary
 					else if (command is ComboboxCommand combobox)
 					{
 
-						using var input = new Combo(combobox.Options, combobox.Description, true);
+						var options = new string[combobox.Options.Length];
+						for (int i = 0; i < options.Length; ++i) options[i] = combobox.Options[i].Name;
+						using var input = new Combo(options, combobox.Description, true);
 						input.ShowDialog();
 						combobox.Choice = input.Value < 0 ? 0 : input.Value;
 

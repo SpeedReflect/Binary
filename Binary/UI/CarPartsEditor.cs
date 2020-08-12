@@ -327,6 +327,8 @@ namespace Binary.UI
 			}
 
 			// Switch parts
+			this.CarPartsTreeView.BeginUpdate();
+
 			var temp = this.Model.ModelCarParts[index1];
 			this.Model.ModelCarParts[index1] = this.Model.ModelCarParts[index2];
 			this.Model.ModelCarParts[index2] = temp;
@@ -355,6 +357,7 @@ namespace Binary.UI
 			}
 
 			this.CarPartsTreeView.SelectedNode = this.CarPartsTreeView.Nodes[index2];
+			this.CarPartsTreeView.EndUpdate();
 		}
 
 		private void MoveDownPartsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -375,6 +378,8 @@ namespace Binary.UI
 			}
 
 			// Switch parts
+			this.CarPartsTreeView.BeginUpdate();
+
 			var temp = this.Model.ModelCarParts[index1];
 			this.Model.ModelCarParts[index1] = this.Model.ModelCarParts[index2];
 			this.Model.ModelCarParts[index2] = temp;
@@ -403,6 +408,7 @@ namespace Binary.UI
 			}
 
 			this.CarPartsTreeView.SelectedNode = this.CarPartsTreeView.Nodes[index2];
+			this.CarPartsTreeView.EndUpdate();
 		}
 
 		private void MoveFirstPartsToolStripMenuItem_Click(object sender, EventArgs e)

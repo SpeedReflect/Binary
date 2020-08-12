@@ -191,13 +191,23 @@ namespace Binary
 						input.ShowDialog();
 						checkbox.Choice = input.Value ? 1 : 0;
 
+						#if DEBUG
+						Console.WriteLine($"Checkbox pending : option {input.Value} was chosen by user");
+						#endif
+
 					}
 					else if (command is ComboboxCommand combobox)
 					{
 
-						using var input = new Combo(combobox.Options, combobox.Description, true);
+						var options = new string[combobox.Options.Length];
+						for (int i = 0; i < options.Length; ++i) options[i] = combobox.Options[i].Name;
+						using var input = new Combo(options, combobox.Description, true);
 						input.ShowDialog();
 						combobox.Choice = input.Value < 0 ? 0 : input.Value;
+
+						#if DEBUG
+						Console.WriteLine($"Checkbox pending : option {input.Value} was chosen by user");
+						#endif
 
 					}
 
@@ -213,10 +223,9 @@ namespace Binary
 
 			}
 
-			var any = manager.Errors.Any();
 			var script = Path.GetFileName(dialog.FileName);
 
-			if (any)
+			if (manager.Errors.Any())
 			{
 
 				Utils.WriteErrorsToLog(manager.Errors, dialog.FileName);
@@ -240,7 +249,7 @@ namespace Binary
 			{
 
 				profile.Save();
-				if (!any) this.AskForGameRun(profile);
+				this.AskForGameRun(profile);
 
 			}
 		}
