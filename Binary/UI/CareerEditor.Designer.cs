@@ -64,7 +64,7 @@
 			this.CareerEditorMenuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
 			this.CareerEditorMenuStrip.Size = new System.Drawing.Size(912, 24);
 			this.CareerEditorMenuStrip.TabIndex = 0;
-			this.CareerEditorMenuStrip.Text = "menuStrip1";
+			this.CareerEditorMenuStrip.Text = "VectorMenuStrip";
 			// 
 			// MainToolStripMenuItem
 			// 

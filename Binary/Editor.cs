@@ -1084,6 +1084,21 @@ namespace Binary
 				this._edited = true;
 
 			}
+			else if (collection is VectorVinyl vinyl)
+			{
+
+				using var editor = new VectorEditor(vinyl)
+				{
+					WindowState = this.WindowState
+				};
+
+				this.Hide();
+				editor.ShowDialog();
+				this.EditorPropertyGrid.Refresh();
+				this.Show();
+				this._edited = true;
+
+			}
 		}
 
 		private void EditorButtonExportNode_Click(object sender, EventArgs e)
