@@ -856,12 +856,12 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.1.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v2.1.2", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			MessageBox.Show("Join Discord server at the start page to get help and full tool documentation!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		#endregion

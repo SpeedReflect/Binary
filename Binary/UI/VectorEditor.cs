@@ -270,7 +270,9 @@ namespace Binary.UI
 
 		private void PreviewToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Not implemented yet", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			var svg = this.Vector.GetSVGString(1024);
+			File.WriteAllText("vectordev.html", svg);
+			Utils.OpenBrowser("vectordev.html");
 		}
 
 		private void AddPathSetToolStripMenuItem_Click(object sender, EventArgs e)

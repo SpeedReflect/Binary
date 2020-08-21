@@ -205,7 +205,8 @@ namespace Binary.UI
 			if (this.AddTextureDialog.ShowDialog() == DialogResult.OK)
 			{
 
-				using var input = new Input("Enter name of the new texture");
+				var initial = Path.GetFileNameWithoutExtension(this.AddTextureDialog.FileName);
+				using var input = new Input("Enter name of the new texture", null, null, initial);
 
 				while (true) // use loop instead of recursion to prevent stack overflow
 				{

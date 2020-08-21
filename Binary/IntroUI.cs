@@ -87,19 +87,21 @@ namespace Binary
 
 		private void IntroPictureModder_Click(object sender, EventArgs e)
 		{
-			// If password check was not done yet
+			// If password check was not done yet (deprecated)
+			/*
 			if (!Configurations.Default.PassPassed)
 			{
 				using var form = new ModderPass();
 				
 				if (form.ShowDialog() != DialogResult.OK)
 				{
-
+			
 					return;
-
+			
 				}
 			
 			}
+			*/
 
 			this.ModderInteract();
 			ForcedX.GCCollect();
@@ -368,7 +370,7 @@ namespace Binary
 
 		private void LabelBinary_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.1.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v2.1.2", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
