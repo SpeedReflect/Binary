@@ -551,7 +551,9 @@ namespace Binary.UI
 			var realpart = this.Model.GetRealPart(node.Parent.Index);
 			realpart.Attributes.RemoveAt(node.Index);
 			this.CarPartsTreeView.SelectedNode = node.Parent;
+			node.Parent.Text = realpart.PartName;
 			node.Parent.Nodes.RemoveAt(node.Index);
+			this.CarPartsPropertyGrid.Refresh();
 		}
 
 		private void MoveUpAttributesToolStripMenuItem_Click(object sender, EventArgs e)

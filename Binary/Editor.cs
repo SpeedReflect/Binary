@@ -856,7 +856,7 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.1.2", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v2.2.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)
@@ -1369,9 +1369,9 @@ namespace Binary
 
 				this.EditorPropertyGrid.SelectedObject = null;
 				this.Profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
+				this.EditorStatusLabel.Text = "Loading... Please wait...";
 
 				var watch = new Stopwatch();
-				this.EditorStatusLabel.Text = "Loading... Please wait...";
 				watch.Start();
 
 				this.Profile.Load(launch);
@@ -1459,8 +1459,8 @@ namespace Binary
 			{
 			#endif
 
-				var watch = new Stopwatch();
 				this.EditorStatusLabel.Text = "Saving... Please wait...";
+				var watch = new Stopwatch();
 				watch.Start();
 
 				this.Profile.Save();
@@ -1521,7 +1521,7 @@ namespace Binary
 			this.ManageButtonScriptNode(e.Node);
 
 			this.EditorPropertyGrid.SelectedObject = selected;
-			this.EditorNodeInfo.Text = $"| {e.Node.Nodes.Count} subnodes";
+			this.EditorNodeInfo.Text = $"| Index: {e.Node.Index} | {e.Node.Nodes.Count} subnodes";
 		}
 
 		private void EditorTreeView_DoubleClick(object sender, EventArgs e)

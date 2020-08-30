@@ -327,12 +327,12 @@ namespace Binary
 
 		private void PictureBoxDiscord_Click(object sender, EventArgs e)
 		{
-			Utils.OpenBrowser("https://discord.gg/jzksXXn");
+			Utils.OpenBrowser("https://discord.gg/xy5TjTa");
 		}
 
 		private void PictureBoxUpdates_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("No updates yet, follow discord server for news", "Updates");
+			Utils.OpenBrowser("https://github.com/SpeedReflect/Binary/tags");
 		}
 
 		private void PictureBoxAutoBackups_Click(object sender, EventArgs e)
@@ -370,7 +370,7 @@ namespace Binary
 
 		private void LabelBinary_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.1.2", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v2.2.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
