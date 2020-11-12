@@ -76,14 +76,30 @@ namespace Binary
 
 		private static void SetDependencyPaths(string thispath)
 		{
-			CarbonProfile.MainHashList = Path.Combine(thispath, @"mainkeys\carbon.txt");
-			CarbonProfile.CustomHashList = Path.Combine(thispath, @"userkeys\carbon.txt");
-			MostWantedProfile.MainHashList = Path.Combine(thispath, @"mainkeys\mostwanted.txt");
-			MostWantedProfile.CustomHashList = Path.Combine(thispath, @"userkeys\mostwanted.txt");
-			Underground2Profile.MainHashList = Path.Combine(thispath, @"mainkeys\underground2.txt");
-			Underground2Profile.CustomHashList = Path.Combine(thispath, @"userkeys\underground2.txt");
-			ProstreetProfile.MainHashList = Path.Combine(thispath, @"mainkeys\prostreet.txt");
-			ProstreetProfile.CustomHashList = Path.Combine(thispath, @"userkeys\prostreet.txt");
+			var userdir = Path.Combine(thispath, "userkeys");
+			var mainc = Path.Combine(thispath, @"mainkeys\carbon.txt");
+			var userc = Path.Combine(thispath, @"userkeys\carbon.txt");
+			var mainmw = Path.Combine(thispath, @"mainkeys\mostwanted.txt");
+			var usermw = Path.Combine(thispath, @"userkeys\mostwanted.txt");
+			var mainug2 = Path.Combine(thispath, @"mainkeys\underground2.txt");
+			var userug2 = Path.Combine(thispath, @"userkeys\underground2.txt");
+			var mainps = Path.Combine(thispath, @"mainkeys\prostreet.txt");
+			var userps = Path.Combine(thispath, @"userkeys\prostreet.txt");
+
+			CarbonProfile.MainHashList = mainc;
+			CarbonProfile.CustomHashList = userc;
+			MostWantedProfile.MainHashList = mainmw;
+			MostWantedProfile.CustomHashList = usermw;
+			Underground2Profile.MainHashList = mainug2;
+			Underground2Profile.CustomHashList = userug2;
+			ProstreetProfile.MainHashList = mainps;
+			ProstreetProfile.CustomHashList = userps;
+
+			if (!Directory.Exists(userdir)) Directory.CreateDirectory(userdir);
+			if (!File.Exists(userc)) { using var _ = File.Create(userc); }
+			if (!File.Exists(usermw)) { using var _ = File.Create(usermw); }
+			if (!File.Exists(userug2)) { using var _ = File.Create(userug2); }
+			if (!File.Exists(userps)) { using var _ = File.Create(userps); }
 		}
 
 		public static void ThreadExceptionHandler(object sender, ThreadExceptionEventArgs e)
