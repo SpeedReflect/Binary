@@ -59,15 +59,20 @@ namespace Binary.Tools
 
         private void BinHashInput_TextChanged(object sender, EventArgs e)
         {
-            if (!this.BinHashInput.ReadOnly && this.BinHashInput.Text.IsHexString())
+            var value = this.BinHashInput.Text.StartsWith("0x")
+                ? this.BinHashInput.Text
+                : $"0x{this.BinHashInput.Text}";
+
+            if (!this.BinHashInput.ReadOnly && value.IsHexString())
             {
-                if (this.BinHashInput.Text.Length > 10) return;
+
+                if (value.Length > 10) { this.StringGuessed.Text = "N/A"; return; }
 
                 var key = Convert.ToUInt32(this.BinHashInput.Text, 16);
                 this.BinFileInput.Text = $"0x{key.Reverse():X8}";
 
-                this.StringGuessed.Text = Map.BinKeys.TryGetValue(key, out var value)
-                    ? value
+                this.StringGuessed.Text = Map.BinKeys.TryGetValue(key, out var result)
+                    ? result
                     : "N/A";
 
             }
@@ -75,17 +80,21 @@ namespace Binary.Tools
 
         private void BinFileInput_TextChanged(object sender, EventArgs e)
         {
-            if (!this.BinFileInput.ReadOnly && this.BinFileInput.Text.IsHexString())
+            var value = this.BinHashInput.Text.StartsWith("0x")
+                ? this.BinHashInput.Text
+                : $"0x{this.BinHashInput.Text}";
+
+            if (!this.BinFileInput.ReadOnly && value.IsHexString())
             {
 
-                if (this.BinHashInput.Text.Length > 10) return;
+                if (value.Length > 10) { this.StringGuessed.Text = "N/A"; return; }
 
                 var key = Convert.ToUInt32(this.BinFileInput.Text, 16);
                 key = key.Reverse();
                 this.BinHashInput.Text = $"0x{key:X8}";
 
-                this.StringGuessed.Text = Map.BinKeys.TryGetValue(key, out var value)
-                    ? value
+                this.StringGuessed.Text = Map.BinKeys.TryGetValue(key, out var result)
+                    ? result
                     : "N/A";
             }
         }

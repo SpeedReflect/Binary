@@ -386,6 +386,22 @@ namespace Binary
 		{
 			using var form = new LanMaker();
 			form.ShowDialog();
+
+			if (form.WasCreated)
+			{
+
+				var result = MessageBox.Show("New launcher was created. Would you like to load it?", "Prompt",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+				if (result == DialogResult.Yes)
+				{
+
+					this.LoadProfile(form.NewLanPath, true);
+
+				}
+
+			}
+
 		}
 
 		private void EMSMainLoadFiles_Click(object sender, EventArgs e)
@@ -856,7 +872,7 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.2.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v2.3.2", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)

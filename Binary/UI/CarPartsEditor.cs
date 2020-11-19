@@ -30,12 +30,16 @@ namespace Binary.UI
 			this.LoadTreeView();
 			this.ToggleMenuStripControls(null);
 
-			if (this.Model.GameINT != GameINT.MostWanted && this.Model.GameINT != GameINT.Underground2)
+			this.FindAndReplaceToolStripMenuItem.Enabled = this.Model.GameINT switch
 			{
-
-				this.FindAndReplaceToolStripMenuItem.Enabled = false;
-
-			}
+				GameINT.Underground1 => true,
+				GameINT.Underground2 => true,
+				GameINT.MostWanted => true,
+				GameINT.Carbon => false,
+				GameINT.Prostreet => false,
+				GameINT.Undercover => false,
+				_ => false,
+			};
 		}
 
 		#region Theme

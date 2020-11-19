@@ -10,6 +10,8 @@ namespace Binary.Interact
 	public partial class LanMaker : Form
 	{
 		private bool IsValidDirectoryChosen => Directory.Exists(this.LanMakerTextBoxDir.Text);
+		public bool WasCreated { get; private set; }
+		public string NewLanPath { get; private set; }
 
 		public LanMaker()
 		{
@@ -89,6 +91,9 @@ namespace Binary.Interact
 				Launch.Serialize(dialog.FileName, launch);
 				MessageBox.Show($"File {dialog.FileName} has been saved.", "Success",
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				this.WasCreated = true;
+				this.NewLanPath = dialog.FileName;
 
 			}
 		}

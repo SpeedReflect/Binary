@@ -370,7 +370,7 @@ namespace Binary
 
 		private void LabelBinary_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.2.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v2.3.2", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
