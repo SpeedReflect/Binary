@@ -19,7 +19,7 @@ namespace Binary.Prompt
 
 		public Input(string text, Predicate<string> inputcheck) : this(text, inputcheck, invalid, null) { }
 
-		public Input(string text, Predicate<string> inputcheck, string error) : this(text, inputcheck, invalid, error) { }
+		public Input(string text, Predicate<string> inputcheck, string error) : this(text, inputcheck, error, null) { }
 
 		public Input(string text, Predicate<string> inputcheck, string error, string initial)
 		{

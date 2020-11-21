@@ -109,6 +109,8 @@ namespace Binary.UI
 			this.ReverseAttributesToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.SortAttributesByKeyToolStripMenuItem.BackColor = Theme.MenuItemBackColor;			
 			this.SortAttributesByKeyToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.AddCustomAttributeToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.AddCustomAttributeToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.HasherToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
 			this.HasherToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.RaiderToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
@@ -238,6 +240,7 @@ namespace Binary.UI
 				this.MoveDownAttributesToolStripMenuItem.Enabled = false;
 				this.ReverseAttributesToolStripMenuItem.Enabled = false;
 				this.SortAttributesByKeyToolStripMenuItem.Enabled = false;
+				this.AddCustomAttributeToolStripMenuItem.Enabled = false;
 
 			}
 			else
@@ -258,6 +261,7 @@ namespace Binary.UI
 				this.MoveDownAttributesToolStripMenuItem.Enabled = node.Level == 1;
 				this.ReverseAttributesToolStripMenuItem.Enabled = node.Level == 0;
 				this.SortAttributesByKeyToolStripMenuItem.Enabled = node.Level == 0;
+				this.AddCustomAttributeToolStripMenuItem.Enabled = node.Level == 0;
 
 			}
 		}
@@ -631,6 +635,28 @@ namespace Binary.UI
 			var realpart = this.Model.GetRealPart(this.CarPartsTreeView.SelectedNode.Index);
 			realpart.Attributes.Sort((x, y) => x.Key.CompareTo(y.Key));
 			this.LoadTreeView(this.CarPartsTreeView.SelectedNode.FullPath);
+		}
+
+		private void AddCustomAttributeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using var creator = new Input
+			(
+				"Input name of new custom attribute",
+				new Predicate<string>(_ => !String.IsNullOrEmpty(_)),
+				"Name of an attribute cannot be empty"
+			);
+
+			if (creator.ShowDialog() == DialogResult.OK)
+			{
+
+				var node = this.CarPartsTreeView.SelectedNode;
+				var realpart = this.Model.GetRealPart(node.Index);
+				realpart.AddCustomAttribute(creator.Value);
+				var attribute = realpart.Attributes[^1];
+				node.Nodes.Add(attribute.ToString());
+				this.CarPartsPropertyGrid.Refresh();
+
+			}
 		}
 
 		private void HasherToolStripMenuItem_Click(object sender, EventArgs e)
