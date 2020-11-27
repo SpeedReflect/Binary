@@ -30,16 +30,7 @@ namespace Binary.UI
 			this.LoadTreeView();
 			this.ToggleMenuStripControls(null);
 
-			this.FindAndReplaceToolStripMenuItem.Enabled = this.Model.GameINT switch
-			{
-				GameINT.Underground1 => true,
-				GameINT.Underground2 => true,
-				GameINT.MostWanted => true,
-				GameINT.Carbon => false,
-				GameINT.Prostreet => false,
-				GameINT.Undercover => false,
-				_ => false,
-			};
+			this.FindAndReplaceToolStripMenuItem.Enabled = true;
 		}
 
 		#region Theme
@@ -491,6 +482,14 @@ namespace Binary.UI
 		{
 			if (this.CarPartsTreeView.Nodes.Count == 0) return;
 
+			// 4 windows:
+			//     1. String to replace with
+			//     2. String to replace itself
+			//     3. Do case sensitive search
+			//     4. Replace only PartLabel or absolutely everything
+
+
+			// 1 & 2
 			using var with = new Input("Enter string to replace with");
 			using var input = new Input("Enter string to search for",
 										new Predicate<string>(_ => !String.IsNullOrEmpty(_)),
@@ -499,30 +498,37 @@ namespace Binary.UI
 			if (input.ShowDialog() == DialogResult.OK && with.ShowDialog() == DialogResult.OK)
 			{
 
+				// 3
 				using var check = new Check("Make case-sensitive replace?", false);
 
 				if (check.ShowDialog() == DialogResult.OK)
 				{
 
+					// Make regex options based on result of 3
 					var options = check.Value
 						? RegexOptions.Multiline | RegexOptions.CultureInvariant
 						: RegexOptions.Multiline | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase;
 
-					this.CarPartsTreeView.BeginUpdate();
+					// 4
+					using var all = new Check("Make replacement only in PartLabel?", false, true);
 
-					for (int i = 0; i < this.Model.CarPartsCount; ++i)
+					if (all.ShowDialog() == DialogResult.OK)
 					{
 
-						// Very quick and dirty way to replace node's and part's name
-						var part = this.Model.GetRealPart(i);
-						var value = part.GetValue("PartLabel");
-						value = Regex.Replace(value, input.Value, with.Value, options);
-						part.SetValue("PartLabel", value);
-						this.CarPartsTreeView.Nodes[i].Text = value;
+						this.CarPartsTreeView.BeginUpdate();
+
+						for (int i = 0; i < this.Model.CarPartsCount; ++i)
+						{
+
+							var part = this.Model.GetRealPart(i);
+							part.MakeReplace(all.Value, input.Value, with.Value, options);
+							this.CarPartsTreeView.Nodes[i].Text = part.PartName;
+
+						}
+
+						this.CarPartsTreeView.EndUpdate();
 
 					}
-
-					this.CarPartsTreeView.EndUpdate();
 
 				}
 

@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>binary.ico</ApplicationIcon>
-    <Version>2.3.2</Version>
+    <Version>2.3.3</Version>
     <Authors>MaxHwoy</Authors>
     <Description>Tool for editing Need for Speed binary files (.BIN, .BUN, .LZC).</Description>
     <Copyright>Copyright © 2020 MaxHwoy</Copyright>

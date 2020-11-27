@@ -80,9 +80,9 @@ namespace Binary.Tools
 
         private void BinFileInput_TextChanged(object sender, EventArgs e)
         {
-            var value = this.BinHashInput.Text.StartsWith("0x")
-                ? this.BinHashInput.Text
-                : $"0x{this.BinHashInput.Text}";
+            var value = this.BinFileInput.Text.StartsWith("0x")
+                ? this.BinFileInput.Text
+                : $"0x{this.BinFileInput.Text}";
 
             if (!this.BinFileInput.ReadOnly && value.IsHexString())
             {
