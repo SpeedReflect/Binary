@@ -527,6 +527,7 @@ namespace Binary.UI
 						}
 
 						this.CarPartsTreeView.EndUpdate();
+						this.CarPartsPropertyGrid.Refresh();
 
 					}
 
