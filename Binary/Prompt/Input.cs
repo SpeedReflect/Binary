@@ -13,19 +13,22 @@ namespace Binary.Prompt
 		private readonly string _error_message;
 		public string Value { get; private set; } = String.Empty;
 
-		public Input() : this(input, null, invalid) { }
+		public Input() : this(input, null, invalid, null) { }
 
-		public Input(string text) : this(text, null, invalid) { }
+		public Input(string text) : this(text, null, invalid, null) { }
 
-		public Input(string text, Predicate<string> inputcheck) : this(text, inputcheck, invalid) { }
+		public Input(string text, Predicate<string> inputcheck) : this(text, inputcheck, invalid, null) { }
 
-		public Input(string text, Predicate<string> inputcheck, string error)
+		public Input(string text, Predicate<string> inputcheck, string error) : this(text, inputcheck, error, null) { }
+
+		public Input(string text, Predicate<string> inputcheck, string error, string initial)
 		{
 			this.InitializeComponent();
 			this.ToggleTheme();
 			this.InputLabel.Text = text;
 			this._input_check = inputcheck;
 			this._error_message = error;
+			this.InputTextBox.Text = initial ?? String.Empty;
 		}
 
 		private void ToggleTheme()

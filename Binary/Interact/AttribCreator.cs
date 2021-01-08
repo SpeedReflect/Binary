@@ -99,29 +99,37 @@ namespace Binary.Interact
 					this.AttribTypeComboBox.SelectedIndex = 0;
 					break;
 
+				case GameINT.Underground1:
 				case GameINT.Underground2:
 				case GameINT.MostWanted:
 					this.AttribTypeComboBox.Items.AddRange(new string[]
 					{
 						Boolean, /// <see cref="Nikki.Support.MostWanted.Attributes.BoolAttribute"/>
+						         /// <see cref="Nikki.Support.Underground2.Attributes.BoolAttribute"/>
+								 /// <see cref="Nikki.Support.Underground1.Attributes.BoolAttribute"/>
 
 
 						Floating, /// <see cref="Nikki.Support.MostWanted.Attributes.FloatAttribute"/>
+						          /// <see cref="Nikki.Support.Underground2.Attributes.FloatAttribute"/>
+								  /// <see cref="Nikki.Support.Underground1.Attributes.FloatAttribute"/>
 
 
 						Integer, /// <see cref="Nikki.Support.MostWanted.Attributes.IntAttribute"/>
+						         /// <see cref="Nikki.Support.Underground2.Attributes.IntAttribute"/>
+								 /// <see cref="Nikki.Support.Underground1.Attributes.IntAttribute"/>
 
 
 						Key, /// <see cref="Nikki.Support.MostWanted.Attributes.KeyAttribute"/>
+						     /// <see cref="Nikki.Support.Underground2.Attributes.KeyAttribute"/>
+							 /// <see cref="Nikki.Support.Underground1.Attributes.KeyAttribute"/>
 
 
 						String, /// <see cref="Nikki.Support.MostWanted.Attributes.StringAttribute"/>
+						        /// <see cref="Nikki.Support.Underground2.Attributes.StringAttribute"/>
+								/// <see cref="Nikki.Support.Underground1.Attributes.StringAttribute"/>
 
 					});
 					this.AttribTypeComboBox.SelectedIndex = 0;
-					break;
-
-				case GameINT.Underground1:
 					break;
 
 				default:

@@ -65,7 +65,7 @@ namespace Binary
                 {
                 
                     url = url.Replace("&", "^&");
-                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                    Process.Start(new ProcessStartInfo("cmd.exe ", $"/c start {url}") { CreateNoWindow = true });
 
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))

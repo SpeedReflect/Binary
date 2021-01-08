@@ -76,14 +76,35 @@ namespace Binary
 
 		private static void SetDependencyPaths(string thispath)
 		{
-			CarbonProfile.MainHashList = Path.Combine(thispath, @"mainkeys\carbon.txt");
-			CarbonProfile.CustomHashList = Path.Combine(thispath, @"userkeys\carbon.txt");
-			MostWantedProfile.MainHashList = Path.Combine(thispath, @"mainkeys\mostwanted.txt");
-			MostWantedProfile.CustomHashList = Path.Combine(thispath, @"userkeys\mostwanted.txt");
-			Underground2Profile.MainHashList = Path.Combine(thispath, @"mainkeys\underground2.txt");
-			Underground2Profile.CustomHashList = Path.Combine(thispath, @"userkeys\underground2.txt");
-			ProstreetProfile.MainHashList = Path.Combine(thispath, @"mainkeys\prostreet.txt");
-			ProstreetProfile.CustomHashList = Path.Combine(thispath, @"userkeys\prostreet.txt");
+			var userdir = Path.Combine(thispath, "userkeys");
+			var mainc = Path.Combine(thispath, @"mainkeys\carbon.txt");
+			var userc = Path.Combine(thispath, @"userkeys\carbon.txt");
+			var mainmw = Path.Combine(thispath, @"mainkeys\mostwanted.txt");
+			var usermw = Path.Combine(thispath, @"userkeys\mostwanted.txt");
+			var mainps = Path.Combine(thispath, @"mainkeys\prostreet.txt");
+			var userps = Path.Combine(thispath, @"userkeys\prostreet.txt");
+			var mainug1 = Path.Combine(thispath, @"mainkeys\underground1.txt");
+			var userug1 = Path.Combine(thispath, @"userkeys\underground1.txt");
+			var mainug2 = Path.Combine(thispath, @"mainkeys\underground2.txt");
+			var userug2 = Path.Combine(thispath, @"userkeys\underground2.txt");
+
+			CarbonProfile.MainHashList = mainc;
+			CarbonProfile.CustomHashList = userc;
+			MostWantedProfile.MainHashList = mainmw;
+			MostWantedProfile.CustomHashList = usermw;
+			ProstreetProfile.MainHashList = mainps;
+			ProstreetProfile.CustomHashList = userps;
+			Underground1Profile.MainHashList = mainug1;
+			Underground1Profile.CustomHashList = userug1;
+			Underground2Profile.MainHashList = mainug2;
+			Underground2Profile.CustomHashList = userug2;
+
+			if (!Directory.Exists(userdir)) Directory.CreateDirectory(userdir);
+			if (!File.Exists(userc)) { using var _ = File.Create(userc); }
+			if (!File.Exists(usermw)) { using var _ = File.Create(usermw); }
+			if (!File.Exists(userps)) { using var _ = File.Create(userps); }
+			if (!File.Exists(userug1)) { using var _ = File.Create(userug1); }
+			if (!File.Exists(userug2)) { using var _ = File.Create(userug2); }
 		}
 
 		public static void ThreadExceptionHandler(object sender, ThreadExceptionEventArgs e)
@@ -112,8 +133,8 @@ namespace Binary
 					if (form is Editor editor)
 					{
 
-						editor.EmergencySaveDatabase();
-						MessageBox.Show("Database backup up.", "Done");
+						//editor.EmergencySaveDatabase();
+						//MessageBox.Show("Database backup up.", "Done");
 
 					}
 

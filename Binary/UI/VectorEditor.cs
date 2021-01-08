@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Binary.Properties;
 using Nikki.Support.Shared.Class;
@@ -214,6 +215,7 @@ namespace Binary.UI
 				#endif
 
 					this.Vector.ReadFromFile(browser.FileName);
+					this.VectorPropertyGrid.SelectedObject = null;
 					this.LoadTreeView();
 					MessageBox.Show($"File {browser.FileName} has been successfully imported.", "Info", 
 						MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -270,7 +272,13 @@ namespace Binary.UI
 
 		private void PreviewToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Not implemented yet", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			var svg = this.Vector.GetSVGString(1024);
+			var dir = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+			var file = Path.Combine(dir, "vectordev.html");
+			File.WriteAllText(file, svg);
+
+			try { Process.Start(new ProcessStartInfo($"\"{file}\"") { UseShellExecute = true }); }
+			catch (Exception ex) { MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
 		}
 
 		private void AddPathSetToolStripMenuItem_Click(object sender, EventArgs e)

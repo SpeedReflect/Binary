@@ -30,12 +30,7 @@ namespace Binary.UI
 			this.LoadTreeView();
 			this.ToggleMenuStripControls(null);
 
-			if (this.Model.GameINT != GameINT.MostWanted && this.Model.GameINT != GameINT.Underground2)
-			{
-
-				this.FindAndReplaceToolStripMenuItem.Enabled = false;
-
-			}
+			this.FindAndReplaceToolStripMenuItem.Enabled = true;
 		}
 
 		#region Theme
@@ -105,6 +100,8 @@ namespace Binary.UI
 			this.ReverseAttributesToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.SortAttributesByKeyToolStripMenuItem.BackColor = Theme.MenuItemBackColor;			
 			this.SortAttributesByKeyToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
+			this.AddCustomAttributeToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
+			this.AddCustomAttributeToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.HasherToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
 			this.HasherToolStripMenuItem.ForeColor = Theme.MenuItemForeColor;
 			this.RaiderToolStripMenuItem.BackColor = Theme.MenuItemBackColor;
@@ -234,6 +231,7 @@ namespace Binary.UI
 				this.MoveDownAttributesToolStripMenuItem.Enabled = false;
 				this.ReverseAttributesToolStripMenuItem.Enabled = false;
 				this.SortAttributesByKeyToolStripMenuItem.Enabled = false;
+				this.AddCustomAttributeToolStripMenuItem.Enabled = false;
 
 			}
 			else
@@ -254,6 +252,7 @@ namespace Binary.UI
 				this.MoveDownAttributesToolStripMenuItem.Enabled = node.Level == 1;
 				this.ReverseAttributesToolStripMenuItem.Enabled = node.Level == 0;
 				this.SortAttributesByKeyToolStripMenuItem.Enabled = node.Level == 0;
+				this.AddCustomAttributeToolStripMenuItem.Enabled = node.Level == 0;
 
 			}
 		}
@@ -483,6 +482,14 @@ namespace Binary.UI
 		{
 			if (this.CarPartsTreeView.Nodes.Count == 0) return;
 
+			// 4 windows:
+			//     1. String to replace with
+			//     2. String to replace itself
+			//     3. Do case sensitive search
+			//     4. Replace only PartLabel or absolutely everything
+
+
+			// 1 & 2
 			using var with = new Input("Enter string to replace with");
 			using var input = new Input("Enter string to search for",
 										new Predicate<string>(_ => !String.IsNullOrEmpty(_)),
@@ -491,30 +498,38 @@ namespace Binary.UI
 			if (input.ShowDialog() == DialogResult.OK && with.ShowDialog() == DialogResult.OK)
 			{
 
+				// 3
 				using var check = new Check("Make case-sensitive replace?", false);
 
 				if (check.ShowDialog() == DialogResult.OK)
 				{
 
+					// Make regex options based on result of 3
 					var options = check.Value
 						? RegexOptions.Multiline | RegexOptions.CultureInvariant
 						: RegexOptions.Multiline | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase;
 
-					this.CarPartsTreeView.BeginUpdate();
+					// 4
+					using var all = new Check("Make replacement only in PartLabel?", false, true);
 
-					for (int i = 0; i < this.Model.CarPartsCount; ++i)
+					if (all.ShowDialog() == DialogResult.OK)
 					{
 
-						// Very quick and dirty way to replace node's and part's name
-						var part = this.Model.GetRealPart(i);
-						var value = part.GetValue("PartLabel");
-						value = Regex.Replace(value, input.Value, with.Value, options);
-						part.SetValue("PartLabel", value);
-						this.CarPartsTreeView.Nodes[i].Text = value;
+						this.CarPartsTreeView.BeginUpdate();
+
+						for (int i = 0; i < this.Model.CarPartsCount; ++i)
+						{
+
+							var part = this.Model.GetRealPart(i);
+							part.MakeReplace(all.Value, input.Value, with.Value, options);
+							this.CarPartsTreeView.Nodes[i].Text = part.PartName;
+
+						}
+
+						this.CarPartsTreeView.EndUpdate();
+						this.CarPartsPropertyGrid.Refresh();
 
 					}
-
-					this.CarPartsTreeView.EndUpdate();
 
 				}
 
@@ -551,7 +566,9 @@ namespace Binary.UI
 			var realpart = this.Model.GetRealPart(node.Parent.Index);
 			realpart.Attributes.RemoveAt(node.Index);
 			this.CarPartsTreeView.SelectedNode = node.Parent;
+			node.Parent.Text = realpart.PartName;
 			node.Parent.Nodes.RemoveAt(node.Index);
+			this.CarPartsPropertyGrid.Refresh();
 		}
 
 		private void MoveUpAttributesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -625,6 +642,28 @@ namespace Binary.UI
 			var realpart = this.Model.GetRealPart(this.CarPartsTreeView.SelectedNode.Index);
 			realpart.Attributes.Sort((x, y) => x.Key.CompareTo(y.Key));
 			this.LoadTreeView(this.CarPartsTreeView.SelectedNode.FullPath);
+		}
+
+		private void AddCustomAttributeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using var creator = new Input
+			(
+				"Input name of new custom attribute",
+				new Predicate<string>(_ => !String.IsNullOrEmpty(_)),
+				"Name of an attribute cannot be empty"
+			);
+
+			if (creator.ShowDialog() == DialogResult.OK)
+			{
+
+				var node = this.CarPartsTreeView.SelectedNode;
+				var realpart = this.Model.GetRealPart(node.Index);
+				realpart.AddCustomAttribute(creator.Value);
+				var attribute = realpart.Attributes[^1];
+				node.Nodes.Add(attribute.ToString());
+				this.CarPartsPropertyGrid.Refresh();
+
+			}
 		}
 
 		private void HasherToolStripMenuItem_Click(object sender, EventArgs e)

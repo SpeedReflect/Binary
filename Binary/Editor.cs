@@ -386,6 +386,22 @@ namespace Binary
 		{
 			using var form = new LanMaker();
 			form.ShowDialog();
+
+			if (form.WasCreated)
+			{
+
+				var result = MessageBox.Show("New launcher was created. Would you like to load it?", "Prompt",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+				if (result == DialogResult.Yes)
+				{
+
+					this.LoadProfile(form.NewLanPath, true);
+
+				}
+
+			}
+
 		}
 
 		private void EMSMainLoadFiles_Click(object sender, EventArgs e)
@@ -856,12 +872,12 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.1.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v2.5.5", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			MessageBox.Show("Join Discord server at the start page to get help and full tool documentation!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		#endregion
@@ -1369,9 +1385,9 @@ namespace Binary
 
 				this.EditorPropertyGrid.SelectedObject = null;
 				this.Profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
+				this.EditorStatusLabel.Text = "Loading... Please wait...";
 
 				var watch = new Stopwatch();
-				this.EditorStatusLabel.Text = "Loading... Please wait...";
 				watch.Start();
 
 				this.Profile.Load(launch);
@@ -1459,8 +1475,8 @@ namespace Binary
 			{
 			#endif
 
-				var watch = new Stopwatch();
 				this.EditorStatusLabel.Text = "Saving... Please wait...";
+				var watch = new Stopwatch();
 				watch.Start();
 
 				this.Profile.Save();
@@ -1521,7 +1537,7 @@ namespace Binary
 			this.ManageButtonScriptNode(e.Node);
 
 			this.EditorPropertyGrid.SelectedObject = selected;
-			this.EditorNodeInfo.Text = $"| {e.Node.Nodes.Count} subnodes";
+			this.EditorNodeInfo.Text = $"| Index: {e.Node.Index} | {e.Node.Nodes.Count} subnodes";
 		}
 
 		private void EditorTreeView_DoubleClick(object sender, EventArgs e)

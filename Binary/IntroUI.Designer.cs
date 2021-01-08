@@ -31,8 +31,10 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IntroUI));
 			this.IntroPanelModder = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
 			this.IntroPictureModder = new System.Windows.Forms.PictureBox();
 			this.IntroPanelUser = new System.Windows.Forms.Panel();
+			this.label2 = new System.Windows.Forms.Label();
 			this.IntroPictureUser = new System.Windows.Forms.PictureBox();
 			this.IntroToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.LabelBinary = new System.Windows.Forms.Label();
@@ -56,11 +58,23 @@
 			// 
 			// IntroPanelModder
 			// 
+			this.IntroPanelModder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.IntroPanelModder.Controls.Add(this.label1);
 			this.IntroPanelModder.Controls.Add(this.IntroPictureModder);
 			this.IntroPanelModder.Location = new System.Drawing.Point(322, 77);
 			this.IntroPanelModder.Name = "IntroPanelModder";
 			this.IntroPanelModder.Size = new System.Drawing.Size(300, 300);
 			this.IntroPanelModder.TabIndex = 0;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.label1.Location = new System.Drawing.Point(96, 3);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(118, 21);
+			this.label1.TabIndex = 1;
+			this.label1.Text = "Modder Mode";
 			// 
 			// IntroPictureModder
 			// 
@@ -69,9 +83,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.IntroPictureModder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.IntroPictureModder.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.IntroPictureModder.Location = new System.Drawing.Point(0, 0);
+			this.IntroPictureModder.Location = new System.Drawing.Point(0, 30);
 			this.IntroPictureModder.Name = "IntroPictureModder";
-			this.IntroPictureModder.Size = new System.Drawing.Size(300, 300);
+			this.IntroPictureModder.Size = new System.Drawing.Size(298, 268);
 			this.IntroPictureModder.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.IntroPictureModder.TabIndex = 0;
 			this.IntroPictureModder.TabStop = false;
@@ -79,11 +93,23 @@
 			// 
 			// IntroPanelUser
 			// 
+			this.IntroPanelUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.IntroPanelUser.Controls.Add(this.label2);
 			this.IntroPanelUser.Controls.Add(this.IntroPictureUser);
 			this.IntroPanelUser.Location = new System.Drawing.Point(16, 77);
 			this.IntroPanelUser.Name = "IntroPanelUser";
 			this.IntroPanelUser.Size = new System.Drawing.Size(300, 300);
 			this.IntroPanelUser.TabIndex = 1;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.label2.Location = new System.Drawing.Point(103, 3);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(92, 21);
+			this.label2.TabIndex = 1;
+			this.label2.Text = "User Mode";
 			// 
 			// IntroPictureUser
 			// 
@@ -92,9 +118,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.IntroPictureUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.IntroPictureUser.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.IntroPictureUser.Location = new System.Drawing.Point(0, 0);
+			this.IntroPictureUser.Location = new System.Drawing.Point(0, 30);
 			this.IntroPictureUser.Name = "IntroPictureUser";
-			this.IntroPictureUser.Size = new System.Drawing.Size(300, 300);
+			this.IntroPictureUser.Size = new System.Drawing.Size(298, 268);
 			this.IntroPictureUser.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.IntroPictureUser.TabIndex = 0;
 			this.IntroPictureUser.TabStop = false;
@@ -104,10 +130,10 @@
 			// 
 			this.LabelBinary.AutoSize = true;
 			this.LabelBinary.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.LabelBinary.Font = new System.Drawing.Font("Fugaz One", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-			this.LabelBinary.Location = new System.Drawing.Point(238, 9);
+			this.LabelBinary.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.LabelBinary.Location = new System.Drawing.Point(250, 18);
 			this.LabelBinary.Name = "LabelBinary";
-			this.LabelBinary.Size = new System.Drawing.Size(162, 59);
+			this.LabelBinary.Size = new System.Drawing.Size(139, 46);
 			this.LabelBinary.TabIndex = 2;
 			this.LabelBinary.Text = "Binary";
 			this.LabelBinary.Click += new System.EventHandler(this.LabelBinary_Click);
@@ -200,8 +226,10 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Binary by MaxHwoy";
 			this.IntroPanelModder.ResumeLayout(false);
+			this.IntroPanelModder.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.IntroPictureModder)).EndInit();
 			this.IntroPanelUser.ResumeLayout(false);
+			this.IntroPanelUser.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.IntroPictureUser)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.PictureBoxUpdates)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.PictureBoxMaximized)).EndInit();
@@ -228,5 +256,7 @@
 		private System.Windows.Forms.PictureBox PictureBoxAutoBackups;
 		private System.Windows.Forms.PictureBox PictureBoxSoon;
 		private System.Windows.Forms.PictureBox PictureBoxTheme;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
 	}
 }
