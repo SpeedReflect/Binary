@@ -83,6 +83,8 @@ namespace Binary
 			var usermw = Path.Combine(thispath, @"userkeys\mostwanted.txt");
 			var mainps = Path.Combine(thispath, @"mainkeys\prostreet.txt");
 			var userps = Path.Combine(thispath, @"userkeys\prostreet.txt");
+			var mainuc = Path.Combine(thispath, @"mainkeys\undercover.txt");
+			var useruc = Path.Combine(thispath, @"userkeys\undercover.txt");
 			var mainug1 = Path.Combine(thispath, @"mainkeys\underground1.txt");
 			var userug1 = Path.Combine(thispath, @"userkeys\underground1.txt");
 			var mainug2 = Path.Combine(thispath, @"mainkeys\underground2.txt");
@@ -94,6 +96,8 @@ namespace Binary
 			MostWantedProfile.CustomHashList = usermw;
 			ProstreetProfile.MainHashList = mainps;
 			ProstreetProfile.CustomHashList = userps;
+			UndercoverProfile.MainHashList = mainuc;
+			UndercoverProfile.CustomHashList = useruc;
 			Underground1Profile.MainHashList = mainug1;
 			Underground1Profile.CustomHashList = userug1;
 			Underground2Profile.MainHashList = mainug2;
@@ -103,6 +107,7 @@ namespace Binary
 			if (!File.Exists(userc)) { using var _ = File.Create(userc); }
 			if (!File.Exists(usermw)) { using var _ = File.Create(usermw); }
 			if (!File.Exists(userps)) { using var _ = File.Create(userps); }
+			if (!File.Exists(useruc)) { using var _ = File.Create(useruc); }
 			if (!File.Exists(userug1)) { using var _ = File.Create(userug1); }
 			if (!File.Exists(userug2)) { using var _ = File.Create(userug2); }
 		}
