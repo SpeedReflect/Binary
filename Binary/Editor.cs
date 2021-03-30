@@ -102,6 +102,8 @@ namespace Binary
 			this.EMSOptionsRestore.ForeColor = Theme.MenuItemForeColor;
 			this.EMSOptionsUnlock.BackColor = Theme.MenuItemBackColor;
 			this.EMSOptionsUnlock.ForeColor = Theme.MenuItemForeColor;
+			this.EMSOptionsSpeedReflect.BackColor = Theme.MenuItemBackColor;
+			this.EMSOptionsSpeedReflect.ForeColor = Theme.MenuItemForeColor;
 			this.EMSOptionsToggle.BackColor = Theme.MenuItemBackColor;
 			this.EMSOptionsToggle.ForeColor = Theme.MenuItemForeColor;
 			this.EMSScriptingProcess.BackColor = Theme.MenuItemBackColor;
@@ -216,6 +218,7 @@ namespace Binary
 			this.EMSOptionsCreate.Enabled = enable;
 			this.EMSOptionsRestore.Enabled = enable;
 			this.EMSOptionsUnlock.Enabled = enable;
+			this.EMSOptionsSpeedReflect.Enabled = enable;
 			this.EMSWindowsRun.Enabled = enable;
 		}
 
@@ -872,7 +875,7 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.5.5", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v" + ProductVersion, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)
@@ -1732,6 +1735,52 @@ namespace Binary
 			serializer.Serialize();
 		}
 
-		#endregion
+        #endregion
+
+        private void EMSOptionsSpeedReflect_Click(object sender, EventArgs e)
+        {
+			#if !DEBUG
+			try
+			{
+			#endif
+
+			if (this.Profile?.Count > 0)
+			{
+				var dir = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+				var speedfrom = Path.Combine(dir, "SpeedReflect.asi");
+
+				if (!File.Exists(speedfrom))
+				{
+
+					MessageBox.Show("SpeedReflect.asi was not found in the Binary directory.", "Error");
+					return;
+				}
+
+				var path = this.Profile[0].Folder;
+
+				var speedto = Path.Combine(this.Profile.Directory, @"scripts\SpeedReflect.asi");
+				Directory.CreateDirectory(Path.Combine(this.Profile.Directory, "scripts"));
+				File.Copy(speedfrom, speedto, true);
+
+				MessageBox.Show("Succesfully installed SpeedReflect.asi.", "Success");
+
+			}
+			else
+			{
+
+				throw new Exception("No files are open and directory is not chosen");
+
+			}
+
+			#if !DEBUG
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
+			#endif
+		}
 	}
 }
