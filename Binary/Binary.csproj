@@ -27,6 +27,56 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="mainkeys\carbon.txt" />
+    <None Remove="mainkeys\mostwanted.txt" />
+    <None Remove="mainkeys\prostreet.txt" />
+    <None Remove="mainkeys\underground1.txt" />
+    <None Remove="mainkeys\underground2.txt" />
+    <None Remove="Readme.txt" />
+    <None Remove="userkeys\carbon.txt" />
+    <None Remove="userkeys\mostwanted.txt" />
+    <None Remove="userkeys\prostreet.txt" />
+    <None Remove="userkeys\underground1.txt" />
+    <None Remove="userkeys\underground2.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="mainkeys\carbon.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mainkeys\mostwanted.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mainkeys\prostreet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mainkeys\underground1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mainkeys\underground2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="userkeys\carbon.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="userkeys\mostwanted.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="userkeys\prostreet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="userkeys\underground1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="userkeys\underground2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ext\Endscript\Endscript\Endscript.csproj" />
     <ProjectReference Include="..\ext\ILWrapper\ILWrapper\ILWrapper.csproj" />
     <ProjectReference Include="..\ext\Nikki\Nikki\Nikki.csproj" />
@@ -64,10 +114,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="data\" />
   </ItemGroup>
 
 </Project>
