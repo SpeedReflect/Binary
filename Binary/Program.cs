@@ -15,44 +15,22 @@ using CoreExtensions.Management;
 
 
 
-namespace Binary
-{
-	static class Program
-	{
+namespace Binary {
+	static class Program {
 		/// <summary>
 		///  The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main()
-		{
-			// Skip administator check if in the debug mode
-			if (!Debugger.IsAttached)
-			{
-			
-				// Check if the program is run as administator, exit if not
-				using var identity = WindowsIdentity.GetCurrent();
-				var principal = new WindowsPrincipal(identity);
-				
-				if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
-				{
-				
-					MessageBox.Show("Run Binary in Administrator mode!", "Warning",
-						MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					return;
-				
-				}
-			
-			}
-
-			#if DEBUG
+		static void Main() {
+#if DEBUG
 			NativeCallerX.AllocConsole();
-			#endif
+#endif
 
-			Application.SetHighDpiMode(HighDpiMode.SystemAware);
+			Application.SetHighDpiMode( HighDpiMode.SystemAware );
 			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
+			Application.SetCompatibleTextRenderingDefault( false );
 
-			var culture = CultureInfo.CreateSpecificCulture("en-US");
+			var culture = CultureInfo.CreateSpecificCulture( "en-US" );
 			Thread.CurrentThread.CurrentCulture = culture;
 			CultureInfo.DefaultThreadCurrentCulture = culture;
 			CultureInfo.DefaultThreadCurrentUICulture = culture;
@@ -61,34 +39,33 @@ namespace Binary
 			Endscript.Version.Value = version;
 			SynchronizedDatabase.Watermark = "Binary by MaxHwoy | Automated";
 
-			if (!File.Exists("MainLog.txt")) { using var str = File.Create("MainLog.txt"); }
-			if (!File.Exists("EndError.log")) { using var str = File.Create("EndError.log"); }
-			var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-			SetDependencyPaths(path);
+			if( !File.Exists( "MainLog.txt" ) ) { using var str = File.Create( "MainLog.txt" ); }
+			if( !File.Exists( "EndError.log" ) ) { using var str = File.Create( "EndError.log" ); }
+			var path = Path.GetDirectoryName( Process.GetCurrentProcess().MainModule.FileName );
+			SetDependencyPaths( path );
 
-			Application.ThreadException += new ThreadExceptionEventHandler(ThreadExceptionHandler);
-			Application.Run(new IntroUI());
+			Application.ThreadException += new ThreadExceptionEventHandler( ThreadExceptionHandler );
+			Application.Run( new IntroUI() );
 
-			#if DEBUG
+#if DEBUG
 			NativeCallerX.FreeConsole();
-			#endif
+#endif
 		}
 
-		private static void SetDependencyPaths(string thispath)
-		{
-			var userdir = Path.Combine(thispath, "userkeys");
-			var mainc = Path.Combine(thispath, @"mainkeys\carbon.txt");
-			var userc = Path.Combine(thispath, @"userkeys\carbon.txt");
-			var mainmw = Path.Combine(thispath, @"mainkeys\mostwanted.txt");
-			var usermw = Path.Combine(thispath, @"userkeys\mostwanted.txt");
-			var mainps = Path.Combine(thispath, @"mainkeys\prostreet.txt");
-			var userps = Path.Combine(thispath, @"userkeys\prostreet.txt");
-			var mainuc = Path.Combine(thispath, @"mainkeys\undercover.txt");
-			var useruc = Path.Combine(thispath, @"userkeys\undercover.txt");
-			var mainug1 = Path.Combine(thispath, @"mainkeys\underground1.txt");
-			var userug1 = Path.Combine(thispath, @"userkeys\underground1.txt");
-			var mainug2 = Path.Combine(thispath, @"mainkeys\underground2.txt");
-			var userug2 = Path.Combine(thispath, @"userkeys\underground2.txt");
+		private static void SetDependencyPaths( string thispath ) {
+			var userdir = Path.Combine( thispath, "userkeys" );
+			var mainc = Path.Combine( thispath, @"mainkeys\carbon.txt" );
+			var userc = Path.Combine( thispath, @"userkeys\carbon.txt" );
+			var mainmw = Path.Combine( thispath, @"mainkeys\mostwanted.txt" );
+			var usermw = Path.Combine( thispath, @"userkeys\mostwanted.txt" );
+			var mainps = Path.Combine( thispath, @"mainkeys\prostreet.txt" );
+			var userps = Path.Combine( thispath, @"userkeys\prostreet.txt" );
+			var mainuc = Path.Combine( thispath, @"mainkeys\undercover.txt" );
+			var useruc = Path.Combine( thispath, @"userkeys\undercover.txt" );
+			var mainug1 = Path.Combine( thispath, @"mainkeys\underground1.txt" );
+			var userug1 = Path.Combine( thispath, @"userkeys\underground1.txt" );
+			var mainug2 = Path.Combine( thispath, @"mainkeys\underground2.txt" );
+			var userug2 = Path.Combine( thispath, @"userkeys\underground2.txt" );
 
 			CarbonProfile.MainHashList = mainc;
 			CarbonProfile.CustomHashList = userc;
@@ -103,40 +80,36 @@ namespace Binary
 			Underground2Profile.MainHashList = mainug2;
 			Underground2Profile.CustomHashList = userug2;
 
-			if (!Directory.Exists(userdir)) Directory.CreateDirectory(userdir);
-			if (!File.Exists(userc)) { using var _ = File.Create(userc); }
-			if (!File.Exists(usermw)) { using var _ = File.Create(usermw); }
-			if (!File.Exists(userps)) { using var _ = File.Create(userps); }
-			if (!File.Exists(useruc)) { using var _ = File.Create(useruc); }
-			if (!File.Exists(userug1)) { using var _ = File.Create(userug1); }
-			if (!File.Exists(userug2)) { using var _ = File.Create(userug2); }
+			if( !Directory.Exists( userdir ) ) Directory.CreateDirectory( userdir );
+			if( !File.Exists( userc ) ) { using var _ = File.Create( userc ); }
+			if( !File.Exists( usermw ) ) { using var _ = File.Create( usermw ); }
+			if( !File.Exists( userps ) ) { using var _ = File.Create( userps ); }
+			if( !File.Exists( useruc ) ) { using var _ = File.Create( useruc ); }
+			if( !File.Exists( userug1 ) ) { using var _ = File.Create( userug1 ); }
+			if( !File.Exists( userug2 ) ) { using var _ = File.Create( userug2 ); }
 		}
 
-		public static void ThreadExceptionHandler(object sender, ThreadExceptionEventArgs e)
-		{
-			using var logger = new Logger("MainLog.txt", "Binary : Unknown Exception", true);
-			logger.WriteException(e.Exception);
+		public static void ThreadExceptionHandler( object sender, ThreadExceptionEventArgs e ) {
+			using var logger = new Logger( "MainLog.txt", "Binary : Unknown Exception", true );
+			logger.WriteException( e.Exception );
 
-			#if DEBUG
-			MessageBox.Show("Unexpected error has occured. Please send MainLog.txt " +
+#if DEBUG
+			MessageBox.Show( "Unexpected error has occured. Please send MainLog.txt " +
 				"file to developer (MaxHwoy). Right now Binary will export all your " +
 				"collections to an autogenerated folder so you won't lose your data.",
-				"Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				"Warning", MessageBoxButtons.OK, MessageBoxIcon.Error );
 
-			try
-			{
+			try {
 
-				var s = new StackTrace(e.Exception);
+				var s = new StackTrace( e.Exception );
 				var thisasm = Assembly.GetExecutingAssembly();
-				var methodname = s.GetFrames().Select(f => f.GetMethod()).First(m => m.Module.Assembly == thisasm);
+				var methodname = s.GetFrames().Select( f => f.GetMethod() ).First( m => m.Module.Assembly == thisasm );
 
-				if (methodname.DeclaringType == typeof(Editor))
-				{
+				if( methodname.DeclaringType == typeof( Editor ) ) {
 
-					var form = Application.OpenForms.Cast<Form>().First(_ => _.GetType() == typeof(Editor));
+					var form = Application.OpenForms.Cast<Form>().First( _ => _.GetType() == typeof( Editor ) );
 
-					if (form is Editor editor)
-					{
+					if( form is Editor editor ) {
 
 						//editor.EmergencySaveDatabase();
 						//MessageBox.Show("Database backup up.", "Done");
@@ -145,15 +118,14 @@ namespace Binary
 
 				}
 
-			}
-			catch { }
+			} catch { }
 
-			#else
+#else
 
 			MessageBox.Show($"Unexpected error has occured: {e.Exception.GetLowestMessage()}", "Error",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-			#endif
+#endif
 		}
 	}
 }
