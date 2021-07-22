@@ -5,21 +5,25 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>binary.ico</ApplicationIcon>
-    <Version>2.5.11</Version>
+    <Version>2.5.11.1</Version>
     <Authors>MaxHwoy</Authors>
     <Description>Tool for editing Need for Speed binary files (.BIN, .BUN, .LZC).</Description>
     <Copyright>Copyright © 2021 MaxHwoy</Copyright>
-    <AssemblyVersion>2.5.11.0</AssemblyVersion>
-    <FileVersion>2.5.11.0</FileVersion>
+    <AssemblyVersion>2.5.11.1</AssemblyVersion>
+    <FileVersion>2.5.11.1</FileVersion>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
@@ -55,6 +59,10 @@
     <None Update="Properties\Configurations.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Configurations.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 
