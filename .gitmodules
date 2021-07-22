@@ -1,0 +1,12 @@
+[submodule "ext/Nikki"]
+	path = ext/Nikki
+	url = git@github.com:SpeedReflect/Nikki.git
+[submodule "ext/Endscript"]
+	path = ext/Endscript
+	url = git@github.com:SpeedReflect/Endscript.git
+[submodule "ext/CoreExtensions"]
+	path = ext/CoreExtensions
+	url = git@github.com:MaxHwoy/CoreExtensions.git
+[submodule "ext/ILWrapper"]
+	path = ext/ILWrapper
+	url = git@github.com:MaxHwoy/ILWrapper.git
