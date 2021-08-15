@@ -240,6 +240,7 @@ namespace Binary.UI
 				CheckPathExists = true,
 				DefaultExt = ".svg",
 				Filter = "Scalable Vector Graphics Files|*.svg|Any Files|*.*",
+				FileName = this.Vector.CollectionName,
 				OverwritePrompt = true,
 				SupportMultiDottedExtensions = true,
 				Title = "Select filename where vector should be exported",
@@ -251,7 +252,7 @@ namespace Binary.UI
 				try
 				{
 
-					var svg = this.Vector.GetSVGString(1024);
+					var svg = this.Vector.GetSVGString(4096);
 					File.WriteAllText(dialog.FileName, svg);
 					MessageBox.Show($"Vector {this.Vector.CollectionName} has been successfully exported.", "Info", 
 						MessageBoxButtons.OK, MessageBoxIcon.Information);

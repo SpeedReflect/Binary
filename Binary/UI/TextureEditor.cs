@@ -17,6 +17,7 @@ using Nikki.Support.Shared.Class;
 using ILWrapper.Enums;
 using Endscript.Enums;
 using CoreExtensions.Management;
+using CoreExtensions.Text;
 
 
 
@@ -128,7 +129,9 @@ namespace Binary.UI
 					Text = (count++).ToString()
 				};
 
-				var compression = texture.Compression.ToString().Substring(8); // TEXCOMP_ = 8
+				var asString = texture.Compression.ToString();
+
+				var compression = asString.Length > 8 ? asString.Substring(8) : asString;
 				item.SubItems.Add($"0x{texture.BinKey:X8}");
 				item.SubItems.Add(texture.CollectionName);
 				item.SubItems.Add(compression);
@@ -181,7 +184,7 @@ namespace Binary.UI
 		{
 			return this.TexEditorListView.SelectedItems.Count == 0
 				? UInt32.MaxValue
-				: Convert.ToUInt32(this.TexEditorListView.SelectedItems[0].SubItems[1].Text, 16);
+				: (this.TexEditorListView.SelectedItems[0].SubItems[1].Text.TryHexStringToUInt32(out uint result) ? result : 0);
 		}
 
 		private void DisposeImage()
@@ -332,7 +335,13 @@ namespace Binary.UI
 			FilterExt += "Portable Network Graphics files|*.png|";
 			FilterExt += "Joint Photographic Group files|*.jpg|";
 			FilterExt += "Bitmap Pixel Format files|*.bmp";
+
+			var index = this.TexEditorListView.SelectedIndices[0];
+			var key = this.GetSelectedKey();
+			var texture = this.TPK.FindTexture(key, KeyType.BINKEY);
+
 			this.ExportTextureDialog.Filter = FilterExt;
+			this.ExportTextureDialog.FileName = texture.CollectionName;
 
 			if (this.ExportTextureDialog.ShowDialog() == DialogResult.OK)
 			{
@@ -343,10 +352,6 @@ namespace Binary.UI
 					string path = this.ExportTextureDialog.FileName;
 					string last = Path.GetExtension(path).ToUpperInvariant()[1..];
 					var ext = (ImageType)Enum.Parse(typeof(ImageType), last);
-
-					var index = this.TexEditorListView.SelectedIndices[0];
-					var key = this.GetSelectedKey();
-					var texture = this.TPK.FindTexture(key, KeyType.BINKEY);
 
 					if (ext == ImageType.DDS)
 					{
@@ -684,11 +689,18 @@ namespace Binary.UI
 		{
 			var key = this.TexEditorListView.SelectedItems[0].SubItems[1].Text;
 
-			if (e.ChangedItem.Label == "CollectionName")
+			if (e.ChangedItem.Label == nameof(Texture.ClassName) ||
+				e.ChangedItem.Label == nameof(Texture.ClassKey))
+			{
+
+				this.TexEditorPropertyGrid.Refresh();
+
+			}
+			else if (e.ChangedItem.Label == nameof(Texture.CollectionName))
 			{
 
 				var name = e.ChangedItem.Value.ToString();
-				this.TexEditorListView.SelectedItems[0].SubItems[1].Text = $"0x{name.BinHash():X8}";
+				this.TexEditorListView.SelectedItems[0].SubItems[1].Text = name.BinHash().FastToHexString(false);
 				this.TexEditorListView.SelectedItems[0].SubItems[2].Text = name;
 				this.TexEditorPropertyGrid.Refresh();
 

@@ -21,9 +21,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Endscript\Endscript\Endscript.csproj" />
-    <ProjectReference Include="..\..\ILWrapper\ILWrapper\ILWrapper.csproj" />
-    <ProjectReference Include="..\..\Nikki\Nikki\Nikki.csproj" />
+    <ProjectReference Include="..\Modules\Endscript\Endscript\Endscript.csproj" />
+    <ProjectReference Include="..\Modules\Endscript\Modules\Nikki\Modules\CoreExtensions\CoreExtensions\CoreExtensions.csproj" />
+    <ProjectReference Include="..\Modules\Endscript\Modules\Nikki\Nikki\Nikki.csproj" />
+    <ProjectReference Include="..\Modules\ILWrapper\ILWrapper\ILWrapper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

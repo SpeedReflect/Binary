@@ -1033,7 +1033,7 @@ namespace Binary
 			else if (collection is FNGroup fng)
 			{
 
-				MessageBox.Show("Coming Soon M2", "SoonTM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				MessageBox.Show("Coming Never, wait for FEngLib", "SoonTM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 			}
 			else if (collection is TPKBlock tpk)

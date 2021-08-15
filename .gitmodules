@@ -1,0 +1,6 @@
+[submodule "Modules/Endscript"]
+	path = Modules/Endscript
+	url = https://github.com/SpeedReflect/Endscript
+[submodule "Modules/ILWrapper"]
+	path = Modules/ILWrapper
+	url = https://github.com/MaxHwoy/ILWrapper

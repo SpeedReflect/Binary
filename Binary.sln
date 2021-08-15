@@ -5,12 +5,17 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binary", "Binary\Binary.csproj", "{94A62F05-0ABF-4FBD-BBC5-B3D0E355F35A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nikki", "..\Nikki\Nikki\Nikki.csproj", "{C1D4FF24-1928-494E-B167-52E64E143761}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ILWrapper", "Modules\ILWrapper\ILWrapper\ILWrapper.csproj", "{E24FB9C2-12CF-438C-8A20-AEF49569E6CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ILWrapper", "..\ILWrapper\ILWrapper\ILWrapper.csproj", "{4E1478F8-4624-48B3-BB01-2E686F7F9A2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Endscript", "Modules\Endscript\Endscript\Endscript.csproj", "{B7645E70-33BE-4AA1-9487-FEF8087A5006}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Endscript", "..\Endscript\Endscript\Endscript.csproj", "{ACC9EEB0-18B8-4EBA-B9D0-739E9C4501A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nikki", "Modules\Endscript\Modules\Nikki\Nikki\Nikki.csproj", "{47986ECB-BFE6-48AC-8F4A-AF1EBA92781F}"
 EndProject
+<<<<<<< Updated upstream
+=======
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreExtensions", "Modules\Endscript\Modules\Nikki\Modules\CoreExtensions\CoreExtensions\CoreExtensions.csproj", "{5586E713-A33C-4269-9625-9611133CCB7C}"
+EndProject
+>>>>>>> Stashed changes
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +26,7 @@ Global
 		{94A62F05-0ABF-4FBD-BBC5-B3D0E355F35A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94A62F05-0ABF-4FBD-BBC5-B3D0E355F35A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94A62F05-0ABF-4FBD-BBC5-B3D0E355F35A}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< Updated upstream
 		{C1D4FF24-1928-494E-B167-52E64E143761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1D4FF24-1928-494E-B167-52E64E143761}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1D4FF24-1928-494E-B167-52E64E143761}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +39,24 @@ Global
 		{ACC9EEB0-18B8-4EBA-B9D0-739E9C4501A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACC9EEB0-18B8-4EBA-B9D0-739E9C4501A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACC9EEB0-18B8-4EBA-B9D0-739E9C4501A1}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{E24FB9C2-12CF-438C-8A20-AEF49569E6CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E24FB9C2-12CF-438C-8A20-AEF49569E6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E24FB9C2-12CF-438C-8A20-AEF49569E6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E24FB9C2-12CF-438C-8A20-AEF49569E6CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7645E70-33BE-4AA1-9487-FEF8087A5006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7645E70-33BE-4AA1-9487-FEF8087A5006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7645E70-33BE-4AA1-9487-FEF8087A5006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7645E70-33BE-4AA1-9487-FEF8087A5006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47986ECB-BFE6-48AC-8F4A-AF1EBA92781F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47986ECB-BFE6-48AC-8F4A-AF1EBA92781F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47986ECB-BFE6-48AC-8F4A-AF1EBA92781F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47986ECB-BFE6-48AC-8F4A-AF1EBA92781F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5586E713-A33C-4269-9625-9611133CCB7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5586E713-A33C-4269-9625-9611133CCB7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5586E713-A33C-4269-9625-9611133CCB7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5586E713-A33C-4269-9625-9611133CCB7C}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> Stashed changes
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
