@@ -51,6 +51,7 @@
 			this.MoveDownAttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ReverseAttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SortAttributesByKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.AddCustomAttributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.HasherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.RaiderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -227,7 +228,8 @@
             this.MoveUpAttributesToolStripMenuItem,
             this.MoveDownAttributesToolStripMenuItem,
             this.ReverseAttributesToolStripMenuItem,
-            this.SortAttributesByKeyToolStripMenuItem});
+            this.SortAttributesByKeyToolStripMenuItem,
+			this.AddCustomAttributeToolStripMenuItem});
 			this.AttributesToolStripMenuItem.Name = "AttributesToolStripMenuItem";
 			this.AttributesToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
 			this.AttributesToolStripMenuItem.Text = "Attributes";
@@ -277,6 +279,13 @@
 			this.SortAttributesByKeyToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
 			this.SortAttributesByKeyToolStripMenuItem.Text = "Sort Attributes By Key";
 			this.SortAttributesByKeyToolStripMenuItem.Click += new System.EventHandler(this.SortAttributesByKeyToolStripMenuItem_Click);
+			// 
+			// AddCustomAttributeToolStripMenuItem
+			// 
+			this.AddCustomAttributeToolStripMenuItem.Name = "AddCustomAttributeToolStripMenuItem";
+			this.AddCustomAttributeToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+			this.AddCustomAttributeToolStripMenuItem.Text = "Add Custom Attribute";
+			this.AddCustomAttributeToolStripMenuItem.Click += new System.EventHandler(this.AddCustomAttributeToolStripMenuItem_Click);
 			// 
 			// ToolsToolStripMenuItem
 			// 
@@ -346,6 +355,7 @@
 		private System.Windows.Forms.ToolStripMenuItem MoveUpAttributesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ReverseAttributesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem SortAttributesByKeyToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem AddCustomAttributeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ToolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem HasherToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem RaiderToolStripMenuItem;

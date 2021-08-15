@@ -102,6 +102,8 @@ namespace Binary
 			this.EMSOptionsRestore.ForeColor = Theme.MenuItemForeColor;
 			this.EMSOptionsUnlock.BackColor = Theme.MenuItemBackColor;
 			this.EMSOptionsUnlock.ForeColor = Theme.MenuItemForeColor;
+			this.EMSOptionsSpeedReflect.BackColor = Theme.MenuItemBackColor;
+			this.EMSOptionsSpeedReflect.ForeColor = Theme.MenuItemForeColor;
 			this.EMSOptionsToggle.BackColor = Theme.MenuItemBackColor;
 			this.EMSOptionsToggle.ForeColor = Theme.MenuItemForeColor;
 			this.EMSScriptingProcess.BackColor = Theme.MenuItemBackColor;
@@ -216,6 +218,7 @@ namespace Binary
 			this.EMSOptionsCreate.Enabled = enable;
 			this.EMSOptionsRestore.Enabled = enable;
 			this.EMSOptionsUnlock.Enabled = enable;
+			this.EMSOptionsSpeedReflect.Enabled = enable;
 			this.EMSWindowsRun.Enabled = enable;
 		}
 
@@ -386,6 +389,22 @@ namespace Binary
 		{
 			using var form = new LanMaker();
 			form.ShowDialog();
+
+			if (form.WasCreated)
+			{
+
+				var result = MessageBox.Show("New launcher was created. Would you like to load it?", "Prompt",
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+				if (result == DialogResult.Yes)
+				{
+
+					this.LoadProfile(form.NewLanPath, true);
+
+				}
+
+			}
+
 		}
 
 		private void EMSMainLoadFiles_Click(object sender, EventArgs e)
@@ -856,12 +875,12 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.1.0", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v" + ProductVersion, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Coming soon TM", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			MessageBox.Show("Join Discord server at the start page to get help and full tool documentation!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
 		#endregion
@@ -1369,9 +1388,9 @@ namespace Binary
 
 				this.EditorPropertyGrid.SelectedObject = null;
 				this.Profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
+				this.EditorStatusLabel.Text = "Loading... Please wait...";
 
 				var watch = new Stopwatch();
-				this.EditorStatusLabel.Text = "Loading... Please wait...";
 				watch.Start();
 
 				this.Profile.Load(launch);
@@ -1459,8 +1478,8 @@ namespace Binary
 			{
 			#endif
 
-				var watch = new Stopwatch();
 				this.EditorStatusLabel.Text = "Saving... Please wait...";
+				var watch = new Stopwatch();
 				watch.Start();
 
 				this.Profile.Save();
@@ -1521,7 +1540,7 @@ namespace Binary
 			this.ManageButtonScriptNode(e.Node);
 
 			this.EditorPropertyGrid.SelectedObject = selected;
-			this.EditorNodeInfo.Text = $"| {e.Node.Nodes.Count} subnodes";
+			this.EditorNodeInfo.Text = $"| Index: {e.Node.Index} | {e.Node.Nodes.Count} subnodes";
 		}
 
 		private void EditorTreeView_DoubleClick(object sender, EventArgs e)
@@ -1716,6 +1735,52 @@ namespace Binary
 			serializer.Serialize();
 		}
 
-		#endregion
+        #endregion
+
+        private void EMSOptionsSpeedReflect_Click(object sender, EventArgs e)
+        {
+			#if !DEBUG
+			try
+			{
+			#endif
+
+			if (this.Profile?.Count > 0)
+			{
+				var dir = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+				var speedfrom = Path.Combine(dir, "SpeedReflect.asi");
+
+				if (!File.Exists(speedfrom))
+				{
+
+					MessageBox.Show("SpeedReflect.asi was not found in the Binary directory.", "Error");
+					return;
+				}
+
+				var path = this.Profile[0].Folder;
+
+				var speedto = Path.Combine(this.Profile.Directory, @"scripts\SpeedReflect.asi");
+				Directory.CreateDirectory(Path.Combine(this.Profile.Directory, "scripts"));
+				File.Copy(speedfrom, speedto, true);
+
+				MessageBox.Show("Succesfully installed SpeedReflect.asi.", "Success");
+
+			}
+			else
+			{
+
+				throw new Exception("No files are open and directory is not chosen");
+
+			}
+
+			#if !DEBUG
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			}
+			#endif
+		}
 	}
 }

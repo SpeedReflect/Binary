@@ -473,6 +473,7 @@ namespace Binary.UI
 			string command = String.Empty;
 			if (property.Contains(' ')) property = $"\"{property}\"";
 			if (value.Contains(' ')) property = $"\"{value}\"";
+			if (String.IsNullOrEmpty(value)) value = "\"\"";
 
 			if (splits.Length == 2)
 			{

@@ -15,11 +15,16 @@ namespace Binary.Prompt
 			this.ToggleTheme();
 		}
 
-		public Check(string desc, bool prompt) : this()
+		public Check(string desc, bool prompt) : this(desc, prompt, false)
+		{
+		}
+
+		public Check(string desc, bool prompt, bool initiallyChecked) : this()
 		{
 			this.CheckButtonCancel.Enabled = !prompt;
 			this.ControlBox = !prompt;
 			this.CheckBoxSelection.Text = desc ?? String.Empty;
+			this.CheckBoxSelection.Checked = initiallyChecked;
 		}
 
 		private void ToggleTheme()

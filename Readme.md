@@ -25,3 +25,7 @@ Binary is a tool for editing Black Box Need for Speed games binary files, powere
 - Lack of tools with UI to edit Need for Speed binary (.BIN, .BUN, .LZC) files
 - Desire to build a universal tool for the reason stated above
 - Desire to build a tool similar to process BIN data, similar to those that process VLT data
+
+﻿![](https://cdn.discordapp.com/attachments/696160463192326154/796941629847633930/image1.PNG)
+﻿![](https://cdn.discordapp.com/attachments/696160463192326154/796941634125430834/image2.PNG)
+﻿![](https://cdn.discordapp.com/attachments/696160463192326154/796941639150469140/image3.PNG)

@@ -5,10 +5,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>binary.ico</ApplicationIcon>
-    <Version>2.1.0</Version>
+    <Version>2.5.11</Version>
     <Authors>MaxHwoy</Authors>
     <Description>Tool for editing Need for Speed binary files (.BIN, .BUN, .LZC).</Description>
-    <Copyright>Copyright © 2020 MaxHwoy</Copyright>
+    <Copyright>Copyright © 2021 MaxHwoy</Copyright>
+    <AssemblyVersion>2.5.11.0</AssemblyVersion>
+    <FileVersion>2.5.11.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,12 +27,6 @@
     <ProjectReference Include="..\Modules\Endscript\Modules\Nikki\Modules\CoreExtensions\CoreExtensions\CoreExtensions.csproj" />
     <ProjectReference Include="..\Modules\Endscript\Modules\Nikki\Nikki\Nikki.csproj" />
     <ProjectReference Include="..\Modules\ILWrapper\ILWrapper\ILWrapper.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="CoreExtensions">
-      <HintPath>..\..\Nikki\Nikki\CoreExtensions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
