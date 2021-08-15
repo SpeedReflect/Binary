@@ -290,10 +290,13 @@ namespace Binary.UI
 		{
 			// Assuming we are in a real car part node
 
+			var count = this.Model.ModelCarParts.Count;
 			var index = this.CarPartsTreeView.SelectedNode.Index;
 			this.Model.ClonePart(index);
 
 			var realpart = this.Model.GetLastPart();
+			this.Model.ModelCarParts.RemoveAt(count);
+			this.Model.ModelCarParts.Insert(index + 1, realpart);
 
 			var level0 = new TreeNode(realpart.PartName);
 
@@ -305,7 +308,7 @@ namespace Binary.UI
 
 			}
 
-			this.CarPartsTreeView.Nodes.Add(level0);
+			this.CarPartsTreeView.Nodes.Insert(index + 1, level0);
 		}
 
 		private void MoveUpPartsToolStripMenuItem_Click(object sender, EventArgs e)

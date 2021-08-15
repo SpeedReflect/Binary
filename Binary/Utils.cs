@@ -112,7 +112,7 @@ namespace Binary
 		}
 
 		public static Launch GenerateSample() =>
-		GenerateSample(String.Empty, GameINT.None.ToString(), eUsage.Invalid.ToString());
+			GenerateSample(String.Empty, GameINT.None.ToString(), eUsage.Invalid.ToString());
 
 		public static Launch GenerateSample(string directory) =>
 			GenerateSample(directory, GameINT.None.ToString(), eUsage.Invalid.ToString());
@@ -242,6 +242,25 @@ namespace Binary
 
 			}
 
+		}
+
+		public static string GetTruncatedPath(string path)
+		{
+			var splits = path.Split(new char[] { '/', '\\' });
+
+			if (splits.Length > 3)
+			{
+				return Path.Combine("..", splits[^3], splits[^2], splits[^1]);
+			}
+			else
+			{
+				return path;
+			}
+		}
+
+		public static string GetStatusString(int loadedFiles, long millisecondsToLoad, string path, string addon)
+		{
+			return $"Files: {loadedFiles} | {addon} Time: {millisecondsToLoad}ms | Real Time: {DateTime.Now:HH:mm:ss} | Script: {GetTruncatedPath(path)}";
 		}
 	}
 }

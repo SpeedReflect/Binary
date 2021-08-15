@@ -883,6 +883,53 @@ namespace Binary
 			MessageBox.Show("Join Discord server at the start page to get help and full tool documentation!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
 
+		private void EMSOptionsSpeedReflect_Click(object sender, EventArgs e)
+        {
+			#if !DEBUG
+			try
+			{
+			#endif
+
+				if (this.Profile?.Count > 0)
+				{
+					var dir = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+					var speedfrom = Path.Combine(dir, "SpeedReflect.asi");
+
+					if (!File.Exists(speedfrom))
+					{
+
+						MessageBox.Show("SpeedReflect.asi was not found in the Binary directory.", "Error");
+						return;
+
+					}
+
+					var path = this.Profile[0].Folder;
+
+					var speedto = Path.Combine(this.Profile.Directory, @"scripts\SpeedReflect.asi");
+					Directory.CreateDirectory(Path.Combine(this.Profile.Directory, "scripts"));
+					File.Copy(speedfrom, speedto, true);
+
+					MessageBox.Show("Succesfully installed SpeedReflect.asi.", "Success");
+
+				}
+				else
+				{
+
+					throw new Exception("No files are open and directory is not chosen");
+
+				}
+
+			#if !DEBUG
+			}
+				catch (Exception ex)
+				{
+
+					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+			#endif
+		}
+
 		#endregion
 
 		#region Button Controls
@@ -1147,6 +1194,7 @@ namespace Binary
 					CheckPathExists = true,
 					DefaultExt = ".bin",
 					Filter = "Binary Files|*.bin|Any Files|*.*",
+					FileName = cname,
 					OverwritePrompt = true,
 					SupportMultiDottedExtensions = true,
 					Title = "Select filename where collection should be exported",
@@ -1404,7 +1452,7 @@ namespace Binary
 
 				}
 
-				this.EditorStatusLabel.Text = $"Files: {launch.Files.Count} | Loading Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
+				this.EditorStatusLabel.Text = Utils.GetStatusString(launch.Files.Count, watch.ElapsedMilliseconds, filename, "Loading");
 				this.LoadTreeView();
 				this.ToggleControlsAfterLoad(true);
 
@@ -1502,7 +1550,7 @@ namespace Binary
 				}
 
 				var filename = Configurations.Default.LaunchFile;
-				this.EditorStatusLabel.Text = $"Files: {this.Profile.Count} | Saving Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
+				this.EditorStatusLabel.Text = Utils.GetStatusString(this.Profile.Count, watch.ElapsedMilliseconds, filename, "Saving");
 				this._edited = false;
 
 			#if !DEBUG
@@ -1752,51 +1800,5 @@ namespace Binary
 		}
 
         #endregion
-
-        private void EMSOptionsSpeedReflect_Click(object sender, EventArgs e)
-        {
-			#if !DEBUG
-			try
-			{
-			#endif
-
-			if (this.Profile?.Count > 0)
-			{
-				var dir = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-				var speedfrom = Path.Combine(dir, "SpeedReflect.asi");
-
-				if (!File.Exists(speedfrom))
-				{
-
-					MessageBox.Show("SpeedReflect.asi was not found in the Binary directory.", "Error");
-					return;
-				}
-
-				var path = this.Profile[0].Folder;
-
-				var speedto = Path.Combine(this.Profile.Directory, @"scripts\SpeedReflect.asi");
-				Directory.CreateDirectory(Path.Combine(this.Profile.Directory, "scripts"));
-				File.Copy(speedfrom, speedto, true);
-
-				MessageBox.Show("Succesfully installed SpeedReflect.asi.", "Success");
-
-			}
-			else
-			{
-
-				throw new Exception("No files are open and directory is not chosen");
-
-			}
-
-			#if !DEBUG
-			}
-			catch (Exception ex)
-			{
-
-				MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-			}
-			#endif
-		}
 	}
 }

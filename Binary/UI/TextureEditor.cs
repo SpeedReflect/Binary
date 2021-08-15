@@ -691,7 +691,9 @@ namespace Binary.UI
 			var key = this.TexEditorListView.SelectedItems[0].SubItems[1].Text;
 
 			if (e.ChangedItem.Label == nameof(Texture.ClassName) ||
-				e.ChangedItem.Label == nameof(Texture.ClassKey))
+				e.ChangedItem.Label == nameof(Texture.ClassKey) ||
+				e.ChangedItem.Label == nameof(Texture.MipmapBiasInt) ||
+				e.ChangedItem.Label == nameof(Texture.MipmapBiasType))
 			{
 
 				this.TexEditorPropertyGrid.Refresh();
