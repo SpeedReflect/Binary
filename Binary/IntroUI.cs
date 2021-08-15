@@ -174,7 +174,23 @@ namespace Binary
 			}
 
 			var profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
-			profile.Load(launch);
+			var exceptions = profile.Load(launch);
+
+			if (exceptions.Length > 0)
+			{
+				
+				foreach (var exception in exceptions)
+				{
+
+					MessageBox.Show(exception, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+
+				MessageBox.Show($"Unable to execute endscript because of the errors.", "Fatal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+
+			}
+
 			this.EnsureBackups(profile);
 			var manager = new EndScriptManager(profile, commands, endscript);
 
@@ -250,9 +266,26 @@ namespace Binary
 			if (save == DialogResult.Yes)
 			{
 
-				profile.Save();
-				this.AskForGameRun(profile);
+				var errors = profile.Save();
 
+				if (errors.Length > 0)
+				{
+
+					foreach (var error in errors)
+					{
+
+						MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+					}
+
+				}
+				else
+				{
+
+					this.AskForGameRun(profile);
+				
+				}
+			
 			}
 		}
 	
@@ -370,7 +403,7 @@ namespace Binary
 
 		private void LabelBinary_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v2.5.5", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v" + this.ProductVersion, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

@@ -875,7 +875,7 @@ namespace Binary
 
 		private void EMSHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Binary by MaxHwoy v" + ProductVersion, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Binary by MaxHwoy v" + this.ProductVersion, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		
 		private void EMSHelpTutorials_Click(object sender, EventArgs e)
@@ -1393,9 +1393,17 @@ namespace Binary
 				var watch = new Stopwatch();
 				watch.Start();
 
-				this.Profile.Load(launch);
+				var exceptions = this.Profile.Load(launch);
 
 				watch.Stop();
+
+				foreach (var exception in exceptions)
+				{
+
+					MessageBox.Show(exception, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+
 				this.EditorStatusLabel.Text = $"Files: {launch.Files.Count} | Loading Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
 				this.LoadTreeView();
 				this.ToggleControlsAfterLoad(true);
@@ -1482,9 +1490,17 @@ namespace Binary
 				var watch = new Stopwatch();
 				watch.Start();
 
-				this.Profile.Save();
+				var exceptions = this.Profile.Save();
 
 				watch.Stop();
+
+				foreach (var exception in exceptions)
+				{
+
+					MessageBox.Show(exception, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				}
+
 				var filename = Configurations.Default.LaunchFile;
 				this.EditorStatusLabel.Text = $"Files: {this.Profile.Count} | Saving Time: {watch.ElapsedMilliseconds}ms | Script: {filename}";
 				this._edited = false;
