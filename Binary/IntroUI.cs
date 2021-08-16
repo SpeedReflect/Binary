@@ -192,10 +192,13 @@ namespace Binary
 			}
 
 			this.EnsureBackups(profile);
+
 			var manager = new EndScriptManager(profile, commands, endscript);
 
 			try
 			{
+
+				manager.CommandChase();
 
 				while (!manager.ProcessScript())
 				{

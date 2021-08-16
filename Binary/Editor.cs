@@ -508,6 +508,8 @@ namespace Binary
 			try
 			{
 
+				manager.CommandChase();
+
 				while (!manager.ProcessScript())
 				{
 
