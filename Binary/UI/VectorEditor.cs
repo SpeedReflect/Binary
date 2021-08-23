@@ -235,36 +235,72 @@ namespace Binary.UI
 
 		private void ExportSVGToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			using var dialog = new SaveFileDialog()
+			var options = new string[]
 			{
-				AddExtension = true,
-				AutoUpgradeEnabled = true,
-				CheckPathExists = true,
-				DefaultExt = ".svg",
-				Filter = "Scalable Vector Graphics Files|*.svg|Any Files|*.*",
-				FileName = this.Vector.CollectionName,
-				OverwritePrompt = true,
-				SupportMultiDottedExtensions = true,
-				Title = "Select filename where vector should be exported",
+				"512x512",
+				"1024x1024",
+				"2048x2048",
+				"4096x4096",
+				"8192x8192",
+				"16384x16384",
+				"32768x32768",
+				"65536x65536",
 			};
 
-			if (dialog.ShowDialog() == DialogResult.OK)
+			var resolutions = new int[]
+			{
+				512,
+				1024,
+				2048,
+				4096,
+				8192,
+				16384,
+				32768,
+				65536,
+			};
+
+			var description = "Select resolution in which vector vinyl should be exported";
+
+			using (var selection = new Prompt.Combo(options, description, false))
 			{
 
-				try
+				if (selection.ShowDialog() == DialogResult.OK)
 				{
+				
+					using var dialog = new SaveFileDialog()
+					{
+						AddExtension = true,
+						AutoUpgradeEnabled = true,
+						CheckPathExists = true,
+						DefaultExt = ".svg",
+						Filter = "Scalable Vector Graphics Files|*.svg|Any Files|*.*",
+						FileName = this.Vector.CollectionName,
+						OverwritePrompt = true,
+						SupportMultiDottedExtensions = true,
+						Title = "Select filename where vector should be exported",
+					};
 
-					var svg = this.Vector.GetSVGString(4096);
-					File.WriteAllText(dialog.FileName, svg);
-					MessageBox.Show($"Vector {this.Vector.CollectionName} has been successfully exported.", "Info", 
-						MessageBoxButtons.OK, MessageBoxIcon.Information);
+					if (dialog.ShowDialog() == DialogResult.OK)
+					{
+
+						try
+						{
+
+							var svg = this.Vector.GetSVGString(resolutions[selection.Value]);
+							File.WriteAllText(dialog.FileName, svg);
+							MessageBox.Show($"Vector {this.Vector.CollectionName} has been successfully exported.", "Info",
+								MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
-				}
-				catch (Exception ex)
-				{
+						}
+						catch (Exception ex)
+						{
 
-					MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							MessageBox.Show(ex.GetLowestMessage(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+						}
+
+					}
 
 				}
 

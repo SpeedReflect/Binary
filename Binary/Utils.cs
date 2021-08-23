@@ -262,5 +262,18 @@ namespace Binary
 		{
 			return $"Files: {loadedFiles} | {addon} Time: {millisecondsToLoad}ms | Real Time: {DateTime.Now:HH:mm:ss} | Script: {GetTruncatedPath(path)}";
 		}
+
+		public static bool PathHasIllegalCharacters(string path)
+		{
+			try
+			{
+				Path.Combine(path, String.Empty); // amusement hack
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 	}
 }

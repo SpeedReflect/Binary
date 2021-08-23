@@ -1408,6 +1408,8 @@ namespace Binary
 				Launch.Deserialize(filename, out Launch launch);
 				launch.ThisDir = Path.GetDirectoryName(filename);
 
+				this.FixLaunchDirectory(launch, filename);
+
 				if (launch.UsageID != eUsage.Modder)
 				{
 
@@ -1428,13 +1430,6 @@ namespace Binary
 					throw new DirectoryNotFoundException($"Directory named {launch.Directory} does not exist");
 
 				}
-
-				//if (launch.Files.Count > 10)
-				//{
-				//
-				//	throw new Exception($"Cannot load more than 10 files at a time");
-				//
-				//}
 
 				this.EditorPropertyGrid.SelectedObject = null;
 				this.Profile = BaseProfile.NewProfile(launch.GameID, launch.Directory);
@@ -1480,6 +1475,27 @@ namespace Binary
 			
 			}
 			#endif
+		}
+
+		private void FixLaunchDirectory(Launch launch, string filename)
+		{
+			var directory = Path.GetDirectoryName(filename);
+
+			try
+			{
+				if (Path.IsPathRooted(launch.Directory))
+				{
+					return;
+				}
+
+				var maybePath = Path.GetFullPath(Path.Combine(directory, launch.Directory));
+
+				if (Directory.Exists(maybePath))
+				{
+					launch.Directory = maybePath;
+				}
+			}
+			catch { }
 		}
 
 		private void LoadTreeView(string selected = null)
