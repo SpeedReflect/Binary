@@ -1408,7 +1408,7 @@ namespace Binary
 				Launch.Deserialize(filename, out Launch launch);
 				launch.ThisDir = Path.GetDirectoryName(filename);
 
-				this.FixLaunchDirectory(launch, filename);
+				FixLaunchDirectory(launch, filename);
 
 				if (launch.UsageID != eUsage.Modder)
 				{
@@ -1477,7 +1477,7 @@ namespace Binary
 			#endif
 		}
 
-		private void FixLaunchDirectory(Launch launch, string filename)
+		public static void FixLaunchDirectory(Launch launch, string filename)
 		{
 			var directory = Path.GetDirectoryName(filename);
 

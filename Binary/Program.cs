@@ -12,8 +12,7 @@ using Endscript.Profiles;
 using CoreExtensions.IO;
 using CoreExtensions.Native;
 using CoreExtensions.Management;
-
-
+using Endscript.Enums;
 
 namespace Binary
 {
@@ -23,30 +22,58 @@ namespace Binary
 		///  The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static void Main(string[] args)
 		{
-			// Skip administator check if in the debug mode
-			if (!Debugger.IsAttached)
-			{
-			
-				// Check if the program is run as administator, exit if not
-				using var identity = WindowsIdentity.GetCurrent();
-				var principal = new WindowsPrincipal(identity);
-				
-				if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
-				{
-				
-					MessageBox.Show("Run Binary in Administrator mode!", "Warning",
-						MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					return;
-				
-				}
-			
-			}
+			bool debugMode = false;
 
 			#if DEBUG
-			NativeCallerX.AllocConsole();
+			debugMode = true;
 			#endif
+
+			if (debugMode || args.Length > 0)
+			{
+				NativeCallerX.AllocConsole();
+			}
+
+			if (args.Length > 0)
+            {
+				var usage = eUsage.Invalid;
+
+				switch (args[0].ToLowerInvariant())
+                {
+					case "modder":
+						usage = eUsage.Modder;
+						break;
+					case "user":
+						usage = eUsage.User;
+						break;
+					default:
+						throw new ArgumentException("Invalid argument: {args[0]} - \"user\" or \"modder\" expected.");
+                }
+
+				if (args.Length < 2)
+                {
+					throw new ArgumentException("Expected argument missing: VERSN1 path missing");
+                }
+
+				if (args.Length < 3)
+                {
+					throw new ArgumentException("Expected argument missing: VERSN2 path missing");
+                }
+
+				if (!File.Exists("MainLog.txt")) { using var str = File.Create("MainLog.txt"); }
+				if (!File.Exists("EndError.log")) { using var str = File.Create("EndError.log"); }
+				var pp = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+				SetDependencyPaths(pp);
+
+				var cli = new CLI(usage);
+
+				cli.LoadProfile(args[1]);
+				cli.ImportEndscript(args[2]);
+				cli.Save();
+
+				return;
+            }
 
 			Application.SetHighDpiMode(HighDpiMode.SystemAware);
 			Application.EnableVisualStyles();
@@ -69,9 +96,10 @@ namespace Binary
 			Application.ThreadException += new ThreadExceptionEventHandler(ThreadExceptionHandler);
 			Application.Run(new IntroUI());
 
-			#if DEBUG
-			NativeCallerX.FreeConsole();
-			#endif
+			if (debugMode)
+			{ 
+				NativeCallerX.FreeConsole();
+			}
 		}
 
 		private static void SetDependencyPaths(string thispath)
