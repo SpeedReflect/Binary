@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Binary": {
+      "commandName": "Project",
+      "commandLineArgs": "modder \"G:\\Development\\NFS\\nfsco-bin\\scripts\\end\\CARS_MODDER.end\" \"G:\\Development\\NFS\\nfsco-bin\\scripts\\end\\CARS_END.end\""
+    }
+  }
+}
