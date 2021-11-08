@@ -66,7 +66,7 @@ namespace Binary
 				var pp = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 				SetDependencyPaths(pp);
 
-				var cli = new CLI(usage);
+				var cli = new CLI();
 
 				cli.LoadProfile(args[1]);
 				cli.ImportEndscript(args[2]);
